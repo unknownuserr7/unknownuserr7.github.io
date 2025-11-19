@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marxa Senderista - Reus Sud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- Navbar Fixa -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-tree-fill me-2"></i>Marxa Senderista Reus Sud
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#formulari">Formulari</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#mapes">Mapes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#menu">Menú</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fotos">Fotos</a>
+                    </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacte">Contacte</a>
+                </ul>
+                <a href="#formulari" class="btn btn-success">Inscriu-te Ara</a>
+            </div>
+        </div>lakhflakhf
+    </nav>
+
+    <!-- Secció Hero / Jumbotron -->
+    <section class="bg-success text-white py-5 mt-5">
+        <div class="container py-5">
+            <h1 class="display-3 fw-bold mb-4">Marxa Senderista Reus Sud 2025</h1>
+            <p class="lead mb-4">Descobreix els paisatges més impressionants del sud de Reus en una jornada inoblidable de senderisme, companyonia i natura.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="#formulari" class="btn btn-light btn-lg text-success">Inscriu-te Ara</a>
+                <a href="#mapes" class="btn btn-outline-light btn-lg">Descobreix les Rutes</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secció d'Informació -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="text-success mb-3">
+                        <i class="bi bi-geo-alt display-4"></i>
+                    </div>
+                    <h3>Rutes Escèniques</h3>
+                    <p>Descobreix els millors paisatges del sud de Reus amb rutes ben senyalitzades i de diferents dificultats.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-success mb-3">
+                        <i class="bi bi-people display-4"></i>
+                    </div>
+                    <h3>Ambició Familiar</h3>
+                    <p>Una activitat pensada per a tots els públics, des dels més petits fins als més experimentats.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-success mb-3">
+                        <i class="bi bi-egg-fried display-4"></i>
+                    </div>
+                    <h3>Gastronomia Local</h3>
+                    <p>Gaudeix d'un dinar amb productes de la terra i especialitats de la zona de Reus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secció Formulari d'Inscripció -->
+    <section id="formulari" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Formulari d'Inscripció</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow">
+                        <div class="card-body p-4">
+                            <form class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nom" class="form-label">Nom *</label>
+                                    <input type="text" class="form-control" id="nom" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cognoms" class="form-label">Cognoms *</label>
+                                    <input type="text" class="form-control" id="cognoms" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="telefon" class="form-label">Telèfon</label>
+                                    <input type="tel" class="form-control" id="telefon">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Selecciona la Ruta *</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ruta" id="ruta-llarga" checked>
+                                        <label class="form-check-label" for="ruta-llarga">
+                                            Ruta Llarga (15km) - Per a experts
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ruta" id="ruta-curta">
+                                        <label class="form-check-label" for="ruta-curta">
+                                            Ruta Curta (8km) - Familiar i accessible
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="dinar">
+                                        <label class="form-check-label" for="dinar">
+                                            M'apunto al dinar col·lectiu (+15€)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="condicions" required>
+                                        <label class="form-check-label" for="condicions">
+                                            Accepto les condicions de participació *
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-success w-100 py-2">Enviar Inscripció</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Secció de Mapes -->
+    <section id="mapes" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Mapes de les Rutes</h2>
+            
+            <!-- Acordió per canviar entre mapes -->
+            <div class="accordion" id="accordionMapes">
+                <!-- Mapa Ruta Llarga -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            Ruta Llarga (15km) - Dificultat Alta
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionMapes">
+                        <div class="accordion-body">
+                            <p>Aquesta ruta de 15km et portarà pels paisatges més espectaculars del sud de Reus, amb pujades desafiantes i vistes panoràmiques impressionants.</p>
+                            <div class="mt-3 border rounded overflow-hidden">
+                                <!-- INTRODUCE EL CODIGO DE GOOGLE MAPS AQUI PARA LA RUTA LLARGA -->
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d47902.15340134542!2d1.0828924232421874!3d41.14194820000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e2!4m5!1s0x12a158c7b5b5b5b5%3A0x8b5b5b5b5b5b5b5b!2sPla%C3%A7a%20del%20Mercadal%2C%20Reus%2C%20Tarragona!3m2!1d41.1547222!2d1.1069444!4m5!1s0x12a1599999999999%3A0x8b5b5b5b5b5b5b5b!2sMasos%20de%20la%Senda%20del%20Riu%20Bosc%2C%20Reus!3m2!1d41.1186111!2d1.145!4m5!1s0x12a1598888888888%3A0x8b5b5b5b5b5b5b5b!2sColl%20de%20Miramar%2C%20Reus!3m2!1d41.135!2d1.125!5e0!3m2!1ses!2ses!4v1234567890123!5m2!1ses!2ses" 
+                                    width="100%" 
+                                    height="400" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+                            <div class="mt-3">
+                                <h5>Detalls de la Ruta:</h5>
+                                <ul>
+                                    <li>Distància: 15km</li>
+                                    <li>Desnivell: 450m</li>
+                                    <li>Temps estimat: 4-5 hores</li>
+                                    <li>Punt de sortida: Plaça del Mercadal</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mapa Ruta Curta -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            Ruta Curta (8km) - Dificultat Mitjana
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionMapes">
+                        <div class="accordion-body">
+                            <p>La ruta curta de 8km és perfecta per a famílies i persones que prefereixen un itinerari més accessible però igualment pintoresc.</p>
+                            <div class="mt-3 border rounded overflow-hidden">
+                                <!-- INTRODUCE EL CODIGO DE GOOGLE MAPS AQUI PARA LA RUTA CORTA -->
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d47902.15340134542!2d1.0828924232421874!3d41.14194820000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e1!4m5!1s0x12a158c7b5b5b5b5%3A0x8b5b5b5b5b5b5b5b!2sReus%2C%20Tarragona!3m2!1d41.154599999999995!2d1.10687!4m5!1s0x12a1597777777777%3A0x8b5b5b5b5b5b5b5b!2s43110%20La%20Masmolets%2C%20Tarragona!3m2!1d41.183333!2d1.166667!5e0!3m2!1ses!2ses!4v1234567890123!5m2!1ses!2ses" 
+                                    width="100%" 
+                                    height="400" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+                            <div class="mt-3">
+                                <h5>Detalls de la Ruta:</h5>
+                                <ul>
+                                    <li>Distància: 8km</li>
+                                    <li>Desnivell: 150m</li>
+                                    <li>Temps estimat: 2-3 hores</li>
+                                    <li>Punt de sortida: Plaça del Mercadal</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secció del Menú -->
+    <section id="menu" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Menú del Dinar</h2>
+            <p class="text-center mb-5">Gaudeix d'un dinar amb productes de la terra després de la marxa</p>
+            
+            <div class="row g-4">
+                <!-- Plat 1 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Amanida de la Terra" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Amanida de la Terra</h5>
+                            <p class="card-text">Amanida amb enciam, tomàquet, ceba, olives i formatge de cabra.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plat 2 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Arròs a la Cassola" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Arròs a la Cassola</h5>
+                            <p class="card-text">Arròs amb verdures de temporada i carn de caça.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plat 3 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Carn a la Brasa" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Carn a la Brasa</h5>
+                            <p class="card-text">Botifarra i costella de porc a la brasa amb all i julivert.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plat 4 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Crema Catalana" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">Crema Catalana</h5>
+                            <p class="card-text">El postre tradicional amb la seva escorça de sucre cremat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <div class="alert alert-info">
+                    <p class="mb-0">El dinar inclou aigua, vi i cafè. Preu: 15€ per persona.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secció de Fotos (Carrusel) -->
+    <section id="fotos" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Fotos del Poble i Entorn</h2>
+            <p class="text-center mb-5">Descobreix la bellesa de Reus Sud i els seus paisatges</p>
+            
+            <!-- Carrusel Bootstrap -->
+            <div id="carouselFotos" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicadors -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselFotos" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#carouselFotos" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#carouselFotos" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#carouselFotos" data-bs-slide-to="3"></button>
+                </div>
+                
+                <!-- Slides -->
+                <div class="carousel-inner rounded shadow">
+                    <!-- Imatge 1 -->
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="d-block w-100" alt="Paisatge de muntanya" style="height: 500px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                            <h5>Paisatges de Muntanya</h5>
+                            <p>Vistes espectaculars des dels cims del sud de Reus</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Imatge 2 -->
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="d-block w-100" alt="Sender al bosc" style="height: 500px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                            <h5>Rutes Boscanes</h5>
+                            <p>Camins ombrejats a través dels boscos de la zona</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Imatge 3 -->
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="d-block w-100" alt="Vista del poble" style="height: 500px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                            <h5>Vistes del Poble</h5>
+                            <p>Panoràmiques de Reus des dels turons propers</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Imatge 4 -->
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1464822759844-4d541eaaf215?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="d-block w-100" alt="Grup de senderistes" style="height: 500px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                            <h5>Companyonia</h5>
+                            <p>Gaudeix d'una jornada de senderisme en companyia</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselFotos" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselFotos" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Següent</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+        <!-- Secció de Contacte -->
+        <section id="contacte" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5">Contacte</h2>
+                <div class="row g-4">
+                    <!-- Targeta d'Informació de Contacte -->
+                    <div class="col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Informació de Contacte</h4>
+                                <div class="mb-3">
+                                    <i class="bi bi-geo-alt-fill text-success me-2"></i>
+                                    <strong>Adreça:</strong> Plaça del Mercadal, 1, 43201 Reus
+                                </div>
+                                <div class="mb-3">
+                                    <i class="bi bi-telephone-fill text-success me-2"></i>
+                                    <strong>Telèfon:</strong> 977 12 34 56
+                                </div>
+                                <div class="mb-3">
+                                    <i class="bi bi-envelope-fill text-success me-2"></i>
+                                    <strong>Email:</strong> info@reussenderista.cat
+                                </div>
+                                <div class="mb-3">
+                                    <i class="bi bi-clock-fill text-success me-2"></i>
+                                    <strong>Horari d'atenció:</strong> Dilluns a Divendres 9:00-14:00
+                                </div>
+                                <div class="mt-4">
+                                    <h5>Xarxes Socials</h5>
+                                    <div class="d-flex mt-3">
+                                        <a href="#" class="text-success me-3"><i class="bi bi-facebook display-6"></i></a>
+                                        <a href="#" class="text-success me-3"><i class="bi bi-instagram display-6"></i></a>
+                                        <a href="#" class="text-success me-3"><i class="bi bi-twitter display-6"></i></a>
+                                        <a href="#" class="text-success"><i class="bi bi-whatsapp display-6"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Formulari de Contacte -->
+                    <div class="col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Envia'ns un Missatge</h4>
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="contacteNom" class="form-label">Nom</label>
+                                        <input type="text" class="form-control" id="contacteNom">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contacteEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="contacteEmail">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="missatge" class="form-label">Missatge</label>
+                                        <textarea class="form-control" id="missatge" rows="4"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Enviar Missatge</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+    <!-- Peu de Pàgina -->
+    <footer class="py-4 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5>Marxa Senderista Reus Sud</h5>
+                    <p class="mb-2">Plaça del Mercadal, 1</p>
+                    <p class="mb-2">43201 Reus, Tarragona</p>
+                    <p class="mb-0">info@reussenderista.cat</p>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <h5>Enllaços Ràpids</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#formulari" class="text-white text-decoration-none">Formulari</a></li>
+                        <li><a href="#mapes" class="text-white text-decoration-none">Mapes</a></li>
+                        <li><a href="#menu" class="text-white text-decoration-none">Menú</a></li>
+                        <li><a href="#fotos" class="text-white text-decoration-none">Fotos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Segueix-nos</h5>
+                    <div class="d-flex">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-4"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-4"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-twitter fs-4"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Marxa Senderista Reus Sud. Tots els drets reservats.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white text-decoration-none me-3">Política de Privacitat</a>
+                    <a href="#" class="text-white text-decoration-none">Condicions d'Ús</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
