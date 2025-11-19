@@ -1,7 +1,571 @@
-<html>
-  <body>
-    <h1>
-      Benvinguts a la meva web.
-    </h1>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batalla Espacial - 2 Jugadores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #a0a0ff;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            border: 3px solid #00ffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+        
+        canvas {
+            background: #000;
+            display: block;
+        }
+        
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+            margin-bottom: 20px;
+        }
+        
+        .score-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 2px solid;
+            font-size: 1.5rem;
+            width: 45%;
+        }
+        
+        .player1 {
+            border-color: #ff5555;
+            color: #ff5555;
+        }
+        
+        .player2 {
+            border-color: #5555ff;
+            color: #5555ff;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+            margin-bottom: 20px;
+        }
+        
+        .control-box {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            width: 45%;
+            text-align: left;
+        }
+        
+        .control-box h3 {
+            margin-bottom: 10px;
+            color: #ffff00;
+        }
+        
+        .control-box p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        .buttons {
+            margin-top: 20px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #ff5555, #ff0000);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0 10px;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
+        }
+        
+        #resetBtn {
+            background: linear-gradient(135deg, #5555ff, #0000ff);
+            box-shadow: 0 5px 15px rgba(0, 0, 255, 0.4);
+        }
+        
+        #resetBtn:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 255, 0.6);
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            display: none;
+        }
+        
+        .game-over h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px #ffff00;
+        }
+        
+        .game-over p {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <h1>BATALLA ESPACIAL</h1>
+        <p class="subtitle">¡Dos jugadores, una batalla épica en el espacio!</p>
+        
+        <div class="score-container">
+            <div class="score-box player1">
+                <h2>Jugador 1</h2>
+                <p>Puntos: <span id="score1">0</span></p>
+            </div>
+            <div class="score-box player2">
+                <h2>Jugador 2</h2>
+                <p>Puntos: <span id="score2">0</span></p>
+            </div>
+        </div>
+        
+        <div class="game-container">
+            <canvas id="gameCanvas" width="800" height="500"></canvas>
+            <div class="game-over" id="gameOver">
+                <h2>¡JUEGO TERMINADO!</h2>
+                <p id="winnerText">Jugador X gana!</p>
+                <button id="restartBtn">Jugar de nuevo</button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-box">
+                <h3>Controles Jugador 1</h3>
+                <p>Movimiento: W, A, S, D</p>
+                <p>Disparar: Barra Espaciadora</p>
+            </div>
+            <div class="control-box">
+                <h3>Controles Jugador 2</h3>
+                <p>Movimiento: Flechas ↑, ↓, ←, →</p>
+                <p>Disparar: Enter (Teclado numérico)</p>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="startBtn">Comenzar Juego</button>
+            <button id="resetBtn">Reiniciar</button>
+        </div>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const score1Element = document.getElementById('score1');
+        const score2Element = document.getElementById('score2');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const gameOverScreen = document.getElementById('gameOver');
+        const winnerText = document.getElementById('winnerText');
+        const starsContainer = document.getElementById('stars');
+
+        // Variables del juego
+        let gameRunning = false;
+        let score1 = 0;
+        let score2 = 0;
+        const maxScore = 5;
+
+        // Crear estrellas de fondo
+        function createStars() {
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Naves
+        const player1 = {
+            x: 100,
+            y: canvas.height / 2,
+            width: 40,
+            height: 30,
+            color: '#ff5555',
+            speed: 5,
+            bullets: [],
+            lastShot: 0,
+            shotDelay: 300
+        };
+
+        const player2 = {
+            x: canvas.width - 100,
+            y: canvas.height / 2,
+            width: 40,
+            height: 30,
+            color: '#5555ff',
+            speed: 5,
+            bullets: [],
+            lastShot: 0,
+            shotDelay: 300
+        };
+
+        // Teclas presionadas
+        const keys = {
+            w: false,
+            a: false,
+            s: false,
+            d: false,
+            space: false,
+            arrowup: false,
+            arrowdown: false,
+            arrowleft: false,
+            arrowright: false,
+            enter: false
+        };
+
+        // Event listeners para teclas
+        document.addEventListener('keydown', (e) => {
+            switch(e.key.toLowerCase()) {
+                case 'w': keys.w = true; break;
+                case 'a': keys.a = true; break;
+                case 's': keys.s = true; break;
+                case 'd': keys.d = true; break;
+                case ' ': keys.space = true; break;
+                case 'arrowup': keys.arrowup = true; break;
+                case 'arrowdown': keys.arrowdown = true; break;
+                case 'arrowleft': keys.arrowleft = true; break;
+                case 'arrowright': keys.arrowright = true; break;
+                case 'enter': keys.enter = true; break;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            switch(e.key.toLowerCase()) {
+                case 'w': keys.w = false; break;
+                case 'a': keys.a = false; break;
+                case 's': keys.s = false; break;
+                case 'd': keys.d = false; break;
+                case ' ': keys.space = false; break;
+                case 'arrowup': keys.arrowup = false; break;
+                case 'arrowdown': keys.arrowdown = false; break;
+                case 'arrowleft': keys.arrowleft = false; break;
+                case 'arrowright': keys.arrowright = false; break;
+                case 'enter': keys.enter = false; break;
+            }
+        });
+
+        // Dibujar nave
+        function drawShip(ship) {
+            ctx.fillStyle = ship.color;
+            
+            // Cuerpo de la nave
+            ctx.beginPath();
+            if (ship === player1) {
+                // Nave apuntando a la derecha
+                ctx.moveTo(ship.x, ship.y);
+                ctx.lineTo(ship.x - ship.width, ship.y - ship.height/2);
+                ctx.lineTo(ship.x - ship.width, ship.y + ship.height/2);
+            } else {
+                // Nave apuntando a la izquierda
+                ctx.moveTo(ship.x, ship.y);
+                ctx.lineTo(ship.x + ship.width, ship.y - ship.height/2);
+                ctx.lineTo(ship.x + ship.width, ship.y + ship.height/2);
+            }
+            ctx.closePath();
+            ctx.fill();
+            
+            // Detalles de la nave
+            ctx.fillStyle = '#ffff00';
+            if (ship === player1) {
+                ctx.fillRect(ship.x - 15, ship.y - 5, 10, 10);
+            } else {
+                ctx.fillRect(ship.x + 5, ship.y - 5, 10, 10);
+            }
+        }
+
+        // Actualizar posición de la nave
+        function updateShip(ship) {
+            if (ship === player1) {
+                if (keys.w && ship.y - ship.height/2 > 0) ship.y -= ship.speed;
+                if (keys.s && ship.y + ship.height/2 < canvas.height) ship.y += ship.speed;
+                if (keys.a && ship.x - ship.width > 0) ship.x -= ship.speed;
+                if (keys.d && ship.x + ship.width/2 < canvas.width) ship.x += ship.speed;
+                
+                // Disparar
+                if (keys.space && Date.now() - ship.lastShot > ship.shotDelay) {
+                    ship.bullets.push({
+                        x: ship.x,
+                        y: ship.y,
+                        width: 15,
+                        height: 5,
+                        speed: 8,
+                        color: '#ff5555'
+                    });
+                    ship.lastShot = Date.now();
+                }
+            } else {
+                if (keys.arrowup && ship.y - ship.height/2 > 0) ship.y -= ship.speed;
+                if (keys.arrowdown && ship.y + ship.height/2 < canvas.height) ship.y += ship.speed;
+                if (keys.arrowleft && ship.x + ship.width < canvas.width) ship.x -= ship.speed;
+                if (keys.arrowright && ship.x - ship.width/2 > 0) ship.x += ship.speed;
+                
+                // Disparar
+                if (keys.enter && Date.now() - ship.lastShot > ship.shotDelay) {
+                    ship.bullets.push({
+                        x: ship.x,
+                        y: ship.y,
+                        width: 15,
+                        height: 5,
+                        speed: -8,
+                        color: '#5555ff'
+                    });
+                    ship.lastShot = Date.now();
+                }
+            }
+        }
+
+        // Dibujar y actualizar balas
+        function updateBullets(ship) {
+            for (let i = ship.bullets.length - 1; i >= 0; i--) {
+                const bullet = ship.bullets[i];
+                
+                // Dibujar bala
+                ctx.fillStyle = bullet.color;
+                ctx.fillRect(bullet.x, bullet.y - bullet.height/2, bullet.width, bullet.height);
+                
+                // Actualizar posición
+                bullet.x += bullet.speed;
+                
+                // Verificar colisión con el oponente
+                const opponent = ship === player1 ? player2 : player1;
+                if (
+                    bullet.x < opponent.x + opponent.width/2 &&
+                    bullet.x + bullet.width > opponent.x - opponent.width/2 &&
+                    bullet.y < opponent.y + opponent.height/2 &&
+                    bullet.y + bullet.height > opponent.y - opponent.height/2
+                ) {
+                    // Colisión detectada
+                    if (ship === player1) {
+                        score1++;
+                        score1Element.textContent = score1;
+                    } else {
+                        score2++;
+                        score2Element.textContent = score2;
+                    }
+                    
+                    // Eliminar bala
+                    ship.bullets.splice(i, 1);
+                    
+                    // Verificar si hay un ganador
+                    checkWinner();
+                    
+                    // Efecto de explosión
+                    createExplosion(opponent.x, opponent.y);
+                    
+                    continue;
+                }
+                
+                // Eliminar balas que salen de la pantalla
+                if (bullet.x < 0 || bullet.x > canvas.width) {
+                    ship.bullets.splice(i, 1);
+                }
+            }
+        }
+
+        // Crear efecto de explosión
+        function createExplosion(x, y) {
+            const particles = [];
+            for (let i = 0; i < 15; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    size: Math.random() * 5 + 2,
+                    speedX: (Math.random() - 0.5) * 10,
+                    speedY: (Math.random() - 0.5) * 10,
+                    color: `hsl(${Math.random() * 60}, 100%, 50%)`,
+                    life: 30
+                });
+            }
+            
+            function drawParticles() {
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    p.life--;
+                    
+                    if (p.life <= 0) {
+                        particles.splice(i, 1);
+                    }
+                }
+                
+                if (particles.length > 0) {
+                    requestAnimationFrame(drawParticles);
+                }
+            }
+            
+            drawParticles();
+        }
+
+        // Verificar si hay un ganador
+        function checkWinner() {
+            if (score1 >= maxScore || score2 >= maxScore) {
+                gameRunning = false;
+                gameOverScreen.style.display = 'flex';
+                
+                if (score1 >= maxScore) {
+                    winnerText.textContent = '¡Jugador 1 gana la batalla!';
+                    winnerText.style.color = '#ff5555';
+                } else {
+                    winnerText.textContent = '¡Jugador 2 gana la batalla!';
+                    winnerText.style.color = '#5555ff';
+                }
+            }
+        }
+
+        // Dibujar elementos del juego
+        function draw() {
+            // Limpiar canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar naves
+            drawShip(player1);
+            drawShip(player2);
+            
+            // Dibujar y actualizar balas
+            updateBullets(player1);
+            updateBullets(player2);
+        }
+
+        // Actualizar juego
+        function update() {
+            if (!gameRunning) return;
+            
+            updateShip(player1);
+            updateShip(player2);
+            
+            draw();
+            
+            requestAnimationFrame(update);
+        }
+
+        // Iniciar juego
+        function startGame() {
+            gameRunning = true;
+            score1 = 0;
+            score2 = 0;
+            score1Element.textContent = '0';
+            score2Element.textContent = '0';
+            player1.bullets = [];
+            player2.bullets = [];
+            player1.x = 100;
+            player1.y = canvas.height / 2;
+            player2.x = canvas.width - 100;
+            player2.y = canvas.height / 2;
+            gameOverScreen.style.display = 'none';
+            
+            update();
+        }
+
+        // Reiniciar juego
+        function resetGame() {
+            startGame();
+        }
+
+        // Event listeners para botones
+        startBtn.addEventListener('click', startGame);
+        resetBtn.addEventListener('click', resetGame);
+        restartBtn.addEventListener('click', resetGame);
+
+        // Inicializar estrellas
+        createStars();
+
+        // Dibujar pantalla inicial
+        draw();
+    </script>
+</body>
 </html>
