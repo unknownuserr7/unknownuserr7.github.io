@@ -79,12 +79,12 @@
             background: rgba(26, 26, 46, 0.3);
         }
         
-        ::-webkit-scrollbar-thumb {
+        ::webkit-scrollbar-thumb {
             background: var(--gradient-accent);
             border-radius: 4px;
         }
         
-        ::-webkit-scrollbar-thumb:hover {
+        ::webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #8c85ff 0%, #673de6 100%);
         }
         
@@ -109,15 +109,58 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
-        .navbar-brand-futuristic img {
-            height: 32px;
-            filter: brightness(0) invert(1);
+        /* TÍTULO DE NAVEGACIÓN MEJORADO - MÁS VISUAL */
+        .navbar-brand-futuristic {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--color-light) 0%, var(--color-primary-light) 50%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 15px rgba(103, 61, 230, 0.3);
+            position: relative;
+            padding-left: 2.8rem;
             transition: all 0.3s ease;
         }
         
-        .navbar-brand-futuristic:hover img {
-            transform: scale(1.05);
-            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(103, 61, 230, 0.5));
+        /* Icono del logo junto al texto */
+        .navbar-brand-futuristic::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2.2rem;
+            height: 2.2rem;
+            background: var(--gradient-accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(103, 61, 230, 0.4);
+        }
+        
+        /* Símbolo de juego dentro del icono */
+        .navbar-brand-futuristic::after {
+            content: '🎮';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2.2rem;
+            height: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--color-light);
+        }
+        
+        .navbar-brand-futuristic:hover {
+            text-shadow: 0 0 20px rgba(103, 61, 230, 0.5), 0 0 40px rgba(103, 61, 230, 0.3);
+            transform: translateY(-1px);
         }
         
         /* Contenedor para alinear correctamente los enlaces de navegación */
@@ -142,10 +185,27 @@
             display: flex;
             align-items: center;
             height: 100%;
-            text-decoration: none !important; /* QUITAR SUBRAYADO */
+            text-decoration: none !important;
         }
         
-        /* QUITADO EL EFECTO DE LÍNEA INFERIOR EN HOVER */
+        /* Efecto de fondo en hover */
+        .nav-link-futuristic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(103, 61, 230, 0.1) 0%, transparent 100%);
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .nav-link-futuristic:hover::before {
+            opacity: 1;
+        }
         
         .nav-link-futuristic:hover {
             color: var(--color-light) !important;
@@ -154,8 +214,9 @@
         /* Estado activo del enlace */
         .nav-link-futuristic.active {
             color: var(--color-light) !important;
-            background: rgba(103, 61, 230, 0.1);
+            background: rgba(103, 61, 230, 0.15);
             border: 1px solid rgba(103, 61, 230, 0.3);
+            box-shadow: 0 0 15px rgba(103, 61, 230, 0.2);
         }
         
         /* 
@@ -203,6 +264,16 @@
             .hero-title-futuristic {
                 font-size: 3rem;
             }
+            
+            .navbar-brand-futuristic {
+                font-size: 1.3rem;
+                padding-left: 2.3rem;
+            }
+            
+            .navbar-brand-futuristic::before {
+                width: 1.8rem;
+                height: 1.8rem;
+            }
         }
         
         .hero-subtitle-futuristic {
@@ -212,6 +283,320 @@
             max-width: 600px;
             font-weight: 400;
             line-height: 1.7;
+        }
+        
+        /* 
+        JUEGO "SPACE DEFENDER" - NUEVO
+        Juego de naves espaciales futurista
+        */
+        .game-container-futuristic {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), var(--neon-glow);
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .game-container-futuristic::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: var(--gradient-accent);
+            border-radius: 21px;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .game-title-futuristic {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #8c85ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+        
+        .game-subtitle-futuristic {
+            color: var(--color-gray-light);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        
+        /* Área del juego */
+        .game-area {
+            width: 100%;
+            height: 300px;
+            background: rgba(10, 10, 15, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(103, 61, 230, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Nave del jugador - REDUCIDA LA VELOCIDAD */
+        .player-ship {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(103, 61, 230, 0.7);
+            transition: left 0.15s ease; /* Transición más suave */
+        }
+        
+        .player-ship::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 15px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            filter: blur(5px);
+            opacity: 0.7;
+        }
+        
+        /* Enemigos */
+        .enemy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
+            border-radius: 4px;
+            z-index: 5;
+        }
+        
+        /* Disparos */
+        .bullet {
+            position: absolute;
+            width: 4px;
+            height: 15px;
+            background: var(--color-accent);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 176, 144, 0.8);
+            z-index: 8;
+        }
+        
+        /* Explosiones */
+        .explosion {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #ffa726 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 9;
+            animation: explode 0.5s ease-out forwards;
+        }
+        
+        @keyframes explode {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        
+        /* Estadísticas del juego */
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(10, 10, 15, 0.6);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-primary-light);
+            margin-bottom: 0.3rem;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--color-gray-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Controles del juego - MEJORADOS */
+        .game-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-btn {
+            padding: 0.8rem;
+            border-radius: 10px;
+            background: rgba(103, 61, 230, 0.1);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            color: var(--color-light);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .control-btn:hover {
+            background: rgba(103, 61, 230, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .control-btn:active {
+            background: rgba(103, 61, 230, 0.3);
+            transform: translateY(0);
+        }
+        
+        .control-btn.fire {
+            grid-column: 2;
+            background: rgba(0, 176, 144, 0.2);
+            border-color: rgba(0, 176, 144, 0.4);
+            font-size: 1.5rem;
+        }
+        
+        .control-btn.fire:hover {
+            background: rgba(0, 176, 144, 0.3);
+        }
+        
+        /* Botones del juego */
+        .game-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .game-btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .game-btn-primary {
+            background: linear-gradient(135deg, rgba(103, 61, 230, 0.2) 0%, rgba(140, 133, 255, 0.1) 100%);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            color: var(--color-light);
+        }
+        
+        .game-btn-primary:hover {
+            background: linear-gradient(135deg, rgba(103, 61, 230, 0.3) 0%, rgba(140, 133, 255, 0.2) 100%);
+            border-color: rgba(103, 61, 230, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(103, 61, 230, 0.2);
+        }
+        
+        .game-btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-light);
+        }
+        
+        .game-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        /* Indicador de juego */
+        .game-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--color-accent);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 20;
+        }
+        
+        /* MENSAJES DEL JUEGO - AHORA ENCIMA DEL ÁREA DE JUEGO */
+        .game-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), var(--neon-glow);
+            z-index: 100;
+            text-align: center;
+            display: none;
+            max-width: 90%;
+            width: 350px;
+        }
+        
+        .message-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary-light);
+        }
+        
+        .message-text {
+            color: var(--color-gray-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Fondo estrellado para el área de juego */
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
         
         /* 
@@ -311,7 +696,7 @@
         /* Ajuste para mejorar visibilidad del texto en sección "Nosotros" */
         .section-subtitle-futuristic {
             font-size: 1.1rem;
-            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            color: var(--color-gray-light);
             margin-bottom: 4rem;
             max-width: 700px;
             line-height: 1.7;
@@ -472,7 +857,7 @@
         
         /* COLOR MÁS CLARO PARA LOS PÁRRAFOS DE "Innovación en videojuegos saludables" y "Comunidad de soñadores" */
         .feature-item-futuristic p {
-            color: var(--color-gray-light) !important; /* Cambiado a gris más claro */
+            color: var(--color-gray-light) !important;
         }
         
         /* 
@@ -506,7 +891,7 @@
         }
         
         .contact-subtitle-futuristic {
-            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            color: var(--color-gray-light);
             margin-bottom: 3rem;
             font-size: 1.1rem;
             max-width: 600px;
@@ -584,13 +969,21 @@
         }
         
         .footer-logo-futuristic {
-            height: 32px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--color-light) 0%, var(--color-primary-light) 50%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 15px rgba(103, 61, 230, 0.3);
             margin-bottom: 1.5rem;
-            filter: brightness(0) invert(1);
+            display: inline-block;
         }
         
         .footer-text-futuristic {
-            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            color: var(--color-gray-light);
             margin-bottom: 2rem;
             line-height: 1.7;
         }
@@ -649,7 +1042,7 @@
         }
         
         .footer-link-futuristic {
-            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            color: var(--color-gray-light);
             text-decoration: none;
             display: block;
             margin-bottom: 0.8rem;
@@ -745,7 +1138,11 @@
         DISEÑO RESPONSIVE
         Ajustes para diferentes tamaños de pantalla
         */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
+            .game-container-futuristic {
+                margin-top: 3rem;
+            }
+            
             .hero-title-futuristic {
                 font-size: 2.8rem;
             }
@@ -760,6 +1157,26 @@
             
             .card-futuristic {
                 margin-bottom: 2rem;
+            }
+            
+            .navbar-brand-futuristic {
+                font-size: 1.2rem;
+                padding-left: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .game-controls {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .game-buttons {
+                flex-direction: column;
+            }
+            
+            .game-message {
+                width: 90%;
+                padding: 1.5rem;
             }
         }
         
@@ -808,16 +1225,13 @@
     <!-- 
     BARRA DE NAVEGACIÓN PRINCIPAL
     Navegación fija con enlaces a secciones y botón de acción
-    CAMBIOS APLICADOS:
-    1. Orden cambiado a: INICIO, PROYECTO, NOSOTROS, CONTACTO
-    2. Botón "Stepland" renombrado a "Proyecto"
-    3. Subrayado eliminado de todos los botones
+    TÍTULO MEJORADO: Ahora es más visual con gradiente e icono
     -->
     <nav class="navbar navbar-expand-lg navbar-futuristic fixed-top">
         <div class="container">
-            <!-- Logo de la empresa -->
+            <!-- Título mejorado con gradiente e icono -->
             <a class="navbar-brand-futuristic" href="#inicio">
-                <img src="https://assets.zyrosite.com/YNqBoP40L5sRa7vM/ai-logo-mjE7xqrnMXH2jM53.svg" alt="Somni Game Studios">
+                SOMNI GAME STUDIOS
             </a>
             
             <!-- Botón para menú en móviles -->
@@ -828,7 +1242,7 @@
             <!-- Contenedor de los enlaces de navegación -->
             <div class="collapse navbar-collapse" id="navbarFuturistic">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 navbar-nav-futuristic">
-                    <!-- Enlaces a secciones principales - ORDEN MODIFICADO -->
+                    <!-- Enlaces a secciones principales -->
                     <li class="nav-item">
                         <a class="nav-link-futuristic active" href="#inicio">Inicio</a>
                     </li>
@@ -856,12 +1270,13 @@
     <!-- 
     SECCIÓN HERO - PORTADA PRINCIPAL
     Primera impresión con título y llamadas a la acción
+    AHORA CON EL JUEGO "SPACE DEFENDER" INTEGRADO
     -->
     <section id="inicio" class="hero-futuristic">
         <div class="grid-lines"></div>
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="hero-content">
                         <h1 class="hero-title-futuristic">
                             El estudio de videojuegos<br>
@@ -877,6 +1292,75 @@
                             <a href="#contacto" class="btn btn-outline-futuristic btn-futuristic">
                                 <i class="bi bi-send me-2"></i>Contactar al equipo
                             </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 
+                JUEGO "SPACE DEFENDER" - NUEVO
+                Juego de naves espaciales tipo shooter
+                -->
+                <div class="col-lg-6">
+                    <div class="game-container-futuristic floating">
+                        <h3 class="game-title-futuristic">Space Defender</h3>
+                        <p class="game-subtitle-futuristic">
+                            Defiende el espacio de los invasores alienígenas
+                        </p>
+                        
+                        <!-- Área del juego -->
+                        <div class="game-area" id="gameArea">
+                            <!-- Las estrellas se generarán dinámicamente -->
+                            <!-- La nave y enemigos se generarán dinámicamente -->
+                            <!-- 
+                            MENSAJE DEL JUEGO - AHORA DENTRO DEL ÁREA DE JUEGO
+                            -->
+                            <div class="game-message" id="gameMessage">
+                                <h3 class="message-title" id="messageTitle">¡Juego Terminado!</h3>
+                                <p class="message-text" id="messageText">Tu puntaje final es: <span id="finalScore">0</span></p>
+                                <button class="game-btn game-btn-primary w-100" id="restartBtn">Jugar Otra Vez</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Indicador de juego -->
+                        <div class="game-indicator" id="gameIndicator">Listo</div>
+                        
+                        <!-- Estadísticas del juego -->
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="gameScore">0</div>
+                                <div class="stat-label">Puntaje</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="gameLives">3</div>
+                                <div class="stat-label">Vidas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="gameLevel">1</div>
+                                <div class="stat-label">Nivel</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Controles del juego -->
+                        <div class="game-controls">
+                            <button class="control-btn" id="leftBtn">
+                                <i class="bi bi-arrow-left"></i>
+                            </button>
+                            <button class="control-btn fire" id="fireBtn">
+                                <i class="bi bi-bullseye"></i>
+                            </button>
+                            <button class="control-btn" id="rightBtn">
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Botones del juego -->
+                        <div class="game-buttons">
+                            <button class="game-btn game-btn-primary" id="startBtn">
+                                <i class="bi bi-play-fill me-2"></i>Iniciar Juego
+                            </button>
+                            <button class="game-btn game-btn-secondary" id="pauseBtn">
+                                <i class="bi bi-pause-fill me-2"></i>Pausar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -963,9 +1447,6 @@
     <!-- 
     SECCIÓN "SOBRE NOSOTROS"
     Información sobre la empresa, misión y visión
-    CAMBIOS APLICADOS:
-    1. Textos de "Innovación en videojuegos saludables" y "Comunidad de soñadores" 
-       ahora tienen color más claro
     -->
     <section id="nosotros" class="section-about">
         <div class="grid-lines"></div>
@@ -1113,8 +1594,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-5 mb-lg-0">
-                    <img src="https://assets.zyrosite.com/YNqBoP40L5sRa7vM/ai-logo-mjE7xqrnMXH2jM53.svg" 
-                         alt="Somni Game Studios" class="footer-logo-futuristic">
+                    <!-- Título en el footer con el mismo estilo -->
+                    <div class="footer-logo-futuristic">
+                        SOMNI GAME STUDIOS
+                    </div>
                     <p class="footer-text-futuristic">
                         Descubre cómo mejorar tu vida jugando. Transformamos hábitos saludables en experiencias de juego inmersivas.
                     </p>
@@ -1195,6 +1678,508 @@
 
     <script>
         // ============================================
+        // CONFIGURACIÓN DEL JUEGO "SPACE DEFENDER"
+        // ============================================
+        class SpaceDefenderGame {
+            constructor() {
+                this.score = 0;
+                this.lives = 3;
+                this.level = 1;
+                this.gameRunning = false;
+                this.gamePaused = false;
+                this.playerSpeed = 1; // REDUCIDO: Era 8
+                this.bulletSpeed = 10;
+                this.enemySpeed = 1.5; // REDUCIDO: Era 2
+                this.enemySpawnRate = 1200; // ms (aumentado: era 1000)
+                this.bullets = [];
+                this.enemies = [];
+                this.stars = [];
+                this.keys = {};
+                this.lastEnemySpawn = 0;
+                this.gameArea = null;
+                this.player = null;
+                this.gameLoopId = null;
+                this.playerPosition = 50; // Porcentaje inicial
+                
+                this.init();
+            }
+            
+            init() {
+                // Elementos del DOM
+                this.gameArea = document.getElementById('gameArea');
+                this.scoreElement = document.getElementById('gameScore');
+                this.livesElement = document.getElementById('gameLives');
+                this.levelElement = document.getElementById('gameLevel');
+                this.gameIndicator = document.getElementById('gameIndicator');
+                this.startBtn = document.getElementById('startBtn');
+                this.pauseBtn = document.getElementById('pauseBtn');
+                this.leftBtn = document.getElementById('leftBtn');
+                this.rightBtn = document.getElementById('rightBtn');
+                this.fireBtn = document.getElementById('fireBtn');
+                this.gameMessage = document.getElementById('gameMessage');
+                this.messageTitle = document.getElementById('messageTitle');
+                this.messageText = document.getElementById('messageText');
+                this.finalScore = document.getElementById('finalScore');
+                this.restartBtn = document.getElementById('restartBtn');
+                
+                // Crear fondo estrellado
+                this.createStars();
+                
+                // Crear nave del jugador
+                this.createPlayer();
+                
+                // Event listeners
+                this.setupEventListeners();
+                
+                // Actualizar UI inicial
+                this.updateUI();
+            }
+            
+            createStars() {
+                // Crear estrellas de fondo
+                for (let i = 0; i < 50; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    
+                    const size = Math.random() * 2 + 1;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    
+                    star.style.opacity = Math.random() * 0.5 + 0.3;
+                    star.style.animationDelay = `${Math.random() * 3}s`;
+                    
+                    this.gameArea.appendChild(star);
+                    this.stars.push(star);
+                }
+            }
+            
+            createPlayer() {
+                // Crear nave del jugador
+                this.player = document.createElement('div');
+                this.player.className = 'player-ship';
+                this.player.style.left = '50%';
+                
+                this.gameArea.appendChild(this.player);
+            }
+            
+            setupEventListeners() {
+                // Controles de teclado
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.key] = true;
+                    
+                    // Espacio para disparar
+                    if (e.key === ' ' && this.gameRunning && !this.gamePaused) {
+                        e.preventDefault();
+                        this.shoot();
+                    }
+                    
+                    // P para pausar
+                    if (e.key === 'p' || e.key === 'P') {
+                        this.togglePause();
+                    }
+                });
+                
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.key] = false;
+                });
+                
+                // Controles táctiles - MEJORADOS PARA MOVIMIENTO MÁS CONTROLADO
+                this.leftBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.keys['ArrowLeft'] = true;
+                });
+                this.leftBtn.addEventListener('touchend', () => this.keys['ArrowLeft'] = false);
+                this.leftBtn.addEventListener('mousedown', () => this.keys['ArrowLeft'] = true);
+                this.leftBtn.addEventListener('mouseup', () => this.keys['ArrowLeft'] = false);
+                this.leftBtn.addEventListener('mouseleave', () => this.keys['ArrowLeft'] = false);
+                
+                this.rightBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.keys['ArrowRight'] = true;
+                });
+                this.rightBtn.addEventListener('touchend', () => this.keys['ArrowRight'] = false);
+                this.rightBtn.addEventListener('mousedown', () => this.keys['ArrowRight'] = true);
+                this.rightBtn.addEventListener('mouseup', () => this.keys['ArrowRight'] = false);
+                this.rightBtn.addEventListener('mouseleave', () => this.keys['ArrowRight'] = false);
+                
+                this.fireBtn.addEventListener('click', () => {
+                    if (this.gameRunning && !this.gamePaused) {
+                        this.shoot();
+                    }
+                });
+                
+                // Botones del juego
+                this.startBtn.addEventListener('click', () => {
+                    if (!this.gameRunning) {
+                        this.startGame();
+                    } else {
+                        this.resetGame();
+                        this.startGame();
+                    }
+                });
+                
+                this.pauseBtn.addEventListener('click', () => {
+                    this.togglePause();
+                });
+                
+                this.restartBtn.addEventListener('click', () => {
+                    this.hideMessage();
+                    this.resetGame();
+                    this.startGame();
+                });
+            }
+            
+            startGame() {
+                if (this.gameRunning) return;
+                
+                this.gameRunning = true;
+                this.gamePaused = false;
+                this.gameIndicator.textContent = '¡Jugando!';
+                this.gameIndicator.style.color = '#00b090';
+                this.startBtn.innerHTML = '<i class="bi bi-arrow-clockwise me-2"></i>Reiniciar';
+                
+                // Iniciar el bucle del juego
+                this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+            }
+            
+            togglePause() {
+                if (!this.gameRunning) return;
+                
+                this.gamePaused = !this.gamePaused;
+                
+                if (this.gamePaused) {
+                    this.gameIndicator.textContent = 'Pausado';
+                    this.gameIndicator.style.color = '#ffa726';
+                    this.pauseBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Continuar';
+                    
+                    // Pausar el bucle del juego
+                    cancelAnimationFrame(this.gameLoopId);
+                } else {
+                    this.gameIndicator.textContent = '¡Jugando!';
+                    this.gameIndicator.style.color = '#00b090';
+                    this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
+                    
+                    // Reanudar el bucle del juego
+                    this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+                }
+            }
+            
+            gameLoop(timestamp) {
+                if (!this.gameRunning || this.gamePaused) return;
+                
+                // Mover jugador
+                this.movePlayer();
+                
+                // Mover balas
+                this.moveBullets();
+                
+                // Mover enemigos
+                this.moveEnemies();
+                
+                // Generar enemigos
+                this.spawnEnemies(timestamp);
+                
+                // Detectar colisiones
+                this.checkCollisions();
+                
+                // Actualizar UI
+                this.updateUI();
+                
+                // Continuar el bucle
+                this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+            }
+            
+            movePlayer() {
+                if (!this.player) return;
+                
+                const gameAreaRect = this.gameArea.getBoundingClientRect();
+                const playerRect = this.player.getBoundingClientRect();
+                
+                // Mover a la izquierda
+                if (this.keys['ArrowLeft'] || this.keys['a'] || this.keys['A']) {
+                    this.playerPosition = Math.max(0, this.playerPosition - this.playerSpeed);
+                }
+                
+                // Mover a la derecha
+                if (this.keys['ArrowRight'] || this.keys['d'] || this.keys['D']) {
+                    const maxLeft = 100 - (playerRect.width / gameAreaRect.width * 100);
+                    this.playerPosition = Math.min(maxLeft, this.playerPosition + this.playerSpeed);
+                }
+                
+                // Aplicar posición
+                this.player.style.left = `${this.playerPosition}%`;
+            }
+            
+            shoot() {
+                if (!this.player) return;
+                
+                // Crear bala
+                const bullet = document.createElement('div');
+                bullet.className = 'bullet';
+                
+                const playerRect = this.player.getBoundingClientRect();
+                const gameAreaRect = this.gameArea.getBoundingClientRect();
+                
+                const bulletLeft = this.playerPosition + 1.5;
+                const bulletBottom = 20;
+                
+                bullet.style.left = `${bulletLeft}%`;
+                bullet.style.bottom = `${bulletBottom}px`;
+                
+                this.gameArea.appendChild(bullet);
+                
+                // Guardar información de la bala
+                this.bullets.push({
+                    element: bullet,
+                    left: bulletLeft,
+                    bottom: bulletBottom
+                });
+                
+                // Efecto de sonido visual
+                this.createMuzzleFlash();
+            }
+            
+            createMuzzleFlash() {
+                const flash = document.createElement('div');
+                flash.style.position = 'absolute';
+                flash.style.width = '20px';
+                flash.style.height = '10px';
+                flash.style.background = 'radial-gradient(circle, #ffa726 0%, transparent 70%)';
+                flash.style.borderRadius = '50%';
+                flash.style.bottom = '15px';
+                flash.style.left = '50%';
+                flash.style.transform = 'translateX(-50%)';
+                flash.style.zIndex = '10';
+                
+                this.player.appendChild(flash);
+                
+                // Animación de destello
+                flash.animate([
+                    { transform: 'translateX(-50%) scale(1)', opacity: 1 },
+                    { transform: 'translateX(-50%) scale(0)', opacity: 0 }
+                ], {
+                    duration: 200,
+                    easing: 'ease-out'
+                });
+                
+                // Eliminar después de la animación
+                setTimeout(() => {
+                    flash.remove();
+                }, 200);
+            }
+            
+            moveBullets() {
+                for (let i = this.bullets.length - 1; i >= 0; i--) {
+                    const bullet = this.bullets[i];
+                    bullet.bottom += this.bulletSpeed;
+                    
+                    // Actualizar posición
+                    bullet.element.style.bottom = `${bullet.bottom}px`;
+                    
+                    // Eliminar balas que salen de la pantalla
+                    if (bullet.bottom > this.gameArea.offsetHeight) {
+                        bullet.element.remove();
+                        this.bullets.splice(i, 1);
+                    }
+                }
+            }
+            
+            spawnEnemies(timestamp) {
+                if (timestamp - this.lastEnemySpawn > this.enemySpawnRate) {
+                    this.lastEnemySpawn = timestamp;
+                    
+                    // Crear enemigo
+                    const enemy = document.createElement('div');
+                    enemy.className = 'enemy';
+                    
+                    // Posición aleatoria en la parte superior
+                    const left = Math.random() * 80 + 10; // 10% - 90%
+                    
+                    enemy.style.left = `${left}%`;
+                    enemy.style.top = `-30px`;
+                    
+                    this.gameArea.appendChild(enemy);
+                    
+                    // Guardar información del enemigo
+                    this.enemies.push({
+                        element: enemy,
+                        left: left,
+                        top: -30,
+                        type: Math.random() > 0.7 ? 'fast' : 'normal'
+                    });
+                }
+            }
+            
+            moveEnemies() {
+                for (let i = this.enemies.length - 1; i >= 0; i--) {
+                    const enemy = this.enemies[i];
+                    const speed = enemy.type === 'fast' ? this.enemySpeed * 1.3 : this.enemySpeed;
+                    
+                    enemy.top += speed;
+                    
+                    // Actualizar posición
+                    enemy.element.style.top = `${enemy.top}px`;
+                    
+                    // Eliminar enemigos que salen de la pantalla
+                    if (enemy.top > this.gameArea.offsetHeight) {
+                        enemy.element.remove();
+                        this.enemies.splice(i, 1);
+                        this.loseLife();
+                    }
+                }
+            }
+            
+            checkCollisions() {
+                // Verificar colisiones bala-enemigo
+                for (let i = this.bullets.length - 1; i >= 0; i--) {
+                    const bullet = this.bullets[i];
+                    
+                    for (let j = this.enemies.length - 1; j >= 0; j--) {
+                        const enemy = this.enemies[j];
+                        
+                        // Simple detección de colisión
+                        const bulletRect = bullet.element.getBoundingClientRect();
+                        const enemyRect = enemy.element.getBoundingClientRect();
+                        
+                        if (this.checkRectCollision(bulletRect, enemyRect)) {
+                            // Colisión detectada
+                            this.createExplosion(enemy.left, enemy.top);
+                            
+                            // Eliminar bala y enemigo
+                            bullet.element.remove();
+                            enemy.element.remove();
+                            
+                            this.bullets.splice(i, 1);
+                            this.enemies.splice(j, 1);
+                            
+                            // Aumentar puntaje
+                            this.score += enemy.type === 'fast' ? 20 : 10;
+                            
+                            // Verificar subida de nivel
+                            this.checkLevelUp();
+                            
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            checkRectCollision(rect1, rect2) {
+                return !(
+                    rect1.right < rect2.left ||
+                    rect1.left > rect2.right ||
+                    rect1.bottom < rect2.top ||
+                    rect1.top > rect2.bottom
+                );
+            }
+            
+            createExplosion(left, top) {
+                const explosion = document.createElement('div');
+                explosion.className = 'explosion';
+                
+                explosion.style.left = `${left}%`;
+                explosion.style.top = `${top}px`;
+                
+                this.gameArea.appendChild(explosion);
+                
+                // Eliminar después de la animación
+                setTimeout(() => {
+                    explosion.remove();
+                }, 500);
+            }
+            
+            loseLife() {
+                this.lives--;
+                
+                if (this.lives <= 0) {
+                    this.gameOver();
+                } else {
+                    // Efecto visual de perder vida
+                    this.gameArea.style.boxShadow = '0 0 30px rgba(255, 107, 107, 0.7)';
+                    
+                    setTimeout(() => {
+                        this.gameArea.style.boxShadow = '';
+                    }, 300);
+                }
+            }
+            
+            checkLevelUp() {
+                const newLevel = Math.floor(this.score / 100) + 1;
+                
+                if (newLevel > this.level) {
+                    this.level = newLevel;
+                    
+                    // Aumentar dificultad gradualmente
+                    this.enemySpeed += 0.3;
+                    this.enemySpawnRate = Math.max(500, 1200 - (this.level * 100));
+                    
+                    // Efecto visual de subida de nivel
+                    this.gameIndicator.textContent = `¡Nivel ${this.level}!`;
+                    this.gameIndicator.style.color = '#673de6';
+                    
+                    setTimeout(() => {
+                        if (this.gameRunning && !this.gamePaused) {
+                            this.gameIndicator.textContent = '¡Jugando!';
+                            this.gameIndicator.style.color = '#00b090';
+                        }
+                    }, 1500);
+                }
+            }
+            
+            gameOver() {
+                this.gameRunning = false;
+                this.gamePaused = false;
+                
+                // Cancelar bucle del juego
+                cancelAnimationFrame(this.gameLoopId);
+                
+                // Mostrar mensaje de fin de juego
+                this.showMessage('¡Juego Terminado!', `Puntaje final: ${this.score}`);
+            }
+            
+            resetGame() {
+                // Limpiar elementos del juego
+                this.bullets.forEach(bullet => bullet.element.remove());
+                this.enemies.forEach(enemy => enemy.element.remove());
+                
+                // Reiniciar variables
+                this.score = 0;
+                this.lives = 3;
+                this.level = 1;
+                this.bullets = [];
+                this.enemies = [];
+                this.enemySpeed = 1.5;
+                this.enemySpawnRate = 1200;
+                this.playerPosition = 50;
+                
+                // Restaurar nave del jugador al centro
+                this.player.style.left = '50%';
+                
+                // Actualizar UI
+                this.updateUI();
+            }
+            
+            updateUI() {
+                this.scoreElement.textContent = this.score;
+                this.livesElement.textContent = this.lives;
+                this.levelElement.textContent = this.level;
+            }
+            
+            showMessage(title, text) {
+                this.messageTitle.textContent = title;
+                this.finalScore.textContent = this.score;
+                this.gameMessage.style.display = 'block';
+            }
+            
+            hideMessage() {
+                this.gameMessage.style.display = 'none';
+            }
+        }
+        
+        // ============================================
         // CONFIGURACIÓN DE PARTICULAS.JS
         // ============================================
         particlesJS('particles-js', {
@@ -1233,13 +2218,16 @@
         
         // ============================================
         // INICIALIZACIÓN DE EMAILJS
-        // IMPORTANTE: Configurar con tu clave pública
-        // 1. Regístrate en https://www.emailjs.com
-        // 2. Conecta tu servicio de email (Gmail, Outlook, etc.)
-        // 3. Crea una plantilla de email
-        // 4. Obtén tu Public Key y reemplaza "YOUR_PUBLIC_KEY_HERE"
         // ============================================
         emailjs.init("YOUR_PUBLIC_KEY_HERE");
+        
+        // ============================================
+        // INICIALIZACIÓN DEL JUEGO
+        // ============================================
+        let spaceGame;
+        document.addEventListener('DOMContentLoaded', () => {
+            spaceGame = new SpaceDefenderGame();
+        });
         
         // ============================================
         // EFECTO DE SCROLL EN LA BARRA DE NAVEGACIÓN
@@ -1282,7 +2270,6 @@
         
         // ============================================
         // ACTUALIZACIÓN AUTOMÁTICA DEL ENLACE ACTIVO
-        // Cambia el enlace activo según la sección visible
         // ============================================
         window.addEventListener('scroll', function() {
             const sections = document.querySelectorAll('section[id]');
@@ -1307,7 +2294,6 @@
         
         // ============================================
         // FUNCIÓN PARA ENVIAR EL FORMULARIO DE CONTACTO
-        // Utiliza EmailJS para enviar correos reales
         // ============================================
         function submitContactFormFuturistic(e) {
             e.preventDefault();
@@ -1333,7 +2319,6 @@
             };
             
             // SIMULACIÓN DE ENVÍO (para pruebas)
-            // En producción, reemplazar con el código de EmailJS
             setTimeout(() => {
                 // Mostrar mensaje de éxito
                 successAlert.classList.remove('d-none');
@@ -1349,25 +2334,6 @@
                     successAlert.classList.add('d-none');
                 }, 5000);
                 
-                // ============================================
-                // CÓDIGO REAL PARA EMAILJS (descomentar en producción)
-                // ============================================
-                /*
-                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
-                    .then(() => {
-                        successAlert.classList.remove('d-none');
-                        form.reset();
-                    })
-                    .catch((error) => {
-                        alert('Error al enviar el mensaje: ' + JSON.stringify(error));
-                    })
-                    .finally(() => {
-                        submitText.textContent = 'Enviar mensaje';
-                        submitSpinner.classList.add('d-none');
-                        submitBtn.disabled = false;
-                    });
-                */
-                
                 // Log para desarrollo
                 console.log('Mensaje simulado enviado a:', formData.to_email);
             }, 1500);
@@ -1377,7 +2343,6 @@
         
         // ============================================
         // EFECTO DE PARTÍCULAS EN HOVER DE BOTONES
-        // Crea partículas que salen de los botones al pasar el ratón
         // ============================================
         document.querySelectorAll('.btn-futuristic').forEach(btn => {
             btn.addEventListener('mouseenter', function() {
@@ -1431,7 +2396,6 @@
         
         // ============================================
         // EFECTO DE BRILLO ANIMADO EN TEXTOS
-        // Crea un efecto de brillo pulsante en textos con clase glow-text
         // ============================================
         const glowElements = document.querySelectorAll('.glow-text');
         glowElements.forEach(el => {
