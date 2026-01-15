@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somni Game Studios - Innovación en videojuegos móviles saludables</title>
+    <meta name="description" content="En Somni Game Studios, transformamos hábitos saludables en diversión. Descubre Stepland, nuestro juego que convierte tu bienestar en un mundo virtual.">
+    
+    <!-- ============================================
+    BIBLIOTECAS EXTERNAS
+    ============================================= -->
+    <!-- Bootstrap 5 CSS - Framework principal para diseño responsive -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons - Conjunto de iconos modernos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Google Fonts - Fuentes modernas Inter y Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ============================================
+    ESTILOS PERSONALIZADOS - FUTURISTAS Y PREMIUM
+    ============================================= -->
+    <style>
+        /* 
+        VARIABLES DE COLORES Y GRADIENTES
+        Define la paleta de colores principal del diseño
+        */
+        :root {
+            --color-primary: #673de6;
+            --color-primary-dark: #5025d1;
+            --color-primary-light: #8c85ff;
+            --color-accent: #00b090;
+            --color-dark: #0a0a0f;
+            --color-light: #ffffff;
+            --color-gray: #8a8fa3;
+            --color-gray-light: #b0b5c9;
+            --gradient-primary: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #2f1c6a 100%);
+            --gradient-accent: linear-gradient(135deg, #673de6 0%, #8c85ff 50%, #00b090 100%);
+            --gradient-glow: radial-gradient(circle at 50% 50%, rgba(103, 61, 230, 0.2) 0%, transparent 70%);
+            --neon-glow: 0 0 20px rgba(103, 61, 230, 0.4), 0 0 40px rgba(103, 61, 230, 0.2), 0 0 60px rgba(103, 61, 230, 0.1);
+        }
+        
+        /* 
+        RESET Y CONFIGURACIONES GENERALES
+        Estilos base para todos los elementos
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            overflow-x: hidden;
+            letter-spacing: -0.02em;
+            line-height: 1.6;
+        }
+        
+        /* Tipografía para títulos */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+        
+        /* 
+        BARRA DE DESPLAZAMIENTO PERSONALIZADA
+        Estilo futurista para el scrollbar
+        */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(26, 26, 46, 0.3);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-accent);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #8c85ff 0%, #673de6 100%);
+        }
+        
+        /* 
+        BARRA DE NAVEGACIÓN SUPERIOR
+        Navegación fija con efectos de vidrio esmerilado
+        */
+        .navbar-futuristic {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(140, 133, 255, 0.1);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .navbar-futuristic.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(10, 10, 15, 0.98);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar-brand-futuristic img {
+            height: 32px;
+            filter: brightness(0) invert(1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand-futuristic:hover img {
+            transform: scale(1.05);
+            filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(103, 61, 230, 0.5));
+        }
+        
+        /* Contenedor para alinear correctamente los enlaces de navegación */
+        .navbar-nav-futuristic {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        /* Estilos para los enlaces de navegación */
+        .nav-link-futuristic {
+            color: var(--color-gray) !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1.2rem !important;
+            margin: 0 0.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            text-decoration: none !important; /* QUITAR SUBRAYADO */
+        }
+        
+        /* QUITADO EL EFECTO DE LÍNEA INFERIOR EN HOVER */
+        
+        .nav-link-futuristic:hover {
+            color: var(--color-light) !important;
+        }
+        
+        /* Estado activo del enlace */
+        .nav-link-futuristic.active {
+            color: var(--color-light) !important;
+            background: rgba(103, 61, 230, 0.1);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+        }
+        
+        /* 
+        SECCIÓN HERO - PRIMERA VISUAL
+        Sección principal con fondo de partículas
+        */
+        .hero-futuristic {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 100px;
+            background: var(--gradient-primary);
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title-futuristic {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #8c85ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: var(--neon-glow);
+            letter-spacing: -0.03em;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title-futuristic {
+                font-size: 3rem;
+            }
+        }
+        
+        .hero-subtitle-futuristic {
+            font-size: 1.3rem;
+            color: var(--color-gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        
+        /* 
+        BOTONES FUTURISTAS
+        Estilos para botones con efectos de neón y animaciones
+        */
+        .btn-futuristic {
+            padding: 1.1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+        
+        .btn-primary-futuristic {
+            background: linear-gradient(135deg, rgba(103, 61, 230, 0.2) 0%, rgba(140, 133, 255, 0.1) 100%);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            color: var(--color-light);
+            box-shadow: 0 10px 30px rgba(103, 61, 230, 0.2);
+        }
+        
+        /* Efecto de barrido luminoso en hover */
+        .btn-primary-futuristic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+            z-index: -1;
+        }
+        
+        .btn-primary-futuristic:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-futuristic:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(103, 61, 230, 0.4), 0 0 30px rgba(103, 61, 230, 0.2);
+            border-color: rgba(103, 61, 230, 0.5);
+        }
+        
+        .btn-outline-futuristic {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--color-light);
+        }
+        
+        .btn-outline-futuristic:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 
+        SECCIÓN DE PROYECTOS
+        Muestra las tarjetas de Stepland e información relacionada
+        */
+        .section-projects {
+            padding: 120px 0;
+            position: relative;
+            background: radial-gradient(circle at 30% 30%, rgba(26, 26, 46, 0.8) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(47, 28, 106, 0.6) 0%, transparent 50%);
+        }
+        
+        .section-title-futuristic {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            color: var(--color-light);
+        }
+        
+        .section-title-futuristic::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+        
+        /* Ajuste para mejorar visibilidad del texto en sección "Nosotros" */
+        .section-subtitle-futuristic {
+            font-size: 1.1rem;
+            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            margin-bottom: 4rem;
+            max-width: 700px;
+            line-height: 1.7;
+        }
+        
+        /* 
+        TARJETAS FUTURISTAS
+        Tarjetas con efectos hover y bordes luminosos
+        */
+        .card-futuristic {
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            height: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-futuristic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glow);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+        
+        .card-futuristic:hover::before {
+            opacity: 1;
+        }
+        
+        .card-futuristic:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: rgba(103, 61, 230, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), var(--neon-glow);
+        }
+        
+        .card-img-futuristic {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .card-futuristic:hover .card-img-futuristic {
+            transform: scale(1.05);
+        }
+        
+        .card-body-futuristic {
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-title-futuristic {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-light);
+        }
+        
+        .card-text-futuristic {
+            color: var(--color-gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 
+        TARJETA DE LOGO ESPECIAL
+        Tarjeta para mostrar el logo de Stepland con efectos de rotación
+        */
+        .logo-card-futuristic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            background: rgba(10, 10, 15, 0.8);
+            height: 100%;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-card-futuristic::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(103, 61, 230, 0.3), transparent 30%);
+            animation: rotate 4s linear infinite;
+        }
+        
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+        
+        .logo-card-futuristic img {
+            max-width: 70%;
+            height: auto;
+            z-index: 2;
+            position: relative;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+            transition: transform 0.6s ease;
+        }
+        
+        .logo-card-futuristic:hover img {
+            transform: scale(1.08);
+        }
+        
+        /* 
+        SECCIÓN "SOBRE NOSOTROS"
+        Información sobre la empresa y su misión
+        */
+        .section-about {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--color-dark) 0%, #151525 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-item-futuristic {
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--color-primary);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-item-futuristic:hover {
+            transform: translateX(10px);
+            background: rgba(26, 26, 46, 0.8);
+            border-left-color: var(--color-accent);
+        }
+        
+        .feature-icon-futuristic {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--color-light);
+            font-size: 1.5rem;
+            box-shadow: 0 10px 20px rgba(103, 61, 230, 0.3);
+        }
+        
+        /* COLOR MÁS CLARO PARA LOS PÁRRAFOS DE "Innovación en videojuegos saludables" y "Comunidad de soñadores" */
+        .feature-item-futuristic p {
+            color: var(--color-gray-light) !important; /* Cambiado a gris más claro */
+        }
+        
+        /* 
+        SECCIÓN DE CONTACTO
+        Formulario de contacto con efectos futuristas
+        */
+        .section-contact {
+            padding: 120px 0;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(103, 61, 230, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 176, 144, 0.1) 0%, transparent 50%);
+        }
+        
+        .contact-title-futuristic {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--color-light);
+        }
+        
+        .contact-subtitle-futuristic {
+            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+        
+        /* 
+        FORMULARIO FUTURISTA
+        Diseño del formulario con efectos de vidrio esmerilado
+        */
+        .form-futuristic {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .form-futuristic::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: var(--gradient-accent);
+            border-radius: 21px;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .form-control-futuristic {
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            font-size: 1rem;
+            color: var(--color-light);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control-futuristic:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(103, 61, 230, 0.2);
+            background: rgba(10, 10, 15, 0.9);
+            outline: none;
+        }
+        
+        .form-control-futuristic::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 
+        PIE DE PÁGINA
+        Sección inferior con enlaces y redes sociales
+        */
+        .footer-futuristic {
+            background: #0a0a0f;
+            padding: 80px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        
+        .footer-futuristic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--gradient-accent);
+        }
+        
+        .footer-logo-futuristic {
+            height: 32px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-text-futuristic {
+            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        
+        /* Iconos de redes sociales */
+        .social-icon-futuristic {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            color: var(--color-light);
+            font-size: 1.1rem;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-icon-futuristic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+        
+        .social-icon-futuristic:hover::before {
+            left: 0;
+        }
+        
+        .social-icon-futuristic i {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .social-icon-futuristic:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(103, 61, 230, 0.3);
+        }
+        
+        .footer-heading-futuristic {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--color-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .footer-link-futuristic {
+            color: var(--color-gray-light); /* Cambiado a gris más claro */
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 0;
+            font-size: 0.95rem;
+        }
+        
+        .footer-link-futuristic:hover {
+            color: var(--color-light);
+            padding-left: 10px;
+        }
+        
+        .footer-link-futuristic::before {
+            content: '▸';
+            position: absolute;
+            left: -15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--color-primary);
+        }
+        
+        .footer-link-futuristic:hover::before {
+            left: 0;
+            opacity: 1;
+        }
+        
+        .copyright-futuristic {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            margin-top: 4rem;
+            color: var(--color-gray);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        /* 
+        ANIMACIONES Y EFECTOS ESPECIALES
+        Efectos visuales para mejorar la experiencia
+        */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 30px rgba(103, 61, 230, 0.5), 0 0 60px rgba(103, 61, 230, 0.3);
+        }
+        
+        .neon-border {
+            position: relative;
+        }
+        
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-accent);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .neon-border:hover::after {
+            opacity: 1;
+        }
+        
+        /* Fondo de líneas de grid para efecto futurista */
+        .grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        
+        /* 
+        DISEÑO RESPONSIVE
+        Ajustes para diferentes tamaños de pantalla
+        */
+        @media (max-width: 768px) {
+            .hero-title-futuristic {
+                font-size: 2.8rem;
+            }
+            
+            .section-title-futuristic {
+                font-size: 2.2rem;
+            }
+            
+            .form-futuristic {
+                padding: 2rem;
+            }
+            
+            .card-futuristic {
+                margin-bottom: 2rem;
+            }
+        }
+        
+        /* 
+        SPINNER DE CARGA
+        Indicador visual para procesos de carga
+        */
+        .spinner-futuristic {
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--color-primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 
+        NOTIFICACIONES TOAST
+        Mensajes emergentes para feedback al usuario
+        */
+        .toast-futuristic {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), var(--neon-glow);
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+    FONDO DE PARTÍCULAS ANIMADAS
+    Efecto visual de partículas que flotan en el fondo
+    -->
+    <div id="particles-js"></div>
+    
+    <!-- 
+    BARRA DE NAVEGACIÓN PRINCIPAL
+    Navegación fija con enlaces a secciones y botón de acción
+    CAMBIOS APLICADOS:
+    1. Orden cambiado a: INICIO, PROYECTO, NOSOTROS, CONTACTO
+    2. Botón "Stepland" renombrado a "Proyecto"
+    3. Subrayado eliminado de todos los botones
+    -->
+    <nav class="navbar navbar-expand-lg navbar-futuristic fixed-top">
+        <div class="container">
+            <!-- Logo de la empresa -->
+            <a class="navbar-brand-futuristic" href="#inicio">
+                <img src="https://assets.zyrosite.com/YNqBoP40L5sRa7vM/ai-logo-mjE7xqrnMXH2jM53.svg" alt="Somni Game Studios">
+            </a>
+            
+            <!-- Botón para menú en móviles -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarFuturistic">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            
+            <!-- Contenedor de los enlaces de navegación -->
+            <div class="collapse navbar-collapse" id="navbarFuturistic">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 navbar-nav-futuristic">
+                    <!-- Enlaces a secciones principales - ORDEN MODIFICADO -->
+                    <li class="nav-item">
+                        <a class="nav-link-futuristic active" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-futuristic" href="#proyectos">Proyecto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-futuristic" href="#nosotros">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-futuristic" href="#contacto">Contacto</a>
+                    </li>
+                    
+                    <!-- Botón de llamada a la acción principal -->
+                    <li class="nav-item ms-lg-3 d-flex align-items-center">
+                        <a class="btn btn-primary-futuristic btn-futuristic" href="https://www.stepland.es" target="_blank">
+                            <i class="bi bi-rocket-takeoff me-2"></i>Probar Stepland
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 
+    SECCIÓN HERO - PORTADA PRINCIPAL
+    Primera impresión con título y llamadas a la acción
+    -->
+    <section id="inicio" class="hero-futuristic">
+        <div class="grid-lines"></div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="hero-content">
+                        <h1 class="hero-title-futuristic">
+                            El estudio de videojuegos<br>
+                            <span class="glow-text">de la gente soñadora</span>
+                        </h1>
+                        <p class="hero-subtitle-futuristic">
+                            Soñamos con mejorar la vida de las personas a través de los juegos
+                        </p>
+                        <div class="d-flex flex-column flex-sm-row gap-3">
+                            <a href="#proyectos" class="btn btn-primary-futuristic btn-futuristic neon-border">
+                                <i class="bi bi-stars me-2"></i>Ver nuestro proyecto
+                            </a>
+                            <a href="#contacto" class="btn btn-outline-futuristic btn-futuristic">
+                                <i class="bi bi-send me-2"></i>Contactar al equipo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    SECCIÓN DE PROYECTOS - STEPLAND
+    Muestra información sobre el proyecto principal
+    -->
+    <section id="proyectos" class="section-projects">
+        <div class="grid-lines"></div>
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-title-futuristic mb-4">
+                        Stepland: <span class="glow-text">Nuestro 1er proyecto</span>
+                    </h2>
+                    <p class="section-subtitle-futuristic">
+                        Transforma tus hábitos saludables en un mundo virtual. Convierte tu bienestar en una experiencia de juego única.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Tarjeta 1: Logo y descripción de Stepland -->
+                <div class="col-lg-4">
+                    <div class="card-futuristic floating">
+                        <div class="logo-card-futuristic">
+                            <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=316,h=271,fit=crop/YNqBoP40L5sRa7vM/logofinal1024-AQExjx9Vv8T3DjJy.png" 
+                                 alt="Stepland Logo" class="img-fluid">
+                        </div>
+                        <div class="card-body-futuristic">
+                            <h3 class="card-title-futuristic">Stepland</h3>
+                            <p class="card-text-futuristic">
+                                Transforma tus hábitos en un mundo virtual. Cada hábito saludable que mantengas hará crecer tu propio pueblo virtual.
+                            </p>
+                            <a href="https://www.stepland.es" target="_blank" class="btn btn-primary-futuristic btn-futuristic w-100">
+                                <i class="bi bi-globe me-2"></i>Visitar web oficial
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tarjeta 2: Información para inversores -->
+                <div class="col-lg-4">
+                    <div class="card-futuristic">
+                        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=400,h=224,fit=crop/YNqBoP40L5sRa7vM/business-angel-01-dJoZOZ7Zn5TKve28.webp" 
+                             alt="Business Angel" class="card-img-futuristic">
+                        <div class="card-body-futuristic">
+                            <h3 class="card-title-futuristic">Para inversores</h3>
+                            <p class="card-text-futuristic">
+                                ¿Eres Investor o Publisher? Contáctanos aquí para conocer oportunidades de colaboración en nuestro innovador proyecto.
+                            </p>
+                            <a href="#contacto" class="btn btn-outline-futuristic btn-futuristic w-100">
+                                <i class="bi bi-graph-up me-2"></i>Contactar para inversión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tarjeta 3: Comunidad y redes sociales -->
+                <div class="col-lg-4">
+                    <div class="card-futuristic">
+                        <img src="https://images.unsplash.com/photo-1576592700002-80f94b07b951?auto=format&fit=crop&w=400&h=224" 
+                             alt="Comunidad Stepland" class="card-img-futuristic">
+                        <div class="card-body-futuristic">
+                            <h3 class="card-title-futuristic">Únete a la comunidad</h3>
+                            <p class="card-text-futuristic">
+                                Únete a nuestra comunidad de jugador@s y colaborador@s. Descubre cómo mejorar tu vida jugando.
+                            </p>
+                            <a href="https://www.instagram.com/steplandapp?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                               target="_blank" class="btn btn-primary-futuristic btn-futuristic w-100">
+                                <i class="bi bi-instagram me-2"></i>Seguir en Instagram
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    SECCIÓN "SOBRE NOSOTROS"
+    Información sobre la empresa, misión y visión
+    CAMBIOS APLICADOS:
+    1. Textos de "Innovación en videojuegos saludables" y "Comunidad de soñadores" 
+       ahora tienen color más claro
+    -->
+    <section id="nosotros" class="section-about">
+        <div class="grid-lines"></div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 class="section-title-futuristic mb-4">
+                        Sobre <span class="glow-text">Somni Game Studios</span>
+                    </h2>
+                    <p class="section-subtitle-futuristic mb-5">
+                        Estamos redefiniendo el juego móvil. Creamos videojuegos que mejoran tu vida, transformando hábitos saludables en diversión.
+                    </p>
+                    
+                    <!-- Característica 1: Innovación en videojuegos -->
+                    <div class="feature-item-futuristic">
+                        <div class="feature-icon-futuristic">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Innovación en videojuegos saludables</h4>
+                        <p class="mb-0">Transformamos hábitos saludables en experiencias de juego inmersivas y divertidas.</p>
+                    </div>
+                    
+                    <!-- Característica 2: Comunidad -->
+                    <div class="feature-item-futuristic">
+                        <div class="feature-icon-futuristic">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Comunidad de soñadores</h4>
+                        <p class="mb-0">Creemos en el poder de los juegos para unir a las personas y mejorar su calidad de vida.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="ps-lg-5">
+                        <!-- Misión de la empresa -->
+                        <h3 class="fw-bold mb-4" style="color: var(--color-light);">Nuestra misión</h3>
+                        <p class="section-subtitle-futuristic mb-4">
+                            En Somni Game Studios, estamos redefiniendo el juego móvil. Con Stepland, cada hábito saludable que mantengas hará crecer tu propio pueblo virtual.
+                        </p>
+                        
+                        <!-- Visión de la empresa -->
+                        <h3 class="fw-bold mb-4" style="color: var(--color-light);">Nuestra visión</h3>
+                        <p class="section-subtitle-futuristic mb-5">
+                            Mejorar la vida de las personas a través de los juegos, cambiando la forma en que la gente juega y vive saludablemente.
+                        </p>
+                        
+                        <!-- Botón para unirse a la misión -->
+                        <a href="#contacto" class="btn btn-primary-futuristic btn-futuristic">
+                            <i class="bi bi-rocket-takeoff me-2"></i>Unirse a nuestra misión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    SECCIÓN DE CONTACTO
+    Formulario para contactar a la empresa
+    -->
+    <section id="contacto" class="section-contact">
+        <div class="grid-lines"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <h2 class="contact-title-futuristic mb-4">Contáctanos</h2>
+                    <p class="contact-subtitle-futuristic mb-5">
+                        Estamos aquí para responder tus preguntas sobre Somni Game Studios y nuestros proyectos, como Stepland. ¡No dudes en escribirnos!
+                    </p>
+                    
+                    <div class="mt-5">
+                        <!-- Información de contacto por correo -->
+                        <h5 class="fw-bold mb-3" style="color: var(--color-light);">Correo electrónico de consultas</h5>
+                        <p class="mb-4" style="color: var(--color-gray-light);">
+                            <i class="bi bi-envelope me-2"></i>contacto@somnigamestudios.com
+                        </p>
+                        
+                        <!-- Información de redes sociales -->
+                        <h5 class="fw-bold mb-3" style="color: var(--color-light);">Únete a nuestra comunidad</h5>
+                        <p class="mb-4" style="color: var(--color-gray-light);">
+                            Sigue a Stepland en redes sociales y únete a nuestra comunidad de jugadores y colaboradores.
+                        </p>
+                        
+                        <!-- Iconos de redes sociales -->
+                        <div class="mt-4">
+                            <a href="https://www.instagram.com/steplandapp?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                               target="_blank" class="social-icon-futuristic">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/" target="_blank" class="social-icon-futuristic">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://x.com/" target="_blank" class="social-icon-futuristic">
+                                <i class="bi bi-twitter"></i>
+                            </a>
+                            <a href="https://tiktok.com/" target="_blank" class="social-icon-futuristic">
+                                <i class="bi bi-tiktok"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formulario de contacto -->
+                <div class="col-lg-7">
+                    <div class="form-futuristic">
+                        <h3 class="fw-bold mb-4" style="color: var(--color-light);">Envíanos un mensaje</h3>
+                        <form id="contactFormFuturistic" onsubmit="return submitContactFormFuturistic(event)">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label" style="color: var(--color-gray);">Tu nombre</label>
+                                    <input type="text" class="form-control form-control-futuristic" id="firstName" 
+                                           placeholder="Escribe tu nombre aquí" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label" style="color: var(--color-gray);">Tu email*</label>
+                                    <input type="email" class="form-control form-control-futuristic" id="email" 
+                                           placeholder="Escribe tu email aquí" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label" style="color: var(--color-gray);">Tu mensaje*</label>
+                                <textarea class="form-control form-control-futuristic" id="message" rows="5" 
+                                          placeholder="Escribe tu mensaje aquí" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary-futuristic btn-futuristic w-100 neon-border" id="submitBtnFuturistic">
+                                <span id="submitTextFuturistic">Enviar mensaje</span>
+                                <span id="submitSpinnerFuturistic" class="spinner-futuristic d-none ms-2"></span>
+                            </button>
+                        </form>
+                        <!-- Mensaje de éxito después de enviar el formulario -->
+                        <div id="formSuccessFuturistic" class="alert alert-success mt-3 d-none" role="alert" style="background: rgba(0, 176, 144, 0.1); border-color: rgba(0, 176, 144, 0.3); color: var(--color-light);">
+                            <i class="bi bi-check-circle me-2"></i>¡Mensaje enviado con éxito! Te contactaremos pronto.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 
+    PIE DE PÁGINA
+    Información final, enlaces legales y copyright
+    -->
+    <footer class="footer-futuristic">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <img src="https://assets.zyrosite.com/YNqBoP40L5sRa7vM/ai-logo-mjE7xqrnMXH2jM53.svg" 
+                         alt="Somni Game Studios" class="footer-logo-futuristic">
+                    <p class="footer-text-futuristic">
+                        Descubre cómo mejorar tu vida jugando. Transformamos hábitos saludables en experiencias de juego inmersivas.
+                    </p>
+                    <div>
+                        <a href="https://www.facebook.com/" target="_blank" class="social-icon-futuristic">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/steplandapp?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                           target="_blank" class="social-icon-futuristic">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://x.com/" target="_blank" class="social-icon-futuristic">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="https://tiktok.com/" target="_blank" class="social-icon-futuristic">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Enlaces de navegación en el footer -->
+                <div class="col-lg-2 col-md-4 mb-5 mb-md-0">
+                    <h5 class="footer-heading-futuristic">Conexión</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#inicio" class="footer-link-futuristic">Inicio</a></li>
+                        <li><a href="#proyectos" class="footer-link-futuristic">Proyecto</a></li>
+                        <li><a href="#nosotros" class="footer-link-futuristic">Nosotros</a></li>
+                        <li><a href="#contacto" class="footer-link-futuristic">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Información del equipo -->
+                <div class="col-lg-3 col-md-4 mb-5 mb-md-0">
+                    <h5 class="footer-heading-futuristic">Equipo</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="mailto:contacto@somnigamestudios.com" class="footer-link-futuristic">
+                                contacto@somnigamestudios.com
+                            </a>
+                        </li>
+                        <li><a href="#contacto" class="footer-link-futuristic">Trabaja con nosotros</a></li>
+                        <li><a href="#contacto" class="footer-link-futuristic">Para inversores</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Enlaces específicos de Stepland -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-heading-futuristic">Stepland</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.stepland.es" target="_blank" class="footer-link-futuristic">Visitar web</a></li>
+                        <li><a href="https://www.instagram.com/steplandapp?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                               target="_blank" class="footer-link-futuristic">Seguir en Instagram</a></li>
+                        <li><a href="#contacto" class="footer-link-futuristic">Colaborar</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Información de copyright -->
+            <div class="row">
+                <div class="col-12 text-center copyright-futuristic">
+                    <p class="mb-0">© 2025 Somni Game Studios. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+    BIBLIOTECAS JAVASCRIPT
+    ============================================= -->
+    <!-- Bootstrap JS Bundle - Funcionalidades interactivas de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Particles.js - Efecto de partículas animadas en el fondo -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <!-- EmailJS - Para envío real de correos desde el formulario -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script>
+        // ============================================
+        // CONFIGURACIÓN DE PARTICULAS.JS
+        // ============================================
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#673de6" },
+                shape: { type: "circle" },
+                opacity: { value: 0.3, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#673de6",
+                    opacity: 0.1,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                }
+            },
+            retina_detect: true
+        });
+        
+        // ============================================
+        // INICIALIZACIÓN DE EMAILJS
+        // IMPORTANTE: Configurar con tu clave pública
+        // 1. Regístrate en https://www.emailjs.com
+        // 2. Conecta tu servicio de email (Gmail, Outlook, etc.)
+        // 3. Crea una plantilla de email
+        // 4. Obtén tu Public Key y reemplaza "YOUR_PUBLIC_KEY_HERE"
+        // ============================================
+        emailjs.init("YOUR_PUBLIC_KEY_HERE");
+        
+        // ============================================
+        // EFECTO DE SCROLL EN LA BARRA DE NAVEGACIÓN
+        // ============================================
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-futuristic');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // ============================================
+        // SCROLL SUAVE PARA ENLACES INTERNOS
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    // Actualizar enlace activo en la navegación
+                    document.querySelectorAll('.nav-link-futuristic').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Desplazamiento suave a la sección
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // ============================================
+        // ACTUALIZACIÓN AUTOMÁTICA DEL ENLACE ACTIVO
+        // Cambia el enlace activo según la sección visible
+        // ============================================
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link-futuristic');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if(scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // ============================================
+        // FUNCIÓN PARA ENVIAR EL FORMULARIO DE CONTACTO
+        // Utiliza EmailJS para enviar correos reales
+        // ============================================
+        function submitContactFormFuturistic(e) {
+            e.preventDefault();
+            
+            // Referencias a elementos del formulario
+            const submitBtn = document.getElementById('submitBtnFuturistic');
+            const submitText = document.getElementById('submitTextFuturistic');
+            const submitSpinner = document.getElementById('submitSpinnerFuturistic');
+            const successAlert = document.getElementById('formSuccessFuturistic');
+            const form = document.getElementById('contactFormFuturistic');
+            
+            // Mostrar indicador de carga
+            submitText.textContent = 'Enviando...';
+            submitSpinner.classList.remove('d-none');
+            submitBtn.disabled = true;
+            
+            // Datos del formulario
+            const formData = {
+                from_name: document.getElementById('firstName').value,
+                reply_to: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                to_email: 'contacto@somnigamestudios.com'
+            };
+            
+            // SIMULACIÓN DE ENVÍO (para pruebas)
+            // En producción, reemplazar con el código de EmailJS
+            setTimeout(() => {
+                // Mostrar mensaje de éxito
+                successAlert.classList.remove('d-none');
+                form.reset();
+                
+                // Restaurar estado del botón
+                submitText.textContent = 'Enviar mensaje';
+                submitSpinner.classList.add('d-none');
+                submitBtn.disabled = false;
+                
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(() => {
+                    successAlert.classList.add('d-none');
+                }, 5000);
+                
+                // ============================================
+                // CÓDIGO REAL PARA EMAILJS (descomentar en producción)
+                // ============================================
+                /*
+                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
+                    .then(() => {
+                        successAlert.classList.remove('d-none');
+                        form.reset();
+                    })
+                    .catch((error) => {
+                        alert('Error al enviar el mensaje: ' + JSON.stringify(error));
+                    })
+                    .finally(() => {
+                        submitText.textContent = 'Enviar mensaje';
+                        submitSpinner.classList.add('d-none');
+                        submitBtn.disabled = false;
+                    });
+                */
+                
+                // Log para desarrollo
+                console.log('Mensaje simulado enviado a:', formData.to_email);
+            }, 1500);
+            
+            return false;
+        }
+        
+        // ============================================
+        // EFECTO DE PARTÍCULAS EN HOVER DE BOTONES
+        // Crea partículas que salen de los botones al pasar el ratón
+        // ============================================
+        document.querySelectorAll('.btn-futuristic').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                const particles = this.querySelector('.particle-effect');
+                if (!particles) {
+                    const particleEffect = document.createElement('div');
+                    particleEffect.className = 'particle-effect';
+                    particleEffect.style.position = 'absolute';
+                    particleEffect.style.width = '100%';
+                    particleEffect.style.height = '100%';
+                    particleEffect.style.top = '0';
+                    particleEffect.style.left = '0';
+                    particleEffect.style.overflow = 'hidden';
+                    particleEffect.style.pointerEvents = 'none';
+                    this.style.position = 'relative';
+                    this.appendChild(particleEffect);
+                    
+                    // Crear 8 partículas
+                    for (let i = 0; i < 8; i++) {
+                        const particle = document.createElement('div');
+                        particle.style.position = 'absolute';
+                        particle.style.width = '4px';
+                        particle.style.height = '4px';
+                        particle.style.background = 'var(--color-primary)';
+                        particle.style.borderRadius = '50%';
+                        particle.style.top = '50%';
+                        particle.style.left = '50%';
+                        particle.style.transform = 'translate(-50%, -50%)';
+                        particleEffect.appendChild(particle);
+                        
+                        // Animación de dispersión de partículas
+                        const angle = Math.random() * Math.PI * 2;
+                        const distance = 30 + Math.random() * 40;
+                        const x = Math.cos(angle) * distance;
+                        const y = Math.sin(angle) * distance;
+                        
+                        particle.animate([
+                            { transform: 'translate(-50%, -50%)', opacity: 1 },
+                            { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
+                        ], {
+                            duration: 800,
+                            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                        });
+                    }
+                    
+                    // Eliminar el contenedor después de la animación
+                    setTimeout(() => particleEffect.remove(), 1000);
+                }
+            });
+        });
+        
+        // ============================================
+        // EFECTO DE BRILLO ANIMADO EN TEXTOS
+        // Crea un efecto de brillo pulsante en textos con clase glow-text
+        // ============================================
+        const glowElements = document.querySelectorAll('.glow-text');
+        glowElements.forEach(el => {
+            setInterval(() => {
+                const intensity = 0.3 + Math.random() * 0.3;
+                el.style.textShadow = 
+                    `0 0 ${30 * intensity}px rgba(103, 61, 230, ${intensity}), 
+                     0 0 ${60 * intensity}px rgba(103, 61, 230, ${intensity * 0.5})`;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
