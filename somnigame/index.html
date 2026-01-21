@@ -388,7 +388,7 @@
             z-index: 5;
         }
         
-        /* Disparos - BALAS SALEN DEL CENTRO */
+        /* Disparos - BALAS SALEN DEL CENTRO - MODIFICADO */
         .bullet {
             position: absolute;
             width: 4px;
@@ -397,6 +397,8 @@
             border-radius: 2px;
             box-shadow: 0 0 10px rgba(0, 176, 144, 0.8);
             z-index: 8;
+            left: 50%; /* Centrar horizontalmente */
+            transform: translateX(-50%); /* Ajuste preciso */
         }
         
         /* Explosiones */
@@ -600,7 +602,7 @@
         }
         
         /* 
-        ENVOLTORIO DE REGALO - SOLO PARA LA VENTANA DEL JUEGO
+        ENVOLTORIO DE REGALO - SOLO PARA LA VENTANA DEL JUEGO - MODIFICADO
         */
         .game-gift-wrapper {
             position: absolute;
@@ -622,6 +624,11 @@
             position: relative;
             z-index: 2;
             padding: 2rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .game-gift-box {
@@ -729,6 +736,9 @@
             font-size: 1rem;
             margin-bottom: 2rem;
             opacity: 0.8;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         @keyframes pulse {
@@ -756,6 +766,13 @@
         @keyframes game-fadeOut {
             0% { opacity: 1; }
             100% { opacity: 0; visibility: hidden; }
+        }
+        
+        /* BOTÓN DE ABRIR REGALO CENTRADO */
+        #gameUnwrapBtn {
+            margin: 0 auto;
+            display: block;
+            width: 200px;
         }
         
         /* 
@@ -1496,7 +1513,7 @@
                                 </div>
                                 <h2 class="game-gift-title">¿Te aburres?</h2>
                                 <p class="game-gift-subtitle">Haz clic para desenvolver el juego</p>
-                                <button class="game-btn game-btn-primary mt-3" id="gameUnwrapBtn">
+                                <button class="game-btn game-btn-primary mt-3" id="gameUnwrapBtn" style="width: 200px; margin: 0 auto;">
                                     <i class="bi bi-gift me-2"></i>Abrir Regalo
                                 </button>
                             </div>
@@ -1518,6 +1535,13 @@
                                 <h3 class="message-title" id="messageTitle">¡Juego Terminado!</h3>
                                 <p class="message-text" id="messageText">Tu puntaje final es: <span id="finalScore">0</span></p>
                                 <button class="game-btn game-btn-primary w-100" id="restartBtn">Jugar Otra Vez</button>
+                            </div>
+                            
+                            <!-- Mensaje de siguiente nivel -->
+                            <div class="game-message" id="levelUpMessage">
+                                <h3 class="message-title">¡Nivel Completado!</h3>
+                                <p class="message-text" id="levelUpText">Pasando al siguiente nivel...</p>
+                                <button class="game-btn game-btn-primary w-100" id="nextLevelBtn">Continuar</button>
                             </div>
                         </div>
                         
@@ -1830,7 +1854,7 @@
                 </div>
                 
                 <!-- Información del equipo -->
-                <div class="col-lg-3 col-md-4 mb-5 mb-md-0">
+                <div class="col-lg-2 col-md-4 mb-5 mb-md-0">
                     <h5 class="footer-heading-futuristic">Equipo</h5>
                     <ul class="list-unstyled">
                         <li>
@@ -1843,8 +1867,19 @@
                     </ul>
                 </div>
                 
+                <!-- Sección de enlaces legales -->
+                <div class="col-lg-2 col-md-4 mb-5 mb-md-0">
+                    <h5 class="footer-heading-futuristic">Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link-futuristic" data-bs-toggle="modal" data-bs-target="#cookiesModal">Política de Cookies</a></li>
+                        <li><a href="#" class="footer-link-futuristic" data-bs-toggle="modal" data-bs-target="#privacyModal">Política de Privacidad</a></li>
+                        <li><a href="#" class="footer-link-futuristic" data-bs-toggle="modal" data-bs-target="#termsModal">Términos y Condiciones</a></li>
+                        <li><a href="#" class="footer-link-futuristic" data-bs-toggle="modal" data-bs-target="#legalModal">Aviso Legal</a></li>
+                    </ul>
+                </div>
+                
                 <!-- Enlaces específicos de Stepland -->
-                <div class="col-lg-3 col-md-4">
+                <div class="col-lg-2 col-md-4">
                     <h5 class="footer-heading-futuristic">Stepland</h5>
                     <ul class="list-unstyled">
                         <li><a href="https://www.stepland.es" target="_blank" class="footer-link-futuristic">Visitar web</a></li>
@@ -1863,6 +1898,158 @@
             </div>
         </div>
     </footer>
+
+    <!-- ============================================
+    MODALES PARA PÁGINAS LEGALES
+    ============================================= -->
+    
+    <!-- Modal Política de Cookies -->
+    <div class="modal fade" id="cookiesModal" tabindex="-1" aria-labelledby="cookiesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="background: var(--color-dark); color: var(--color-light); border: 1px solid rgba(103, 61, 230, 0.3);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(103, 61, 230, 0.3);">
+                    <h5 class="modal-title" id="cookiesModalLabel" style="color: var(--color-primary-light);">Política de Cookies</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>1. ¿Qué son las cookies?</h4>
+                    <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita nuestro sitio web. Nos ayudan a mejorar su experiencia de navegación y a entender cómo interactúa con nuestro sitio.</p>
+                    
+                    <h4>2. Tipos de cookies que utilizamos</h4>
+                    <ul>
+                        <li><strong>Cookies esenciales:</strong> Necesarias para el funcionamiento básico del sitio.</li>
+                        <li><strong>Cookies de rendimiento:</strong> Nos ayudan a mejorar el rendimiento del sitio.</li>
+                        <li><strong>Cookies de funcionalidad:</strong> Permiten recordar sus preferencias.</li>
+                        <li><strong>Cookies de análisis:</strong> Nos ayudan a entender cómo los visitantes usan nuestro sitio.</li>
+                    </ul>
+                    
+                    <h4>3. Gestión de cookies</h4>
+                    <p>Puede gestionar sus preferencias de cookies a través de la configuración de su navegador. Tenga en cuenta que deshabilitar ciertas cookies puede afectar la funcionalidad de nuestro sitio web.</p>
+                    
+                    <h4>4. Cookies de terceros</h4>
+                    <p>Utilizamos servicios de terceros como Google Analytics para analizar el uso de nuestro sitio. Estos proveedores pueden colocar cookies en su dispositivo.</p>
+                    
+                    <h4>5. Actualizaciones de la política</h4>
+                    <p>Podemos actualizar esta política periódicamente. Le recomendamos revisarla regularmente.</p>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid rgba(103, 61, 230, 0.3);">
+                    <button type="button" class="btn btn-primary-futuristic" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Política de Privacidad -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="background: var(--color-dark); color: var(--color-light); border: 1px solid rgba(103, 61, 230, 0.3);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(103, 61, 230, 0.3);">
+                    <h5 class="modal-title" id="privacyModalLabel" style="color: var(--color-primary-light);">Política de Privacidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>1. Responsable del tratamiento</h4>
+                    <p>Somni Game Studios es responsable del tratamiento de sus datos personales.</p>
+                    
+                    <h4>2. Datos que recopilamos</h4>
+                    <p>Recopilamos información que usted nos proporciona directamente, como su nombre y dirección de correo electrónico cuando utiliza nuestro formulario de contacto.</p>
+                    
+                    <h4>3. Finalidad del tratamiento</h4>
+                    <p>Utilizamos sus datos para responder a sus consultas, mejorar nuestros servicios y, si ha dado su consentimiento, enviarle información sobre nuestros productos.</p>
+                    
+                    <h4>4. Base legal</h4>
+                    <p>El tratamiento de sus datos se basa en su consentimiento, la ejecución de un contrato o nuestro interés legítimo.</p>
+                    
+                    <h4>5. Conservación de datos</h4>
+                    <p>Conservamos sus datos durante el tiempo necesario para cumplir con las finalidades descritas, a menos que la ley exija un período más largo.</p>
+                    
+                    <h4>6. Sus derechos</h4>
+                    <p>Tiene derecho a acceder, rectificar, suprimir, oponerse y portar sus datos. Puede ejercer estos derechos contactándonos en contacto@somnigamestudios.com</p>
+                    
+                    <h4>7. Seguridad</h4>
+                    <p>Implementamos medidas de seguridad técnicas y organizativas para proteger sus datos.</p>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid rgba(103, 61, 230, 0.3);">
+                    <button type="button" class="btn btn-primary-futuristic" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Términos y Condiciones -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="background: var(--color-dark); color: var(--color-light); border: 1px solid rgba(103, 61, 230, 0.3);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(103, 61, 230, 0.3);">
+                    <h5 class="modal-title" id="termsModalLabel" style="color: var(--color-primary-light);">Términos y Condiciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>1. Aceptación de los términos</h4>
+                    <p>Al acceder y utilizar este sitio web, acepta cumplir con estos términos y condiciones.</p>
+                    
+                    <h4>2. Uso del sitio</h4>
+                    <p>Usted se compromete a utilizar el sitio web de manera legal y ética, sin infringir derechos de terceros.</p>
+                    
+                    <h4>3. Propiedad intelectual</h4>
+                    <p>Todo el contenido de este sitio web (textos, imágenes, logotipos, etc.) es propiedad de Somni Game Studios o se utiliza con licencia. Queda prohibida su reproducción sin autorización.</p>
+                    
+                    <h4>4. Limitación de responsabilidad</h4>
+                    <p>No nos hacemos responsables de daños directos o indirectos derivados del uso de este sitio web.</p>
+                    
+                    <h4>5. Enlaces a terceros</h4>
+                    <p>No nos responsabilizamos del contenido de sitios web de terceros enlazados desde nuestro sitio.</p>
+                    
+                    <h4>6. Modificaciones</h4>
+                    <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán en vigor tras su publicación en el sitio.</p>
+                    
+                    <h4>7. Legislación aplicable</h4>
+                    <p>Estos términos se rigen por la legislación española. Cualquier disputa se someterá a los tribunales de Barcelona.</p>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid rgba(103, 61, 230, 0.3);">
+                    <button type="button" class="btn btn-primary-futuristic" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Aviso Legal -->
+    <div class="modal fade" id="legalModal" tabindex="-1" aria-labelledby="legalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="background: var(--color-dark); color: var(--color-light); border: 1px solid rgba(103, 61, 230, 0.3);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(103, 61, 230, 0.3);">
+                    <h5 class="modal-title" id="legalModalLabel" style="color: var(--color-primary-light);">Aviso Legal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>1. Información general</h4>
+                    <p><strong>Denominación social:</strong> Somni Game Studios S.L.<br>
+                    <strong>NIF:</strong> B-XXXXXXXX<br>
+                    <strong>Domicilio social:</strong> [Dirección completa]<br>
+                    <strong>Email:</strong> contacto@somnigamestudios.com<br>
+                    <strong>Inscrita en el Registro Mercantil de Barcelona, Tomo XXXX, Folio XX, Hoja B-XXXXXX</strong></p>
+                    
+                    <h4>2. Objeto</h4>
+                    <p>Somni Game Studios se dedica al desarrollo y publicación de videojuegos móviles, con especial enfoque en juegos que promueven hábitos saludables.</p>
+                    
+                    <h4>3. Propiedad intelectual e industrial</h4>
+                    <p>Todos los derechos de propiedad intelectual e industrial sobre los contenidos de este sitio web son propiedad de Somni Game Studios o de terceros que han autorizado su uso.</p>
+                    
+                    <h4>4. Responsabilidad</h4>
+                    <p>Somni Game Studios no se hace responsable de los daños que puedan derivarse de interrupciones del servicio, virus informáticos o contenidos ilícitos de terceros.</p>
+                    
+                    <h4>5. Legislación aplicable y jurisdicción</h4>
+                    <p>Este aviso legal se rige por la legislación española. Para la resolución de conflictos, las partes se someten a los juzgados y tribunales de Barcelona, con renuncia expresa a cualquier otro fuero.</p>
+                    
+                    <h4>6. Protección de datos</h4>
+                    <p>Para información sobre el tratamiento de datos personales, consulte nuestra Política de Privacidad.</p>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid rgba(103, 61, 230, 0.3);">
+                    <button type="button" class="btn btn-primary-futuristic" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ============================================
     BIBLIOTECAS JAVASCRIPT
@@ -1956,7 +2143,7 @@
         }
 
         // ============================================
-        // CONFIGURACIÓN DEL JUEGO "SPACE DEFENDER" - MODIFICADO
+        // CONFIGURACIÓN DEL JUEGO "SPACE DEFENDER" - MEJORADO
         // ============================================
         class SpaceDefenderGame {
             constructor() {
@@ -1968,7 +2155,7 @@
                 this.playerSpeed = 0.6;
                 this.bulletSpeed = 10;
                 this.enemySpeed = 1;
-                this.enemySpawnRate = 1000;
+                this.enemySpawnRate = 1500; // Más lento inicialmente
                 this.bullets = [];
                 this.enemies = [];
                 this.stars = [];
@@ -1978,6 +2165,9 @@
                 this.player = null;
                 this.gameLoopId = null;
                 this.playerPosition = 50;
+                this.enemiesToNextLevel = 15; // Más enemigos por nivel
+                this.enemiesDefeated = 0;
+                this.levelCompleted = false;
                 
                 this.init();
             }
@@ -1999,6 +2189,9 @@
                 this.messageText = document.getElementById('messageText');
                 this.finalScore = document.getElementById('finalScore');
                 this.restartBtn = document.getElementById('restartBtn');
+                this.levelUpMessage = document.getElementById('levelUpMessage');
+                this.levelUpText = document.getElementById('levelUpText');
+                this.nextLevelBtn = document.getElementById('nextLevelBtn');
                 
                 // Crear fondo estrellado
                 this.createStars();
@@ -2016,6 +2209,12 @@
                 this.startBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Iniciar Juego';
                 this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
                 this.pauseBtn.disabled = true;
+                
+                // Configurar botón de siguiente nivel
+                this.nextLevelBtn.addEventListener('click', () => {
+                    this.levelUpMessage.style.display = 'none';
+                    this.startNextLevel();
+                });
             }
             
             createStars() {
@@ -2139,6 +2338,7 @@
                 this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
                 
                 this.hideMessage();
+                this.levelUpMessage.style.display = 'none';
                 
                 this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
             }
@@ -2172,6 +2372,7 @@
                 this.moveEnemies();
                 this.spawnEnemies(timestamp);
                 this.checkCollisions();
+                this.checkLevelCompletion();
                 this.updateUI();
                 
                 this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
@@ -2204,20 +2405,20 @@
                 const playerRect = this.player.getBoundingClientRect();
                 const gameAreaRect = this.gameArea.getBoundingClientRect();
                 
-                // CALCULO MODIFICADO: Balas salen del CENTRO de la nave
-                const playerCenterOffset = playerRect.width / gameAreaRect.width * 100 / 2;
-                const bulletLeft = this.playerPosition + playerCenterOffset - 0.2;
+                // Calcular posición centrada
+                const playerCenterX = playerRect.left - gameAreaRect.left + playerRect.width / 2;
+                const bulletLeftPercent = (playerCenterX / gameAreaRect.width) * 100;
                 
                 const bulletBottom = 20;
                 
-                bullet.style.left = `${bulletLeft}%`;
+                bullet.style.left = `${bulletLeftPercent}%`;
                 bullet.style.bottom = `${bulletBottom}px`;
                 
                 this.gameArea.appendChild(bullet);
                 
                 this.bullets.push({
                     element: bullet,
-                    left: bulletLeft,
+                    left: bulletLeftPercent,
                     bottom: bulletBottom
                 });
                 
@@ -2269,29 +2470,36 @@
                 if (timestamp - this.lastEnemySpawn > this.enemySpawnRate) {
                     this.lastEnemySpawn = timestamp;
                     
-                    const enemy = document.createElement('div');
-                    enemy.className = 'enemy';
-                    
-                    const left = Math.random() * 80 + 10;
-                    
-                    enemy.style.left = `${left}%`;
-                    enemy.style.top = `-30px`;
-                    
-                    this.gameArea.appendChild(enemy);
-                    
-                    this.enemies.push({
-                        element: enemy,
-                        left: left,
-                        top: -30,
-                        type: Math.random() > 0.7 ? 'fast' : 'normal'
-                    });
+                    // Solo spawnear enemigos si no hemos completado el nivel
+                    if (this.enemiesDefeated < this.enemiesToNextLevel || this.levelCompleted) {
+                        const enemy = document.createElement('div');
+                        enemy.className = 'enemy';
+                        
+                        const left = Math.random() * 80 + 10;
+                        
+                        enemy.style.left = `${left}%`;
+                        enemy.style.top = `-30px`;
+                        
+                        this.gameArea.appendChild(enemy);
+                        
+                        const enemyType = Math.random() > 0.8 ? 'fast' : 
+                                         Math.random() > 0.6 ? 'tough' : 'normal';
+                        
+                        this.enemies.push({
+                            element: enemy,
+                            left: left,
+                            top: -30,
+                            type: enemyType,
+                            health: enemyType === 'tough' ? 2 : 1
+                        });
+                    }
                 }
             }
             
             moveEnemies() {
                 for (let i = this.enemies.length - 1; i >= 0; i--) {
                     const enemy = this.enemies[i];
-                    const speed = enemy.type === 'fast' ? this.enemySpeed * 1.3 : this.enemySpeed;
+                    const speed = enemy.type === 'fast' ? this.enemySpeed * 1.5 : this.enemySpeed;
                     
                     enemy.top += speed;
                     
@@ -2316,22 +2524,66 @@
                         const enemyRect = enemy.element.getBoundingClientRect();
                         
                         if (this.checkRectCollision(bulletRect, enemyRect)) {
-                            this.createExplosion(enemy.left, enemy.top);
-                            
-                            bullet.element.remove();
-                            enemy.element.remove();
-                            
-                            this.bullets.splice(i, 1);
-                            this.enemies.splice(j, 1);
-                            
-                            this.score += enemy.type === 'fast' ? 20 : 10;
-                            
-                            this.checkLevelUp();
+                            // Enemigo resistente necesita 2 golpes
+                            if (enemy.type === 'tough') {
+                                enemy.health--;
+                                
+                                // Crear efecto de golpe
+                                this.createHitEffect(enemy.left, enemy.top);
+                                
+                                bullet.element.remove();
+                                this.bullets.splice(i, 1);
+                                
+                                if (enemy.health <= 0) {
+                                    this.createExplosion(enemy.left, enemy.top);
+                                    enemy.element.remove();
+                                    this.enemies.splice(j, 1);
+                                    this.enemiesDefeated++;
+                                    this.score += 20;
+                                }
+                            } else {
+                                this.createExplosion(enemy.left, enemy.top);
+                                
+                                bullet.element.remove();
+                                enemy.element.remove();
+                                
+                                this.bullets.splice(i, 1);
+                                this.enemies.splice(j, 1);
+                                
+                                this.enemiesDefeated++;
+                                this.score += enemy.type === 'fast' ? 15 : 10;
+                            }
                             
                             break;
                         }
                     }
                 }
+            }
+            
+            createHitEffect(left, top) {
+                const hitEffect = document.createElement('div');
+                hitEffect.style.position = 'absolute';
+                hitEffect.style.width = '30px';
+                hitEffect.style.height = '30px';
+                hitEffect.style.background = 'radial-gradient(circle, #ff6b6b 0%, transparent 70%)';
+                hitEffect.style.borderRadius = '50%';
+                hitEffect.style.left = `${left}%`;
+                hitEffect.style.top = `${top}px`;
+                hitEffect.style.zIndex = '9';
+                
+                this.gameArea.appendChild(hitEffect);
+                
+                hitEffect.animate([
+                    { transform: 'scale(0.5)', opacity: 1 },
+                    { transform: 'scale(1.5)', opacity: 0 }
+                ], {
+                    duration: 300,
+                    easing: 'ease-out'
+                });
+                
+                setTimeout(() => {
+                    hitEffect.remove();
+                }, 300);
             }
             
             checkRectCollision(rect1, rect2) {
@@ -2371,25 +2623,46 @@
                 }
             }
             
-            checkLevelUp() {
-                const newLevel = Math.floor(this.score / 100) + 1;
-                
-                if (newLevel > this.level) {
-                    this.level = newLevel;
-                    
-                    this.enemySpeed += 0.3;
-                    this.enemySpawnRate = Math.max(500, 1200 - (this.level * 100));
-                    
-                    this.gameIndicator.textContent = `¡Nivel ${this.level}!`;
-                    this.gameIndicator.style.color = '#673de6';
-                    
-                    setTimeout(() => {
-                        if (this.gameRunning && !this.gamePaused) {
-                            this.gameIndicator.textContent = '¡Jugando!';
-                            this.gameIndicator.style.color = '#00b090';
-                        }
-                    }, 1500);
+            checkLevelCompletion() {
+                if (this.enemiesDefeated >= this.enemiesToNextLevel && !this.levelCompleted) {
+                    this.levelCompleted = true;
+                    this.showLevelUpMessage();
                 }
+            }
+            
+            showLevelUpMessage() {
+                this.gamePaused = true;
+                this.levelUpText.textContent = `Nivel ${this.level} completado. ¡Preparándose para el nivel ${this.level + 1}!`;
+                this.levelUpMessage.style.display = 'block';
+            }
+            
+            startNextLevel() {
+                this.level++;
+                this.lives = 3; // Resetear vidas al pasar de nivel
+                this.enemiesDefeated = 0;
+                this.levelCompleted = false;
+                
+                // Aumentar dificultad progresivamente
+                this.enemySpeed += 0.2;
+                this.enemySpawnRate = Math.max(800, 1500 - (this.level * 50));
+                this.enemiesToNextLevel = 15 + (this.level * 3); // Más enemigos cada nivel
+                
+                // Limpiar enemigos restantes
+                this.enemies.forEach(enemy => enemy.element.remove());
+                this.enemies = [];
+                
+                this.gamePaused = false;
+                this.updateUI();
+                
+                this.gameIndicator.textContent = `Nivel ${this.level}`;
+                this.gameIndicator.style.color = '#673de6';
+                
+                setTimeout(() => {
+                    if (this.gameRunning && !this.gamePaused) {
+                        this.gameIndicator.textContent = '¡Jugando!';
+                        this.gameIndicator.style.color = '#00b090';
+                    }
+                }, 2000);
             }
             
             gameOver() {
@@ -2415,7 +2688,10 @@
                 this.bullets = [];
                 this.enemies = [];
                 this.enemySpeed = 1;
-                this.enemySpawnRate = 1000;
+                this.enemySpawnRate = 1500;
+                this.enemiesToNextLevel = 15;
+                this.enemiesDefeated = 0;
+                this.levelCompleted = false;
                 this.playerPosition = 50;
                 this.gameRunning = false;
                 this.gamePaused = false;
@@ -2429,6 +2705,7 @@
                 this.startBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Iniciar Juego';
                 this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
                 this.pauseBtn.disabled = true;
+                this.levelUpMessage.style.display = 'none';
             }
             
             updateUI() {
