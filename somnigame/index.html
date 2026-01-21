@@ -388,7 +388,7 @@
             z-index: 5;
         }
         
-        /* Disparos */
+        /* Disparos - BALAS SALEN DEL CENTRO */
         .bullet {
             position: absolute;
             width: 4px;
@@ -597,6 +597,165 @@
         @keyframes twinkle {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
+        }
+        
+        /* 
+        ENVOLTORIO DE REGALO - SOLO PARA LA VENTANA DEL JUEGO
+        */
+        .game-gift-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .game-gift-container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+        }
+        
+        .game-gift-box {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            perspective: 1000px;
+        }
+        
+        .game-gift-body {
+            position: absolute;
+            width: 100%;
+            height: 70%;
+            bottom: 0;
+            background: linear-gradient(135deg, #673de6 0%, #8c85ff 100%);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(103, 61, 230, 0.5);
+        }
+        
+        .game-gift-lid {
+            position: absolute;
+            width: 110%;
+            height: 30%;
+            top: 0;
+            left: -5%;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border-radius: 10px;
+            transform-origin: bottom;
+            transition: transform 1s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-gift-ribbon-horizontal {
+            position: absolute;
+            width: 100%;
+            height: 15px;
+            top: 50%;
+            background: var(--color-accent);
+            transform: translateY(-50%);
+        }
+        
+        .game-gift-ribbon-vertical {
+            position: absolute;
+            width: 15px;
+            height: 100%;
+            left: 50%;
+            background: var(--color-accent);
+            transform: translateX(-50%);
+        }
+        
+        .game-gift-bow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 30px;
+        }
+        
+        .game-bow-center {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .game-bow-loop {
+            position: absolute;
+            width: 40px;
+            height: 25px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            top: 5px;
+        }
+        
+        .game-bow-left {
+            left: -20px;
+            transform: rotate(-45deg);
+        }
+        
+        .game-bow-right {
+            right: -20px;
+            transform: rotate(45deg);
+        }
+        
+        .game-gift-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #8c85ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s infinite;
+        }
+        
+        .game-gift-subtitle {
+            color: var(--color-gray-light);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .game-unwrap-animation .game-gift-lid {
+            transform: rotateX(-120deg);
+        }
+        
+        .game-unwrap-animation .game-gift-body {
+            animation: game-unwrap 1.5s ease forwards;
+        }
+        
+        @keyframes game-unwrap {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        
+        .game-fade-out {
+            animation: game-fadeOut 1s ease forwards;
+        }
+        
+        @keyframes game-fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
         }
         
         /* 
@@ -1163,6 +1322,10 @@
                 font-size: 1.2rem;
                 padding-left: 2rem;
             }
+            
+            .game-gift-title {
+                font-size: 2rem;
+            }
         }
         
         @media (max-width: 576px) {
@@ -1177,6 +1340,19 @@
             .game-message {
                 width: 90%;
                 padding: 1.5rem;
+            }
+            
+            .game-gift-title {
+                font-size: 1.8rem;
+            }
+            
+            .game-gift-subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .game-gift-box {
+                width: 120px;
+                height: 120px;
             }
         }
         
@@ -1299,9 +1475,33 @@
                 <!-- 
                 JUEGO "SPACE DEFENDER" - NUEVO
                 Juego de naves espaciales tipo shooter
+                CON ENVOLTORIO DE REGALO SOBRE EL JUEGO
                 -->
                 <div class="col-lg-6">
                     <div class="game-container-futuristic floating">
+                        <!-- ENVOLTORIO DE REGALO DENTRO DEL CONTENEDOR DEL JUEGO -->
+                        <div class="game-gift-wrapper">
+                            <div class="game-gift-container">
+                                <div class="game-gift-box">
+                                    <div class="game-gift-lid"></div>
+                                    <div class="game-gift-body">
+                                        <div class="game-gift-ribbon-horizontal"></div>
+                                        <div class="game-gift-ribbon-vertical"></div>
+                                        <div class="game-gift-bow">
+                                            <div class="game-bow-center"></div>
+                                            <div class="game-bow-loop game-bow-left"></div>
+                                            <div class="game-bow-loop game-bow-right"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 class="game-gift-title">¿Te aburres?</h2>
+                                <p class="game-gift-subtitle">Haz clic para desenvolver el juego</p>
+                                <button class="game-btn game-btn-primary mt-3" id="gameUnwrapBtn">
+                                    <i class="bi bi-gift me-2"></i>Abrir Regalo
+                                </button>
+                            </div>
+                        </div>
+                        
                         <h3 class="game-title-futuristic">Space Defender</h3>
                         <p class="game-subtitle-futuristic">
                             Defiende el espacio de los invasores alienígenas
@@ -1678,7 +1878,85 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN DEL JUEGO "SPACE DEFENDER"
+        // ENVOLTORIO DE REGALO - LÓGICA
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animación al hacer clic en el botón de abrir regalo
+            document.getElementById('gameUnwrapBtn').addEventListener('click', function() {
+                const giftBox = document.querySelector('.game-gift-box');
+                const giftWrapper = document.querySelector('.game-gift-wrapper');
+                
+                // Iniciar animación
+                giftBox.classList.add('game-unwrap-animation');
+                
+                // Esperar y ocultar envoltorio
+                setTimeout(() => {
+                    giftWrapper.classList.add('game-fade-out');
+                }, 800);
+                
+                // Eliminar envoltorio después de la animación
+                setTimeout(() => {
+                    giftWrapper.remove();
+                    
+                    // Inicializar el juego después de quitar el envoltorio
+                    initializeGameAndEffects();
+                }, 1800);
+            });
+            
+            // Inicializar efectos sin el juego (el juego se inicializa después del envoltorio)
+            initializeEffectsOnly();
+        });
+
+        function initializeEffectsOnly() {
+            // Inicializar partículas
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#673de6" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.3, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#673de6",
+                        opacity: 0.1,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" }
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Inicializar EmailJS
+            emailjs.init("YOUR_PUBLIC_KEY_HERE");
+            
+            // Configurar efectos de scroll
+            setupScrollEffects();
+        }
+
+        function initializeGameAndEffects() {
+            // Inicializar juego después de quitar el envoltorio
+            let spaceGame = new SpaceDefenderGame();
+        }
+
+        // ============================================
+        // CONFIGURACIÓN DEL JUEGO "SPACE DEFENDER" - MODIFICADO
         // ============================================
         class SpaceDefenderGame {
             constructor() {
@@ -1687,10 +1965,10 @@
                 this.level = 1;
                 this.gameRunning = false;
                 this.gamePaused = false;
-                this.playerSpeed = 0.6; // REDUCIDO: Era 8
+                this.playerSpeed = 0.6;
                 this.bulletSpeed = 10;
-                this.enemySpeed = 1; // REDUCIDO: Era 2
-                this.enemySpawnRate = 1000; // ms (aumentado: era 1000)
+                this.enemySpeed = 1;
+                this.enemySpawnRate = 1000;
                 this.bullets = [];
                 this.enemies = [];
                 this.stars = [];
@@ -1699,7 +1977,7 @@
                 this.gameArea = null;
                 this.player = null;
                 this.gameLoopId = null;
-                this.playerPosition = 50; // Porcentaje inicial
+                this.playerPosition = 50;
                 
                 this.init();
             }
@@ -1733,10 +2011,14 @@
                 
                 // Actualizar UI inicial
                 this.updateUI();
+                
+                // Inicializar botones correctamente
+                this.startBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Iniciar Juego';
+                this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
+                this.pauseBtn.disabled = true;
             }
             
             createStars() {
-                // Crear estrellas de fondo
                 for (let i = 0; i < 50; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
@@ -1757,7 +2039,6 @@
             }
             
             createPlayer() {
-                // Crear nave del jugador
                 this.player = document.createElement('div');
                 this.player.className = 'player-ship';
                 this.player.style.left = '50%';
@@ -1768,15 +2049,15 @@
             setupEventListeners() {
                 // Controles de teclado
                 document.addEventListener('keydown', (e) => {
+                    if (!this.gameRunning || this.gamePaused) return;
+                    
                     this.keys[e.key] = true;
                     
-                    // Espacio para disparar
                     if (e.key === ' ' && this.gameRunning && !this.gamePaused) {
                         e.preventDefault();
                         this.shoot();
                     }
                     
-                    // P para pausar
                     if (e.key === 'p' || e.key === 'P') {
                         this.togglePause();
                     }
@@ -1786,22 +2067,34 @@
                     this.keys[e.key] = false;
                 });
                 
-                // Controles táctiles - MEJORADOS PARA MOVIMIENTO MÁS CONTROLADO
+                // Controles táctiles
                 this.leftBtn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
-                    this.keys['ArrowLeft'] = true;
+                    if (this.gameRunning && !this.gamePaused) {
+                        this.keys['ArrowLeft'] = true;
+                    }
                 });
                 this.leftBtn.addEventListener('touchend', () => this.keys['ArrowLeft'] = false);
-                this.leftBtn.addEventListener('mousedown', () => this.keys['ArrowLeft'] = true);
+                this.leftBtn.addEventListener('mousedown', () => {
+                    if (this.gameRunning && !this.gamePaused) {
+                        this.keys['ArrowLeft'] = true;
+                    }
+                });
                 this.leftBtn.addEventListener('mouseup', () => this.keys['ArrowLeft'] = false);
                 this.leftBtn.addEventListener('mouseleave', () => this.keys['ArrowLeft'] = false);
                 
                 this.rightBtn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
-                    this.keys['ArrowRight'] = true;
+                    if (this.gameRunning && !this.gamePaused) {
+                        this.keys['ArrowRight'] = true;
+                    }
                 });
                 this.rightBtn.addEventListener('touchend', () => this.keys['ArrowRight'] = false);
-                this.rightBtn.addEventListener('mousedown', () => this.keys['ArrowRight'] = true);
+                this.rightBtn.addEventListener('mousedown', () => {
+                    if (this.gameRunning && !this.gamePaused) {
+                        this.keys['ArrowRight'] = true;
+                    }
+                });
                 this.rightBtn.addEventListener('mouseup', () => this.keys['ArrowRight'] = false);
                 this.rightBtn.addEventListener('mouseleave', () => this.keys['ArrowRight'] = false);
                 
@@ -1833,15 +2126,20 @@
             }
             
             startGame() {
-                if (this.gameRunning) return;
+                if (this.gameRunning) {
+                    this.resetGame();
+                }
                 
                 this.gameRunning = true;
                 this.gamePaused = false;
                 this.gameIndicator.textContent = '¡Jugando!';
                 this.gameIndicator.style.color = '#00b090';
                 this.startBtn.innerHTML = '<i class="bi bi-arrow-clockwise me-2"></i>Reiniciar';
+                this.pauseBtn.disabled = false;
+                this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
                 
-                // Iniciar el bucle del juego
+                this.hideMessage();
+                
                 this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
             }
             
@@ -1855,14 +2153,13 @@
                     this.gameIndicator.style.color = '#ffa726';
                     this.pauseBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Continuar';
                     
-                    // Pausar el bucle del juego
                     cancelAnimationFrame(this.gameLoopId);
                 } else {
                     this.gameIndicator.textContent = '¡Jugando!';
                     this.gameIndicator.style.color = '#00b090';
                     this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
                     
-                    // Reanudar el bucle del juego
+                    this.lastEnemySpawn = performance.now() - this.enemySpawnRate;
                     this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
                 }
             }
@@ -1870,25 +2167,13 @@
             gameLoop(timestamp) {
                 if (!this.gameRunning || this.gamePaused) return;
                 
-                // Mover jugador
                 this.movePlayer();
-                
-                // Mover balas
                 this.moveBullets();
-                
-                // Mover enemigos
                 this.moveEnemies();
-                
-                // Generar enemigos
                 this.spawnEnemies(timestamp);
-                
-                // Detectar colisiones
                 this.checkCollisions();
-                
-                // Actualizar UI
                 this.updateUI();
                 
-                // Continuar el bucle
                 this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
             }
             
@@ -1898,32 +2183,31 @@
                 const gameAreaRect = this.gameArea.getBoundingClientRect();
                 const playerRect = this.player.getBoundingClientRect();
                 
-                // Mover a la izquierda
                 if (this.keys['ArrowLeft'] || this.keys['a'] || this.keys['A']) {
                     this.playerPosition = Math.max(0, this.playerPosition - this.playerSpeed);
                 }
                 
-                // Mover a la derecha
                 if (this.keys['ArrowRight'] || this.keys['d'] || this.keys['D']) {
                     const maxLeft = 100 - (playerRect.width / gameAreaRect.width * 100);
                     this.playerPosition = Math.min(maxLeft, this.playerPosition + this.playerSpeed);
                 }
                 
-                // Aplicar posición
                 this.player.style.left = `${this.playerPosition}%`;
             }
             
             shoot() {
                 if (!this.player) return;
                 
-                // Crear bala
                 const bullet = document.createElement('div');
                 bullet.className = 'bullet';
                 
                 const playerRect = this.player.getBoundingClientRect();
                 const gameAreaRect = this.gameArea.getBoundingClientRect();
                 
-                const bulletLeft = this.playerPosition + 1.5;
+                // CALCULO MODIFICADO: Balas salen del CENTRO de la nave
+                const playerCenterOffset = playerRect.width / gameAreaRect.width * 100 / 2;
+                const bulletLeft = this.playerPosition + playerCenterOffset - 0.2;
+                
                 const bulletBottom = 20;
                 
                 bullet.style.left = `${bulletLeft}%`;
@@ -1931,14 +2215,12 @@
                 
                 this.gameArea.appendChild(bullet);
                 
-                // Guardar información de la bala
                 this.bullets.push({
                     element: bullet,
                     left: bulletLeft,
                     bottom: bulletBottom
                 });
                 
-                // Efecto de sonido visual
                 this.createMuzzleFlash();
             }
             
@@ -1956,7 +2238,6 @@
                 
                 this.player.appendChild(flash);
                 
-                // Animación de destello
                 flash.animate([
                     { transform: 'translateX(-50%) scale(1)', opacity: 1 },
                     { transform: 'translateX(-50%) scale(0)', opacity: 0 }
@@ -1965,7 +2246,6 @@
                     easing: 'ease-out'
                 });
                 
-                // Eliminar después de la animación
                 setTimeout(() => {
                     flash.remove();
                 }, 200);
@@ -1976,10 +2256,8 @@
                     const bullet = this.bullets[i];
                     bullet.bottom += this.bulletSpeed;
                     
-                    // Actualizar posición
                     bullet.element.style.bottom = `${bullet.bottom}px`;
                     
-                    // Eliminar balas que salen de la pantalla
                     if (bullet.bottom > this.gameArea.offsetHeight) {
                         bullet.element.remove();
                         this.bullets.splice(i, 1);
@@ -1991,19 +2269,16 @@
                 if (timestamp - this.lastEnemySpawn > this.enemySpawnRate) {
                     this.lastEnemySpawn = timestamp;
                     
-                    // Crear enemigo
                     const enemy = document.createElement('div');
                     enemy.className = 'enemy';
                     
-                    // Posición aleatoria en la parte superior
-                    const left = Math.random() * 80 + 10; // 10% - 90%
+                    const left = Math.random() * 80 + 10;
                     
                     enemy.style.left = `${left}%`;
                     enemy.style.top = `-30px`;
                     
                     this.gameArea.appendChild(enemy);
                     
-                    // Guardar información del enemigo
                     this.enemies.push({
                         element: enemy,
                         left: left,
@@ -2020,10 +2295,8 @@
                     
                     enemy.top += speed;
                     
-                    // Actualizar posición
                     enemy.element.style.top = `${enemy.top}px`;
                     
-                    // Eliminar enemigos que salen de la pantalla
                     if (enemy.top > this.gameArea.offsetHeight) {
                         enemy.element.remove();
                         this.enemies.splice(i, 1);
@@ -2033,32 +2306,26 @@
             }
             
             checkCollisions() {
-                // Verificar colisiones bala-enemigo
                 for (let i = this.bullets.length - 1; i >= 0; i--) {
                     const bullet = this.bullets[i];
                     
                     for (let j = this.enemies.length - 1; j >= 0; j--) {
                         const enemy = this.enemies[j];
                         
-                        // Simple detección de colisión
                         const bulletRect = bullet.element.getBoundingClientRect();
                         const enemyRect = enemy.element.getBoundingClientRect();
                         
                         if (this.checkRectCollision(bulletRect, enemyRect)) {
-                            // Colisión detectada
                             this.createExplosion(enemy.left, enemy.top);
                             
-                            // Eliminar bala y enemigo
                             bullet.element.remove();
                             enemy.element.remove();
                             
                             this.bullets.splice(i, 1);
                             this.enemies.splice(j, 1);
                             
-                            // Aumentar puntaje
                             this.score += enemy.type === 'fast' ? 20 : 10;
                             
-                            // Verificar subida de nivel
                             this.checkLevelUp();
                             
                             break;
@@ -2085,7 +2352,6 @@
                 
                 this.gameArea.appendChild(explosion);
                 
-                // Eliminar después de la animación
                 setTimeout(() => {
                     explosion.remove();
                 }, 500);
@@ -2097,7 +2363,6 @@
                 if (this.lives <= 0) {
                     this.gameOver();
                 } else {
-                    // Efecto visual de perder vida
                     this.gameArea.style.boxShadow = '0 0 30px rgba(255, 107, 107, 0.7)';
                     
                     setTimeout(() => {
@@ -2112,11 +2377,9 @@
                 if (newLevel > this.level) {
                     this.level = newLevel;
                     
-                    // Aumentar dificultad gradualmente
                     this.enemySpeed += 0.3;
                     this.enemySpawnRate = Math.max(500, 1200 - (this.level * 100));
                     
-                    // Efecto visual de subida de nivel
                     this.gameIndicator.textContent = `¡Nivel ${this.level}!`;
                     this.gameIndicator.style.color = '#673de6';
                     
@@ -2133,33 +2396,39 @@
                 this.gameRunning = false;
                 this.gamePaused = false;
                 
-                // Cancelar bucle del juego
                 cancelAnimationFrame(this.gameLoopId);
                 
-                // Mostrar mensaje de fin de juego
                 this.showMessage('¡Juego Terminado!', `Puntaje final: ${this.score}`);
             }
             
             resetGame() {
-                // Limpiar elementos del juego
+                if (this.gameLoopId) {
+                    cancelAnimationFrame(this.gameLoopId);
+                }
+                
                 this.bullets.forEach(bullet => bullet.element.remove());
                 this.enemies.forEach(enemy => enemy.element.remove());
                 
-                // Reiniciar variables
                 this.score = 0;
                 this.lives = 3;
                 this.level = 1;
                 this.bullets = [];
                 this.enemies = [];
-                this.enemySpeed = 1.5;
-                this.enemySpawnRate = 1200;
+                this.enemySpeed = 1;
+                this.enemySpawnRate = 1000;
                 this.playerPosition = 50;
+                this.gameRunning = false;
+                this.gamePaused = false;
+                this.keys = {};
                 
-                // Restaurar nave del jugador al centro
                 this.player.style.left = '50%';
                 
-                // Actualizar UI
                 this.updateUI();
+                this.gameIndicator.textContent = 'Listo';
+                this.gameIndicator.style.color = '#8a8fa3';
+                this.startBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Iniciar Juego';
+                this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
+                this.pauseBtn.disabled = true;
             }
             
             updateUI() {
@@ -2180,232 +2449,158 @@
         }
         
         // ============================================
-        // CONFIGURACIÓN DE PARTICULAS.JS
+        // EFECTOS DE SCROLL Y DEMÁS CÓDIGO
         // ============================================
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: "#673de6" },
-                shape: { type: "circle" },
-                opacity: { value: 0.3, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#673de6",
-                    opacity: 0.1,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 1,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
+        function setupScrollEffects() {
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar-futuristic');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
                 }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "repulse" },
-                    onclick: { enable: true, mode: "push" }
-                }
-            },
-            retina_detect: true
-        });
-        
-        // ============================================
-        // INICIALIZACIÓN DE EMAILJS
-        // ============================================
-        emailjs.init("YOUR_PUBLIC_KEY_HERE");
-        
-        // ============================================
-        // INICIALIZACIÓN DEL JUEGO
-        // ============================================
-        let spaceGame;
-        document.addEventListener('DOMContentLoaded', () => {
-            spaceGame = new SpaceDefenderGame();
-        });
-        
-        // ============================================
-        // EFECTO DE SCROLL EN LA BARRA DE NAVEGACIÓN
-        // ============================================
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar-futuristic');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        
-        // ============================================
-        // SCROLL SUAVE PARA ENLACES INTERNOS
-        // ============================================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    // Actualizar enlace activo en la navegación
-                    document.querySelectorAll('.nav-link-futuristic').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    this.classList.add('active');
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
                     
-                    // Desplazamiento suave a la sección
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        
-        // ============================================
-        // ACTUALIZACIÓN AUTOMÁTICA DEL ENLACE ACTIVO
-        // ============================================
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-link-futuristic');
-            
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                const sectionHeight = section.clientHeight;
-                if(scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if(link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-        });
-        
-        // ============================================
-        // FUNCIÓN PARA ENVIAR EL FORMULARIO DE CONTACTO
-        // ============================================
-        function submitContactFormFuturistic(e) {
-            e.preventDefault();
-            
-            // Referencias a elementos del formulario
-            const submitBtn = document.getElementById('submitBtnFuturistic');
-            const submitText = document.getElementById('submitTextFuturistic');
-            const submitSpinner = document.getElementById('submitSpinnerFuturistic');
-            const successAlert = document.getElementById('formSuccessFuturistic');
-            const form = document.getElementById('contactFormFuturistic');
-            
-            // Mostrar indicador de carga
-            submitText.textContent = 'Enviando...';
-            submitSpinner.classList.remove('d-none');
-            submitBtn.disabled = true;
-            
-            // Datos del formulario
-            const formData = {
-                from_name: document.getElementById('firstName').value,
-                reply_to: document.getElementById('email').value,
-                message: document.getElementById('message').value,
-                to_email: 'contacto@somnigamestudios.com'
-            };
-            
-            // SIMULACIÓN DE ENVÍO (para pruebas)
-            setTimeout(() => {
-                // Mostrar mensaje de éxito
-                successAlert.classList.remove('d-none');
-                form.reset();
-                
-                // Restaurar estado del botón
-                submitText.textContent = 'Enviar mensaje';
-                submitSpinner.classList.add('d-none');
-                submitBtn.disabled = false;
-                
-                // Ocultar mensaje después de 5 segundos
-                setTimeout(() => {
-                    successAlert.classList.add('d-none');
-                }, 5000);
-                
-                // Log para desarrollo
-                console.log('Mensaje simulado enviado a:', formData.to_email);
-            }, 1500);
-            
-            return false;
-        }
-        
-        // ============================================
-        // EFECTO DE PARTÍCULAS EN HOVER DE BOTONES
-        // ============================================
-        document.querySelectorAll('.btn-futuristic').forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                const particles = this.querySelector('.particle-effect');
-                if (!particles) {
-                    const particleEffect = document.createElement('div');
-                    particleEffect.className = 'particle-effect';
-                    particleEffect.style.position = 'absolute';
-                    particleEffect.style.width = '100%';
-                    particleEffect.style.height = '100%';
-                    particleEffect.style.top = '0';
-                    particleEffect.style.left = '0';
-                    particleEffect.style.overflow = 'hidden';
-                    particleEffect.style.pointerEvents = 'none';
-                    this.style.position = 'relative';
-                    this.appendChild(particleEffect);
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
                     
-                    // Crear 8 partículas
-                    for (let i = 0; i < 8; i++) {
-                        const particle = document.createElement('div');
-                        particle.style.position = 'absolute';
-                        particle.style.width = '4px';
-                        particle.style.height = '4px';
-                        particle.style.background = 'var(--color-primary)';
-                        particle.style.borderRadius = '50%';
-                        particle.style.top = '50%';
-                        particle.style.left = '50%';
-                        particle.style.transform = 'translate(-50%, -50%)';
-                        particleEffect.appendChild(particle);
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        document.querySelectorAll('.nav-link-futuristic').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
                         
-                        // Animación de dispersión de partículas
-                        const angle = Math.random() * Math.PI * 2;
-                        const distance = 30 + Math.random() * 40;
-                        const x = Math.cos(angle) * distance;
-                        const y = Math.sin(angle) * distance;
-                        
-                        particle.animate([
-                            { transform: 'translate(-50%, -50%)', opacity: 1 },
-                            { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
-                        ], {
-                            duration: 800,
-                            easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
                         });
                     }
-                    
-                    // Eliminar el contenedor después de la animación
-                    setTimeout(() => particleEffect.remove(), 1000);
-                }
+                });
             });
-        });
-        
-        // ============================================
-        // EFECTO DE BRILLO ANIMADO EN TEXTOS
-        // ============================================
-        const glowElements = document.querySelectorAll('.glow-text');
-        glowElements.forEach(el => {
-            setInterval(() => {
-                const intensity = 0.3 + Math.random() * 0.3;
-                el.style.textShadow = 
-                    `0 0 ${30 * intensity}px rgba(103, 61, 230, ${intensity}), 
-                     0 0 ${60 * intensity}px rgba(103, 61, 230, ${intensity * 0.5})`;
-            }, 2000);
-        });
+            
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('.nav-link-futuristic');
+                
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.clientHeight;
+                    if(scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            function submitContactFormFuturistic(e) {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('submitBtnFuturistic');
+                const submitText = document.getElementById('submitTextFuturistic');
+                const submitSpinner = document.getElementById('submitSpinnerFuturistic');
+                const successAlert = document.getElementById('formSuccessFuturistic');
+                const form = document.getElementById('contactFormFuturistic');
+                
+                submitText.textContent = 'Enviando...';
+                submitSpinner.classList.remove('d-none');
+                submitBtn.disabled = true;
+                
+                const formData = {
+                    from_name: document.getElementById('firstName').value,
+                    reply_to: document.getElementById('email').value,
+                    message: document.getElementById('message').value,
+                    to_email: 'contacto@somnigamestudios.com'
+                };
+                
+                setTimeout(() => {
+                    successAlert.classList.remove('d-none');
+                    form.reset();
+                    
+                    submitText.textContent = 'Enviar mensaje';
+                    submitSpinner.classList.add('d-none');
+                    submitBtn.disabled = false;
+                    
+                    setTimeout(() => {
+                        successAlert.classList.add('d-none');
+                    }, 5000);
+                    
+                    console.log('Mensaje simulado enviado a:', formData.to_email);
+                }, 1500);
+                
+                return false;
+            }
+            
+            window.submitContactFormFuturistic = submitContactFormFuturistic;
+            
+            document.querySelectorAll('.btn-futuristic').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    const particles = this.querySelector('.particle-effect');
+                    if (!particles) {
+                        const particleEffect = document.createElement('div');
+                        particleEffect.className = 'particle-effect';
+                        particleEffect.style.position = 'absolute';
+                        particleEffect.style.width = '100%';
+                        particleEffect.style.height = '100%';
+                        particleEffect.style.top = '0';
+                        particleEffect.style.left = '0';
+                        particleEffect.style.overflow = 'hidden';
+                        particleEffect.style.pointerEvents = 'none';
+                        this.style.position = 'relative';
+                        this.appendChild(particleEffect);
+                        
+                        for (let i = 0; i < 8; i++) {
+                            const particle = document.createElement('div');
+                            particle.style.position = 'absolute';
+                            particle.style.width = '4px';
+                            particle.style.height = '4px';
+                            particle.style.background = 'var(--color-primary)';
+                            particle.style.borderRadius = '50%';
+                            particle.style.top = '50%';
+                            particle.style.left = '50%';
+                            particle.style.transform = 'translate(-50%, -50%)';
+                            particleEffect.appendChild(particle);
+                            
+                            const angle = Math.random() * Math.PI * 2;
+                            const distance = 30 + Math.random() * 40;
+                            const x = Math.cos(angle) * distance;
+                            const y = Math.sin(angle) * distance;
+                            
+                            particle.animate([
+                                { transform: 'translate(-50%, -50%)', opacity: 1 },
+                                { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
+                            ], {
+                                duration: 800,
+                                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                            });
+                        }
+                        
+                        setTimeout(() => particleEffect.remove(), 1000);
+                    }
+                });
+            });
+            
+            const glowElements = document.querySelectorAll('.glow-text');
+            glowElements.forEach(el => {
+                setInterval(() => {
+                    const intensity = 0.3 + Math.random() * 0.3;
+                    el.style.textShadow = 
+                        `0 0 ${30 * intensity}px rgba(103, 61, 230, ${intensity}), 
+                         0 0 ${60 * intensity}px rgba(103, 61, 230, ${intensity * 0.5})`;
+                }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
