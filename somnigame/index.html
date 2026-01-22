@@ -1031,7 +1031,7 @@
         
         /* 
         SECCIÓN "SOBRE NOSOTROS"
-        Información sobre la empresa y su misión
+        Información sobre la empresa, misión y visión
         */
         .section-about {
             padding: 120px 0;
@@ -1684,7 +1684,7 @@
             transform: translateY(-3px);
         }
 
-        /* Overlay para bloquear la página */
+        /* Overlay para bloquear la página - SOLO CUANDO HAY POP-UP DE COOKIES */
         .cookies-overlay-futuristic {
             position: fixed;
             top: 0;
@@ -1695,6 +1695,15 @@
             backdrop-filter: blur(10px);
             z-index: 1099;
             display: none;
+        }
+
+        /* Modales de Bootstrap con z-index más alto */
+        .modal {
+            z-index: 1200 !important;
+        }
+
+        .modal-backdrop {
+            z-index: 1199 !important;
         }
 
         @media (max-width: 576px) {
@@ -2492,36 +2501,59 @@
             // Configurar enlaces para abrir modales desde el pop-up
             document.getElementById('openCookiesModal').addEventListener('click', function(e) {
                 e.preventDefault();
-                hideCookiesPopup();
-                setTimeout(() => {
-                    var cookiesModal = new bootstrap.Modal(document.getElementById('cookiesModal'));
-                    cookiesModal.show();
-                }, 300);
+                // Ocultar pop-up de cookies pero NO el overlay
+                document.getElementById('cookiesPopup').style.display = 'none';
+                
+                // Mostrar modal de cookies usando Bootstrap
+                var cookiesModal = new bootstrap.Modal(document.getElementById('cookiesModal'));
+                cookiesModal.show();
             });
             
             document.getElementById('openPrivacyModal').addEventListener('click', function(e) {
                 e.preventDefault();
-                hideCookiesPopup();
-                setTimeout(() => {
-                    var privacyModal = new bootstrap.Modal(document.getElementById('privacyModal'));
-                    privacyModal.show();
-                }, 300);
+                // Ocultar pop-up de cookies pero NO el overlay
+                document.getElementById('cookiesPopup').style.display = 'none';
+                
+                // Mostrar modal de privacidad usando Bootstrap
+                var privacyModal = new bootstrap.Modal(document.getElementById('privacyModal'));
+                privacyModal.show();
             });
             
             // Cuando se cierran los modales, volver a mostrar el pop-up si no se han aceptado cookies
             document.getElementById('cookiesModal').addEventListener('hidden.bs.modal', function () {
                 if (!localStorage.getItem('cookiesAccepted')) {
-                    setTimeout(() => {
-                        showCookiesPopup();
-                    }, 300);
+                    // Volver a mostrar el pop-up de cookies
+                    document.getElementById('cookiesPopup').style.display = 'block';
+                } else {
+                    // Si se aceptaron las cookies desde el modal, limpiar todo
+                    document.getElementById('cookiesOverlay').style.display = 'none';
+                    document.body.classList.remove('cookies-blocked');
                 }
             });
             
             document.getElementById('privacyModal').addEventListener('hidden.bs.modal', function () {
                 if (!localStorage.getItem('cookiesAccepted')) {
-                    setTimeout(() => {
-                        showCookiesPopup();
-                    }, 300);
+                    // Volver a mostrar el pop-up de cookies
+                    document.getElementById('cookiesPopup').style.display = 'block';
+                } else {
+                    // Si se aceptaron las cookies desde el modal, limpiar todo
+                    document.getElementById('cookiesOverlay').style.display = 'none';
+                    document.body.classList.remove('cookies-blocked');
+                }
+            });
+            
+            // También manejar los otros modales por si acaso
+            document.getElementById('termsModal').addEventListener('hidden.bs.modal', function () {
+                if (!localStorage.getItem('cookiesAccepted')) {
+                    // Volver a mostrar el pop-up de cookies
+                    document.getElementById('cookiesPopup').style.display = 'block';
+                }
+            });
+            
+            document.getElementById('legalModal').addEventListener('hidden.bs.modal', function () {
+                if (!localStorage.getItem('cookiesAccepted')) {
+                    // Volver a mostrar el pop-up de cookies
+                    document.getElementById('cookiesPopup').style.display = 'block';
                 }
             });
             
