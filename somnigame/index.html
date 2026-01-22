@@ -58,6 +58,12 @@
             overflow-x: hidden;
             letter-spacing: -0.02em;
             line-height: 1.6;
+            transition: filter 0.3s ease;
+        }
+        
+        body.cookies-blocked {
+            overflow: hidden;
+            height: 100vh;
         }
         
         /* Tipografía para títulos */
@@ -376,16 +382,49 @@
             opacity: 0.7;
         }
         
-        /* Enemigos */
+        /* ENEMIGOS - DIFERENTES TIPOS VISUALES */
         .enemy {
             position: absolute;
             width: 30px;
             height: 30px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
-            clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
             border-radius: 4px;
             z-index: 5;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
+        }
+        
+        /* Enemigo tipo 1 - Básico */
+        .enemy-basic {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+        }
+        
+        /* Enemigo tipo 2 - Rápido */
+        .enemy-fast {
+            background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            width: 25px;
+            height: 25px;
+        }
+        
+        /* Enemigo tipo 3 - Fuerte */
+        .enemy-strong {
+            background: linear-gradient(135deg, #834d9b 0%, #d04ed6 100%);
+            clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+            width: 35px;
+            height: 35px;
+        }
+        
+        /* Enemigo tipo 4 - Especial */
+        .enemy-special {
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            width: 28px;
+            height: 28px;
+            animation: spin 4s linear infinite;
+        }
+        
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
         }
         
         /* Disparos - BALAS SALEN DEL CENTRO - MODIFICADO */
@@ -1398,13 +1437,15 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 9999;
+            z-index: 99999;
             min-width: 300px;
             background: rgba(26, 26, 46, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(103, 61, 230, 0.3);
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), var(--neon-glow);
+            padding: 1rem;
+            display: none;
         }
         
         /* ============================================
@@ -1415,7 +1456,7 @@
             bottom: 20px;
             left: 20px;
             right: 20px;
-            z-index: 99999;
+            z-index: 1100;
             background: rgba(26, 26, 46, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(103, 61, 230, 0.3);
@@ -1424,6 +1465,7 @@
             animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             max-width: 500px;
             margin: 0 auto;
+            display: none;
         }
 
         @keyframes slideInUp {
@@ -1642,6 +1684,19 @@
             transform: translateY(-3px);
         }
 
+        /* Overlay para bloquear la página */
+        .cookies-overlay-futuristic {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1099;
+            display: none;
+        }
+
         @media (max-width: 576px) {
             .cookies-popup-futuristic {
                 left: 10px;
@@ -1793,13 +1848,6 @@
                                 <p class="message-text" id="messageText">Tu puntaje final es: <span id="finalScore">0</span></p>
                                 <button class="game-btn game-btn-primary w-100" id="restartBtn">Jugar Otra Vez</button>
                             </div>
-                            
-                            <!-- Mensaje de siguiente nivel -->
-                            <div class="game-message" id="levelUpMessage">
-                                <h3 class="message-title">¡Nivel Completado!</h3>
-                                <p class="message-text" id="levelUpText">Pasando al siguiente nivel...</p>
-                                <button class="game-btn game-btn-primary w-100" id="nextLevelBtn">Continuar</button>
-                            </div>
                         </div>
                         
                         <!-- Indicador de juego -->
@@ -1816,8 +1864,8 @@
                                 <div class="stat-label">Vidas</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value" id="gameLevel">1</div>
-                                <div class="stat-label">Nivel</div>
+                                <div class="stat-value" id="gameEnemies">0</div>
+                                <div class="stat-label">Enemigos</div>
                             </div>
                         </div>
                         
@@ -1838,9 +1886,6 @@
                         <div class="game-buttons">
                             <button class="game-btn game-btn-primary" id="startBtn">
                                 <i class="bi bi-play-fill me-2"></i>Iniciar Juego
-                            </button>
-                            <button class="game-btn game-btn-secondary" id="pauseBtn">
-                                <i class="bi bi-pause-fill me-2"></i>Pausar
                             </button>
                         </div>
                     </div>
@@ -2157,8 +2202,10 @@
     </footer>
 
     <!-- ============================================
-    POP-UP DE COOKIES - DISEÑO FUTURISTA
+    OVERLAY Y POP-UP DE COOKIES - DISEÑO FUTURISTA
     ============================================= -->
+    <div id="cookiesOverlay" class="cookies-overlay-futuristic" style="display: none;"></div>
+    
     <div id="cookiesPopup" class="cookies-popup-futuristic" style="display: none;">
         <div class="cookies-container-futuristic">
             <div class="cookies-header-futuristic">
@@ -2225,10 +2272,10 @@
             
             <div class="cookies-footer-futuristic">
                 <div class="cookies-links-futuristic">
-                    <a href="#" class="cookies-link-futuristic" data-bs-toggle="modal" data-bs-target="#cookiesModal">
+                    <a href="#" class="cookies-link-futuristic" id="openCookiesModal">
                         <i class="bi bi-file-text me-2"></i>Política de Cookies
                     </a>
-                    <a href="#" class="cookies-link-futuristic" data-bs-toggle="modal" data-bs-target="#privacyModal">
+                    <a href="#" class="cookies-link-futuristic" id="openPrivacyModal">
                         <i class="bi bi-shield me-2"></i>Política de Privacidad
                     </a>
                 </div>
@@ -2242,6 +2289,14 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Toast para notificaciones -->
+    <div id="cookieToast" class="toast-futuristic">
+        <div class="toast-content" style="display: flex; align-items: center;">
+            <i class="bi bi-check-circle me-2" style="color: var(--color-accent); font-size: 1.2rem;"></i>
+            <span id="toastMessage">Preferencias guardadas</span>
         </div>
     </div>
 
@@ -2411,15 +2466,18 @@
 
     <script>
         // ============================================
-        // POP-UP DE COOKIES - LÓGICA
+        // POP-UP DE COOKIES - LÓGICA MEJORADA
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             // Verificar si ya se han aceptado las cookies
             if (!localStorage.getItem('cookiesAccepted')) {
-                // Mostrar pop-up de cookies después de 1 segundo
+                // Mostrar overlay y pop-up de cookies
                 setTimeout(() => {
-                    document.getElementById('cookiesPopup').style.display = 'block';
+                    showCookiesPopup();
                 }, 1000);
+            } else {
+                // Si ya se aceptaron, cargar servicios según preferencias
+                loadServicesBasedOnPreferences();
             }
             
             // Configurar botones del pop-up de cookies
@@ -2431,13 +2489,61 @@
                 rejectNonEssentialCookies();
             });
             
-            // Configurar toggles de cookies
-            document.getElementById('analyticsCookies').addEventListener('change', updateCookiePreferences);
-            document.getElementById('marketingCookies').addEventListener('change', updateCookiePreferences);
+            // Configurar enlaces para abrir modales desde el pop-up
+            document.getElementById('openCookiesModal').addEventListener('click', function(e) {
+                e.preventDefault();
+                hideCookiesPopup();
+                setTimeout(() => {
+                    var cookiesModal = new bootstrap.Modal(document.getElementById('cookiesModal'));
+                    cookiesModal.show();
+                }, 300);
+            });
+            
+            document.getElementById('openPrivacyModal').addEventListener('click', function(e) {
+                e.preventDefault();
+                hideCookiesPopup();
+                setTimeout(() => {
+                    var privacyModal = new bootstrap.Modal(document.getElementById('privacyModal'));
+                    privacyModal.show();
+                }, 300);
+            });
+            
+            // Cuando se cierran los modales, volver a mostrar el pop-up si no se han aceptado cookies
+            document.getElementById('cookiesModal').addEventListener('hidden.bs.modal', function () {
+                if (!localStorage.getItem('cookiesAccepted')) {
+                    setTimeout(() => {
+                        showCookiesPopup();
+                    }, 300);
+                }
+            });
+            
+            document.getElementById('privacyModal').addEventListener('hidden.bs.modal', function () {
+                if (!localStorage.getItem('cookiesAccepted')) {
+                    setTimeout(() => {
+                        showCookiesPopup();
+                    }, 300);
+                }
+            });
             
             // Inicializar envoltorio de regalo
             initializeGiftWrapper();
         });
+        
+        function showCookiesPopup() {
+            // Bloquear scroll
+            document.body.classList.add('cookies-blocked');
+            // Mostrar overlay
+            document.getElementById('cookiesOverlay').style.display = 'block';
+            // Mostrar pop-up con animación
+            setTimeout(() => {
+                document.getElementById('cookiesPopup').style.display = 'block';
+            }, 100);
+        }
+        
+        function hideCookiesPopup() {
+            // Ocultar pop-up
+            document.getElementById('cookiesPopup').style.display = 'none';
+        }
         
         function acceptAllCookies() {
             // Guardar preferencias
@@ -2445,14 +2551,22 @@
             localStorage.setItem('analyticsCookies', 'true');
             localStorage.setItem('marketingCookies', 'true');
             
-            // Ocultar pop-up
+            // Marcar toggles
+            document.getElementById('analyticsCookies').checked = true;
+            document.getElementById('marketingCookies').checked = true;
+            
+            // Ocultar overlay y pop-up
+            document.getElementById('cookiesOverlay').style.display = 'none';
             document.getElementById('cookiesPopup').style.display = 'none';
             
-            // Mostrar confirmación
-            showCookieToast('Todas las cookies han sido aceptadas', 'success');
+            // Desbloquear scroll
+            document.body.classList.remove('cookies-blocked');
             
-            // Inicializar servicios de terceros (simulado)
-            initializeThirdPartyServices();
+            // Mostrar confirmación
+            showToast('Todas las cookies han sido aceptadas');
+            
+            // Inicializar servicios
+            loadServicesBasedOnPreferences();
         }
         
         function rejectNonEssentialCookies() {
@@ -2461,58 +2575,41 @@
             localStorage.setItem('analyticsCookies', 'false');
             localStorage.setItem('marketingCookies', 'false');
             
-            // Desactivar toggles visualmente
+            // Desactivar toggles
             document.getElementById('analyticsCookies').checked = false;
             document.getElementById('marketingCookies').checked = false;
             
-            // Ocultar pop-up
+            // Ocultar overlay y pop-up
+            document.getElementById('cookiesOverlay').style.display = 'none';
             document.getElementById('cookiesPopup').style.display = 'none';
             
+            // Desbloquear scroll
+            document.body.classList.remove('cookies-blocked');
+            
             // Mostrar confirmación
-            showCookieToast('Solo cookies esenciales aceptadas', 'info');
+            showToast('Solo cookies esenciales aceptadas');
+            
+            // Inicializar servicios
+            loadServicesBasedOnPreferences();
         }
         
-        function updateCookiePreferences() {
-            const analytics = document.getElementById('analyticsCookies').checked;
-            const marketing = document.getElementById('marketingCookies').checked;
-            
-            localStorage.setItem('analyticsCookies', analytics);
-            localStorage.setItem('marketingCookies', marketing);
-            
-            showCookieToast('Preferencias de cookies actualizadas', 'info');
-        }
-        
-        function initializeThirdPartyServices() {
-            // Aquí se inicializarían servicios como Google Analytics, Facebook Pixel, etc.
-            console.log('Servicios de terceros inicializados según las preferencias del usuario');
-            
+        function loadServicesBasedOnPreferences() {
             const analyticsEnabled = localStorage.getItem('analyticsCookies') === 'true';
             const marketingEnabled = localStorage.getItem('marketingCookies') === 'true';
             
-            if (analyticsEnabled) {
-                // Simular inicialización de Google Analytics
-                console.log('Google Analytics inicializado');
-            }
+            console.log('Cargando servicios según preferencias:');
+            console.log('- Analytics:', analyticsEnabled ? 'Activado' : 'Desactivado');
+            console.log('- Marketing:', marketingEnabled ? 'Activado' : 'Desactivado');
             
-            if (marketingEnabled) {
-                // Simular inicialización de Facebook Pixel
-                console.log('Facebook Pixel inicializado');
-            }
+            // Aquí iría la carga real de servicios como Google Analytics, Facebook Pixel, etc.
         }
         
-        function showCookieToast(message, type) {
-            // Crear toast de confirmación
-            const toast = document.createElement('div');
-            toast.className = `toast-futuristic ${type}`;
-            toast.innerHTML = `
-                <div class="toast-content" style="padding: 1rem; display: flex; align-items: center;">
-                    <i class="bi ${type === 'success' ? 'bi-check-circle' : 'bi-info-circle'} me-2" 
-                       style="color: ${type === 'success' ? '#00b090' : '#8c85ff'}; font-size: 1.2rem;"></i>
-                    <span>${message}</span>
-                </div>
-            `;
+        function showToast(message) {
+            const toast = document.getElementById('cookieToast');
+            const toastMessage = document.getElementById('toastMessage');
             
-            document.body.appendChild(toast);
+            toastMessage.textContent = message;
+            toast.style.display = 'block';
             
             // Animación de entrada
             toast.style.opacity = '0';
@@ -2524,13 +2621,13 @@
                 toast.style.transform = 'translateY(0)';
             }, 10);
             
-            // Remover después de 3 segundos
+            // Ocultar después de 3 segundos
             setTimeout(() => {
                 toast.style.opacity = '0';
                 toast.style.transform = 'translateY(-20px)';
                 
                 setTimeout(() => {
-                    document.body.removeChild(toast);
+                    toast.style.display = 'none';
                 }, 300);
             }, 3000);
         }
@@ -2539,34 +2636,26 @@
         // ENVOLTORIO DE REGALO - LÓGICA
         // ============================================
         function initializeGiftWrapper() {
-            // Animación al hacer clic en el botón de abrir regalo
             document.getElementById('gameUnwrapBtn').addEventListener('click', function() {
                 const giftBox = document.querySelector('.game-gift-box');
                 const giftWrapper = document.querySelector('.game-gift-wrapper');
                 
-                // Iniciar animación
                 giftBox.classList.add('game-unwrap-animation');
                 
-                // Esperar y ocultar envoltorio
                 setTimeout(() => {
                     giftWrapper.classList.add('game-fade-out');
                 }, 800);
                 
-                // Eliminar envoltorio después de la animación
                 setTimeout(() => {
                     giftWrapper.remove();
-                    
-                    // Inicializar el juego después de quitar el envoltorio
                     initializeGameAndEffects();
                 }, 1800);
             });
             
-            // Inicializar efectos sin el juego (el juego se inicializa después del envoltorio)
             initializeEffectsOnly();
         }
 
         function initializeEffectsOnly() {
-            // Inicializar partículas
             particlesJS('particles-js', {
                 particles: {
                     number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -2601,15 +2690,11 @@
                 retina_detect: true
             });
             
-            // Inicializar EmailJS
             emailjs.init("YOUR_PUBLIC_KEY_HERE");
-            
-            // Configurar efectos de scroll
             setupScrollEffects();
         }
 
         function initializeGameAndEffects() {
-            // Inicializar juego después de quitar el envoltorio
             let spaceGame = new SpaceDefenderGame();
         }
 
@@ -2620,13 +2705,12 @@
             constructor() {
                 this.score = 0;
                 this.lives = 3;
-                this.level = 1;
+                this.enemiesDestroyed = 0;
                 this.gameRunning = false;
-                this.gamePaused = false;
                 this.playerSpeed = 0.6;
                 this.bulletSpeed = 10;
                 this.enemySpeed = 1;
-                this.enemySpawnRate = 1500; // Más lento inicialmente
+                this.enemySpawnRate = 1500;
                 this.bullets = [];
                 this.enemies = [];
                 this.stars = [];
@@ -2636,22 +2720,19 @@
                 this.player = null;
                 this.gameLoopId = null;
                 this.playerPosition = 50;
-                this.enemiesToNextLevel = 15; // Más enemigos por nivel
-                this.enemiesDefeated = 0;
-                this.levelCompleted = false;
+                this.enemiesPerHeart = 12; // Cada 12 enemigos da 1 corazón
+                this.speedIncreaseThreshold = 20; // Cada 20 enemigos aumenta velocidad
                 
                 this.init();
             }
             
             init() {
-                // Elementos del DOM
                 this.gameArea = document.getElementById('gameArea');
                 this.scoreElement = document.getElementById('gameScore');
                 this.livesElement = document.getElementById('gameLives');
-                this.levelElement = document.getElementById('gameLevel');
+                this.enemiesElement = document.getElementById('gameEnemies');
                 this.gameIndicator = document.getElementById('gameIndicator');
                 this.startBtn = document.getElementById('startBtn');
-                this.pauseBtn = document.getElementById('pauseBtn');
                 this.leftBtn = document.getElementById('leftBtn');
                 this.rightBtn = document.getElementById('rightBtn');
                 this.fireBtn = document.getElementById('fireBtn');
@@ -2660,32 +2741,13 @@
                 this.messageText = document.getElementById('messageText');
                 this.finalScore = document.getElementById('finalScore');
                 this.restartBtn = document.getElementById('restartBtn');
-                this.levelUpMessage = document.getElementById('levelUpMessage');
-                this.levelUpText = document.getElementById('levelUpText');
-                this.nextLevelBtn = document.getElementById('nextLevelBtn');
                 
-                // Crear fondo estrellado
                 this.createStars();
-                
-                // Crear nave del jugador
                 this.createPlayer();
-                
-                // Event listeners
                 this.setupEventListeners();
-                
-                // Actualizar UI inicial
                 this.updateUI();
                 
-                // Inicializar botones correctamente
                 this.startBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Iniciar Juego';
-                this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
-                this.pauseBtn.disabled = true;
-                
-                // Configurar botón de siguiente nivel
-                this.nextLevelBtn.addEventListener('click', () => {
-                    this.levelUpMessage.style.display = 'none';
-                    this.startNextLevel();
-                });
             }
             
             createStars() {
@@ -2712,24 +2774,18 @@
                 this.player = document.createElement('div');
                 this.player.className = 'player-ship';
                 this.player.style.left = '50%';
-                
                 this.gameArea.appendChild(this.player);
             }
             
             setupEventListeners() {
-                // Controles de teclado
                 document.addEventListener('keydown', (e) => {
-                    if (!this.gameRunning || this.gamePaused) return;
+                    if (!this.gameRunning) return;
                     
                     this.keys[e.key] = true;
                     
-                    if (e.key === ' ' && this.gameRunning && !this.gamePaused) {
+                    if (e.key === ' ') {
                         e.preventDefault();
                         this.shoot();
-                    }
-                    
-                    if (e.key === 'p' || e.key === 'P') {
-                        this.togglePause();
                     }
                 });
                 
@@ -2737,16 +2793,15 @@
                     this.keys[e.key] = false;
                 });
                 
-                // Controles táctiles
                 this.leftBtn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
-                    if (this.gameRunning && !this.gamePaused) {
+                    if (this.gameRunning) {
                         this.keys['ArrowLeft'] = true;
                     }
                 });
                 this.leftBtn.addEventListener('touchend', () => this.keys['ArrowLeft'] = false);
                 this.leftBtn.addEventListener('mousedown', () => {
-                    if (this.gameRunning && !this.gamePaused) {
+                    if (this.gameRunning) {
                         this.keys['ArrowLeft'] = true;
                     }
                 });
@@ -2755,13 +2810,13 @@
                 
                 this.rightBtn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
-                    if (this.gameRunning && !this.gamePaused) {
+                    if (this.gameRunning) {
                         this.keys['ArrowRight'] = true;
                     }
                 });
                 this.rightBtn.addEventListener('touchend', () => this.keys['ArrowRight'] = false);
                 this.rightBtn.addEventListener('mousedown', () => {
-                    if (this.gameRunning && !this.gamePaused) {
+                    if (this.gameRunning) {
                         this.keys['ArrowRight'] = true;
                     }
                 });
@@ -2769,12 +2824,11 @@
                 this.rightBtn.addEventListener('mouseleave', () => this.keys['ArrowRight'] = false);
                 
                 this.fireBtn.addEventListener('click', () => {
-                    if (this.gameRunning && !this.gamePaused) {
+                    if (this.gameRunning) {
                         this.shoot();
                     }
                 });
                 
-                // Botones del juego
                 this.startBtn.addEventListener('click', () => {
                     if (!this.gameRunning) {
                         this.startGame();
@@ -2782,10 +2836,6 @@
                         this.resetGame();
                         this.startGame();
                     }
-                });
-                
-                this.pauseBtn.addEventListener('click', () => {
-                    this.togglePause();
                 });
                 
                 this.restartBtn.addEventListener('click', () => {
@@ -2801,49 +2851,22 @@
                 }
                 
                 this.gameRunning = true;
-                this.gamePaused = false;
                 this.gameIndicator.textContent = '¡Jugando!';
                 this.gameIndicator.style.color = '#00b090';
                 this.startBtn.innerHTML = '<i class="bi bi-arrow-clockwise me-2"></i>Reiniciar';
-                this.pauseBtn.disabled = false;
-                this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
                 
                 this.hideMessage();
-                this.levelUpMessage.style.display = 'none';
-                
                 this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
             }
             
-            togglePause() {
-                if (!this.gameRunning) return;
-                
-                this.gamePaused = !this.gamePaused;
-                
-                if (this.gamePaused) {
-                    this.gameIndicator.textContent = 'Pausado';
-                    this.gameIndicator.style.color = '#ffa726';
-                    this.pauseBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Continuar';
-                    
-                    cancelAnimationFrame(this.gameLoopId);
-                } else {
-                    this.gameIndicator.textContent = '¡Jugando!';
-                    this.gameIndicator.style.color = '#00b090';
-                    this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
-                    
-                    this.lastEnemySpawn = performance.now() - this.enemySpawnRate;
-                    this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
-                }
-            }
-            
             gameLoop(timestamp) {
-                if (!this.gameRunning || this.gamePaused) return;
+                if (!this.gameRunning) return;
                 
                 this.movePlayer();
                 this.moveBullets();
                 this.moveEnemies();
                 this.spawnEnemies(timestamp);
                 this.checkCollisions();
-                this.checkLevelCompletion();
                 this.updateUI();
                 
                 this.gameLoopId = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
@@ -2876,10 +2899,8 @@
                 const playerRect = this.player.getBoundingClientRect();
                 const gameAreaRect = this.gameArea.getBoundingClientRect();
                 
-                // Calcular posición centrada
                 const playerCenterX = playerRect.left - gameAreaRect.left + playerRect.width / 2;
                 const bulletLeftPercent = (playerCenterX / gameAreaRect.width) * 100;
-                
                 const bulletBottom = 20;
                 
                 bullet.style.left = `${bulletLeftPercent}%`;
@@ -2941,39 +2962,58 @@
                 if (timestamp - this.lastEnemySpawn > this.enemySpawnRate) {
                     this.lastEnemySpawn = timestamp;
                     
-                    // Solo spawnear enemigos si no hemos completado el nivel
-                    if (this.enemiesDefeated < this.enemiesToNextLevel || this.levelCompleted) {
-                        const enemy = document.createElement('div');
-                        enemy.className = 'enemy';
-                        
-                        const left = Math.random() * 80 + 10;
-                        
-                        enemy.style.left = `${left}%`;
-                        enemy.style.top = `-30px`;
-                        
-                        this.gameArea.appendChild(enemy);
-                        
-                        const enemyType = Math.random() > 0.8 ? 'fast' : 
-                                         Math.random() > 0.6 ? 'tough' : 'normal';
-                        
-                        this.enemies.push({
-                            element: enemy,
-                            left: left,
-                            top: -30,
-                            type: enemyType,
-                            health: enemyType === 'tough' ? 2 : 1
-                        });
+                    // Crear diferentes tipos de enemigos
+                    const enemyTypes = ['basic', 'fast', 'strong', 'special'];
+                    const enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+                    
+                    const enemy = document.createElement('div');
+                    enemy.className = `enemy enemy-${enemyType}`;
+                    
+                    const left = Math.random() * 80 + 10;
+                    enemy.style.left = `${left}%`;
+                    enemy.style.top = `-30px`;
+                    
+                    this.gameArea.appendChild(enemy);
+                    
+                    // Configurar propiedades según tipo
+                    let health = 1;
+                    let points = 10;
+                    let speedMultiplier = 1;
+                    
+                    switch(enemyType) {
+                        case 'fast':
+                            points = 15;
+                            speedMultiplier = 1.5;
+                            break;
+                        case 'strong':
+                            health = 2;
+                            points = 20;
+                            speedMultiplier = 0.8;
+                            break;
+                        case 'special':
+                            points = 30;
+                            speedMultiplier = 1.2;
+                            break;
                     }
+                    
+                    this.enemies.push({
+                        element: enemy,
+                        left: left,
+                        top: -30,
+                        type: enemyType,
+                        health: health,
+                        points: points,
+                        speedMultiplier: speedMultiplier
+                    });
                 }
             }
             
             moveEnemies() {
                 for (let i = this.enemies.length - 1; i >= 0; i--) {
                     const enemy = this.enemies[i];
-                    const speed = enemy.type === 'fast' ? this.enemySpeed * 1.5 : this.enemySpeed;
+                    const speed = this.enemySpeed * enemy.speedMultiplier;
                     
                     enemy.top += speed;
-                    
                     enemy.element.style.top = `${enemy.top}px`;
                     
                     if (enemy.top > this.gameArea.offsetHeight) {
@@ -2995,34 +3035,31 @@
                         const enemyRect = enemy.element.getBoundingClientRect();
                         
                         if (this.checkRectCollision(bulletRect, enemyRect)) {
-                            // Enemigo resistente necesita 2 golpes
-                            if (enemy.type === 'tough') {
-                                enemy.health--;
-                                
-                                // Crear efecto de golpe
-                                this.createHitEffect(enemy.left, enemy.top);
-                                
-                                bullet.element.remove();
-                                this.bullets.splice(i, 1);
-                                
-                                if (enemy.health <= 0) {
-                                    this.createExplosion(enemy.left, enemy.top);
-                                    enemy.element.remove();
-                                    this.enemies.splice(j, 1);
-                                    this.enemiesDefeated++;
-                                    this.score += 20;
-                                }
-                            } else {
+                            enemy.health--;
+                            
+                            this.createHitEffect(enemy.left, enemy.top);
+                            bullet.element.remove();
+                            this.bullets.splice(i, 1);
+                            
+                            if (enemy.health <= 0) {
                                 this.createExplosion(enemy.left, enemy.top);
-                                
-                                bullet.element.remove();
                                 enemy.element.remove();
-                                
-                                this.bullets.splice(i, 1);
                                 this.enemies.splice(j, 1);
                                 
-                                this.enemiesDefeated++;
-                                this.score += enemy.type === 'fast' ? 15 : 10;
+                                this.score += enemy.points;
+                                this.enemiesDestroyed++;
+                                
+                                // Verificar si se debe dar vida extra
+                                if (this.enemiesDestroyed % this.enemiesPerHeart === 0) {
+                                    this.lives++;
+                                    this.showPowerUpMessage('¡+1 Vida!');
+                                }
+                                
+                                // Verificar si se debe aumentar velocidad
+                                if (this.enemiesDestroyed % this.speedIncreaseThreshold === 0) {
+                                    this.enemySpeed += 0.3;
+                                    this.showPowerUpMessage('¡Enemigos más rápidos!');
+                                }
                             }
                             
                             break;
@@ -3069,10 +3106,8 @@
             createExplosion(left, top) {
                 const explosion = document.createElement('div');
                 explosion.className = 'explosion';
-                
                 explosion.style.left = `${left}%`;
                 explosion.style.top = `${top}px`;
-                
                 this.gameArea.appendChild(explosion);
                 
                 setTimeout(() => {
@@ -3087,61 +3122,15 @@
                     this.gameOver();
                 } else {
                     this.gameArea.style.boxShadow = '0 0 30px rgba(255, 107, 107, 0.7)';
-                    
                     setTimeout(() => {
                         this.gameArea.style.boxShadow = '';
                     }, 300);
                 }
             }
             
-            checkLevelCompletion() {
-                if (this.enemiesDefeated >= this.enemiesToNextLevel && !this.levelCompleted) {
-                    this.levelCompleted = true;
-                    this.showLevelUpMessage();
-                }
-            }
-            
-            showLevelUpMessage() {
-                this.gamePaused = true;
-                this.levelUpText.textContent = `Nivel ${this.level} completado. ¡Preparándose para el nivel ${this.level + 1}!`;
-                this.levelUpMessage.style.display = 'block';
-            }
-            
-            startNextLevel() {
-                this.level++;
-                this.lives = 3; // Resetear vidas al pasar de nivel
-                this.enemiesDefeated = 0;
-                this.levelCompleted = false;
-                
-                // Aumentar dificultad progresivamente
-                this.enemySpeed += 0.2;
-                this.enemySpawnRate = Math.max(800, 1500 - (this.level * 50));
-                this.enemiesToNextLevel = 15 + (this.level * 3); // Más enemigos cada nivel
-                
-                // Limpiar enemigos restantes
-                this.enemies.forEach(enemy => enemy.element.remove());
-                this.enemies = [];
-                
-                this.gamePaused = false;
-                this.updateUI();
-                
-                this.gameIndicator.textContent = `Nivel ${this.level}`;
-                this.gameIndicator.style.color = '#673de6';
-                
-                setTimeout(() => {
-                    if (this.gameRunning && !this.gamePaused) {
-                        this.gameIndicator.textContent = '¡Jugando!';
-                        this.gameIndicator.style.color = '#00b090';
-                    }
-                }, 2000);
-            }
-            
             gameOver() {
                 this.gameRunning = false;
-                this.gamePaused = false;
-                
                 cancelAnimationFrame(this.gameLoopId);
-                
                 this.showMessage('¡Juego Terminado!', `Puntaje final: ${this.score}`);
             }
             
@@ -3155,34 +3144,25 @@
                 
                 this.score = 0;
                 this.lives = 3;
-                this.level = 1;
+                this.enemiesDestroyed = 0;
                 this.bullets = [];
                 this.enemies = [];
                 this.enemySpeed = 1;
-                this.enemySpawnRate = 1500;
-                this.enemiesToNextLevel = 15;
-                this.enemiesDefeated = 0;
-                this.levelCompleted = false;
                 this.playerPosition = 50;
                 this.gameRunning = false;
-                this.gamePaused = false;
                 this.keys = {};
                 
                 this.player.style.left = '50%';
-                
                 this.updateUI();
                 this.gameIndicator.textContent = 'Listo';
                 this.gameIndicator.style.color = '#8a8fa3';
                 this.startBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Iniciar Juego';
-                this.pauseBtn.innerHTML = '<i class="bi bi-pause-fill me-2"></i>Pausar';
-                this.pauseBtn.disabled = true;
-                this.levelUpMessage.style.display = 'none';
             }
             
             updateUI() {
                 this.scoreElement.textContent = this.score;
                 this.livesElement.textContent = this.lives;
-                this.levelElement.textContent = this.level;
+                this.enemiesElement.textContent = this.enemiesDestroyed;
             }
             
             showMessage(title, text) {
@@ -3193,6 +3173,35 @@
             
             hideMessage() {
                 this.gameMessage.style.display = 'none';
+            }
+            
+            showPowerUpMessage(text) {
+                const powerUpMsg = document.createElement('div');
+                powerUpMsg.style.position = 'absolute';
+                powerUpMsg.style.top = '20%';
+                powerUpMsg.style.left = '50%';
+                powerUpMsg.style.transform = 'translateX(-50%)';
+                powerUpMsg.style.color = '#00b090';
+                powerUpMsg.style.fontSize = '1.2rem';
+                powerUpMsg.style.fontWeight = 'bold';
+                powerUpMsg.style.textShadow = '0 0 10px rgba(0,176,144,0.5)';
+                powerUpMsg.style.zIndex = '1000';
+                powerUpMsg.textContent = text;
+                
+                this.gameArea.appendChild(powerUpMsg);
+                
+                powerUpMsg.animate([
+                    { opacity: 0, transform: 'translateX(-50%) translateY(-20px)' },
+                    { opacity: 1, transform: 'translateX(-50%) translateY(0)' },
+                    { opacity: 0, transform: 'translateX(-50%) translateY(20px)' }
+                ], {
+                    duration: 1500,
+                    easing: 'ease-out'
+                });
+                
+                setTimeout(() => {
+                    powerUpMsg.remove();
+                }, 1500);
             }
         }
         
@@ -3291,53 +3300,6 @@
             }
             
             window.submitContactFormFuturistic = submitContactFormFuturistic;
-            
-            document.querySelectorAll('.btn-futuristic').forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    const particles = this.querySelector('.particle-effect');
-                    if (!particles) {
-                        const particleEffect = document.createElement('div');
-                        particleEffect.className = 'particle-effect';
-                        particleEffect.style.position = 'absolute';
-                        particleEffect.style.width = '100%';
-                        particleEffect.style.height = '100%';
-                        particleEffect.style.top = '0';
-                        particleEffect.style.left = '0';
-                        particleEffect.style.overflow = 'hidden';
-                        particleEffect.style.pointerEvents = 'none';
-                        this.style.position = 'relative';
-                        this.appendChild(particleEffect);
-                        
-                        for (let i = 0; i < 8; i++) {
-                            const particle = document.createElement('div');
-                            particle.style.position = 'absolute';
-                            particle.style.width = '4px';
-                            particle.style.height = '4px';
-                            particle.style.background = 'var(--color-primary)';
-                            particle.style.borderRadius = '50%';
-                            particle.style.top = '50%';
-                            particle.style.left = '50%';
-                            particle.style.transform = 'translate(-50%, -50%)';
-                            particleEffect.appendChild(particle);
-                            
-                            const angle = Math.random() * Math.PI * 2;
-                            const distance = 30 + Math.random() * 40;
-                            const x = Math.cos(angle) * distance;
-                            const y = Math.sin(angle) * distance;
-                            
-                            particle.animate([
-                                { transform: 'translate(-50%, -50%)', opacity: 1 },
-                                { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
-                            ], {
-                                duration: 800,
-                                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                            });
-                        }
-                        
-                        setTimeout(() => particleEffect.remove(), 1000);
-                    }
-                });
-            });
             
             const glowElements = document.querySelectorAll('.glow-text');
             glowElements.forEach(el => {
