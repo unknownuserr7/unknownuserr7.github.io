@@ -79,12 +79,12 @@
             background: rgba(26, 26, 46, 0.3);
         }
         
-        ::webkit-scrollbar-thumb {
+        ::-webkit-scrollbar-thumb {
             background: var(--gradient-accent);
             border-radius: 4px;
         }
         
-        ::webkit-scrollbar-thumb:hover {
+        ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #8c85ff 0%, #673de6 100%);
         }
         
@@ -1406,6 +1406,263 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), var(--neon-glow);
         }
+        
+        /* ============================================
+           POP-UP DE COOKIES - ESTILOS FUTURISTAS
+           ============================================= */
+        .cookies-popup-futuristic {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 99999;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), var(--neon-glow);
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .cookies-container-futuristic {
+            padding: 1.8rem;
+        }
+
+        .cookies-header-futuristic {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .cookies-icon-futuristic {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--color-light);
+            font-size: 1.5rem;
+            box-shadow: 0 10px 20px rgba(103, 61, 230, 0.3);
+        }
+
+        .cookies-title-futuristic {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-light);
+            margin: 0;
+        }
+
+        .cookies-content-futuristic {
+            margin-bottom: 1.5rem;
+        }
+
+        .cookies-text-futuristic {
+            color: var(--color-gray-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .cookies-options-futuristic {
+            background: rgba(10, 10, 15, 0.6);
+            border-radius: 12px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cookie-option-futuristic {
+            margin-bottom: 1.2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cookie-option-futuristic:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .cookie-option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .cookie-option-title {
+            color: var(--color-light);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .cookie-toggle-futuristic {
+            position: relative;
+        }
+
+        .cookie-toggle-futuristic input[type="checkbox"] {
+            display: none;
+        }
+
+        .cookie-toggle-label {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            cursor: pointer;
+        }
+
+        .cookie-toggle-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 34px;
+            transition: .4s;
+        }
+
+        .cookie-toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background: var(--color-gray);
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        .cookie-toggle-futuristic input:checked + .cookie-toggle-label .cookie-toggle-slider {
+            background: rgba(103, 61, 230, 0.3);
+        }
+
+        .cookie-toggle-futuristic input:checked + .cookie-toggle-label .cookie-toggle-slider:before {
+            transform: translateX(24px);
+            background: var(--color-primary);
+            box-shadow: 0 0 10px rgba(103, 61, 230, 0.5);
+        }
+
+        .cookie-toggle-futuristic input:disabled + .cookie-toggle-label {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .cookie-option-description {
+            color: var(--color-gray);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .cookies-footer-futuristic {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1.5rem;
+        }
+
+        .cookies-links-futuristic {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cookies-link-futuristic {
+            color: var(--color-primary-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .cookies-link-futuristic:hover {
+            color: var(--color-accent);
+            text-shadow: 0 0 10px rgba(0, 176, 144, 0.3);
+        }
+
+        .cookies-buttons-futuristic {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cookies-btn-primary-futuristic,
+        .cookies-btn-secondary-futuristic {
+            flex: 1;
+            padding: 0.9rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cookies-btn-primary-futuristic {
+            background: linear-gradient(135deg, rgba(103, 61, 230, 0.2) 0%, rgba(140, 133, 255, 0.1) 100%);
+            border: 1px solid rgba(103, 61, 230, 0.3);
+            color: var(--color-light);
+        }
+
+        .cookies-btn-primary-futuristic:hover {
+            background: linear-gradient(135deg, rgba(103, 61, 230, 0.3) 0%, rgba(140, 133, 255, 0.2) 100%);
+            border-color: rgba(103, 61, 230, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(103, 61, 230, 0.2);
+        }
+
+        .cookies-btn-secondary-futuristic {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-light);
+        }
+
+        .cookies-btn-secondary-futuristic:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 576px) {
+            .cookies-popup-futuristic {
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+            
+            .cookies-container-futuristic {
+                padding: 1.2rem;
+            }
+            
+            .cookies-buttons-futuristic {
+                flex-direction: column;
+            }
+            
+            .cookies-links-futuristic {
+                flex-direction: column;
+                gap: 0.8rem;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1900,6 +2157,95 @@
     </footer>
 
     <!-- ============================================
+    POP-UP DE COOKIES - DISEÑO FUTURISTA
+    ============================================= -->
+    <div id="cookiesPopup" class="cookies-popup-futuristic" style="display: none;">
+        <div class="cookies-container-futuristic">
+            <div class="cookies-header-futuristic">
+                <div class="cookies-icon-futuristic">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h3 class="cookies-title-futuristic">Configuración de Cookies</h3>
+            </div>
+            
+            <div class="cookies-content-futuristic">
+                <p class="cookies-text-futuristic">
+                    En Somni Game Studios utilizamos cookies propias y de terceros para mejorar tu experiencia, 
+                    analizar el tráfico y personalizar el contenido. Algunas cookies son necesarias para el 
+                    funcionamiento del sitio.
+                </p>
+                
+                <div class="cookies-options-futuristic">
+                    <div class="cookie-option-futuristic">
+                        <div class="cookie-option-header">
+                            <span class="cookie-option-title">Cookies Esenciales</span>
+                            <div class="cookie-toggle-futuristic">
+                                <input type="checkbox" id="essentialCookies" checked disabled>
+                                <label for="essentialCookies" class="cookie-toggle-label">
+                                    <span class="cookie-toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <p class="cookie-option-description">
+                            Necesarias para el funcionamiento básico del sitio. No se pueden desactivar.
+                        </p>
+                    </div>
+                    
+                    <div class="cookie-option-futuristic">
+                        <div class="cookie-option-header">
+                            <span class="cookie-option-title">Cookies de Análisis</span>
+                            <div class="cookie-toggle-futuristic">
+                                <input type="checkbox" id="analyticsCookies">
+                                <label for="analyticsCookies" class="cookie-toggle-label">
+                                    <span class="cookie-toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <p class="cookie-option-description">
+                            Nos ayudan a entender cómo interactúas con nuestro sitio para mejorarlo.
+                        </p>
+                    </div>
+                    
+                    <div class="cookie-option-futuristic">
+                        <div class="cookie-option-header">
+                            <span class="cookie-option-title">Cookies de Marketing</span>
+                            <div class="cookie-toggle-futuristic">
+                                <input type="checkbox" id="marketingCookies">
+                                <label for="marketingCookies" class="cookie-toggle-label">
+                                    <span class="cookie-toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <p class="cookie-option-description">
+                            Para mostrarte contenido personalizado y ofertas relevantes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cookies-footer-futuristic">
+                <div class="cookies-links-futuristic">
+                    <a href="#" class="cookies-link-futuristic" data-bs-toggle="modal" data-bs-target="#cookiesModal">
+                        <i class="bi bi-file-text me-2"></i>Política de Cookies
+                    </a>
+                    <a href="#" class="cookies-link-futuristic" data-bs-toggle="modal" data-bs-target="#privacyModal">
+                        <i class="bi bi-shield me-2"></i>Política de Privacidad
+                    </a>
+                </div>
+                
+                <div class="cookies-buttons-futuristic">
+                    <button id="rejectCookies" class="cookies-btn-secondary-futuristic">
+                        Rechazar No Esenciales
+                    </button>
+                    <button id="acceptAllCookies" class="cookies-btn-primary-futuristic">
+                        <i class="bi bi-check-lg me-2"></i>Aceptar Todas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
     MODALES PARA PÁGINAS LEGALES
     ============================================= -->
     
@@ -2065,9 +2411,134 @@
 
     <script>
         // ============================================
-        // ENVOLTORIO DE REGALO - LÓGICA
+        // POP-UP DE COOKIES - LÓGICA
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si ya se han aceptado las cookies
+            if (!localStorage.getItem('cookiesAccepted')) {
+                // Mostrar pop-up de cookies después de 1 segundo
+                setTimeout(() => {
+                    document.getElementById('cookiesPopup').style.display = 'block';
+                }, 1000);
+            }
+            
+            // Configurar botones del pop-up de cookies
+            document.getElementById('acceptAllCookies').addEventListener('click', function() {
+                acceptAllCookies();
+            });
+            
+            document.getElementById('rejectCookies').addEventListener('click', function() {
+                rejectNonEssentialCookies();
+            });
+            
+            // Configurar toggles de cookies
+            document.getElementById('analyticsCookies').addEventListener('change', updateCookiePreferences);
+            document.getElementById('marketingCookies').addEventListener('change', updateCookiePreferences);
+            
+            // Inicializar envoltorio de regalo
+            initializeGiftWrapper();
+        });
+        
+        function acceptAllCookies() {
+            // Guardar preferencias
+            localStorage.setItem('cookiesAccepted', 'true');
+            localStorage.setItem('analyticsCookies', 'true');
+            localStorage.setItem('marketingCookies', 'true');
+            
+            // Ocultar pop-up
+            document.getElementById('cookiesPopup').style.display = 'none';
+            
+            // Mostrar confirmación
+            showCookieToast('Todas las cookies han sido aceptadas', 'success');
+            
+            // Inicializar servicios de terceros (simulado)
+            initializeThirdPartyServices();
+        }
+        
+        function rejectNonEssentialCookies() {
+            // Guardar preferencias
+            localStorage.setItem('cookiesAccepted', 'true');
+            localStorage.setItem('analyticsCookies', 'false');
+            localStorage.setItem('marketingCookies', 'false');
+            
+            // Desactivar toggles visualmente
+            document.getElementById('analyticsCookies').checked = false;
+            document.getElementById('marketingCookies').checked = false;
+            
+            // Ocultar pop-up
+            document.getElementById('cookiesPopup').style.display = 'none';
+            
+            // Mostrar confirmación
+            showCookieToast('Solo cookies esenciales aceptadas', 'info');
+        }
+        
+        function updateCookiePreferences() {
+            const analytics = document.getElementById('analyticsCookies').checked;
+            const marketing = document.getElementById('marketingCookies').checked;
+            
+            localStorage.setItem('analyticsCookies', analytics);
+            localStorage.setItem('marketingCookies', marketing);
+            
+            showCookieToast('Preferencias de cookies actualizadas', 'info');
+        }
+        
+        function initializeThirdPartyServices() {
+            // Aquí se inicializarían servicios como Google Analytics, Facebook Pixel, etc.
+            console.log('Servicios de terceros inicializados según las preferencias del usuario');
+            
+            const analyticsEnabled = localStorage.getItem('analyticsCookies') === 'true';
+            const marketingEnabled = localStorage.getItem('marketingCookies') === 'true';
+            
+            if (analyticsEnabled) {
+                // Simular inicialización de Google Analytics
+                console.log('Google Analytics inicializado');
+            }
+            
+            if (marketingEnabled) {
+                // Simular inicialización de Facebook Pixel
+                console.log('Facebook Pixel inicializado');
+            }
+        }
+        
+        function showCookieToast(message, type) {
+            // Crear toast de confirmación
+            const toast = document.createElement('div');
+            toast.className = `toast-futuristic ${type}`;
+            toast.innerHTML = `
+                <div class="toast-content" style="padding: 1rem; display: flex; align-items: center;">
+                    <i class="bi ${type === 'success' ? 'bi-check-circle' : 'bi-info-circle'} me-2" 
+                       style="color: ${type === 'success' ? '#00b090' : '#8c85ff'}; font-size: 1.2rem;"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Animación de entrada
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                toast.style.transition = 'all 0.3s ease';
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px)';
+                
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+        
+        // ============================================
+        // ENVOLTORIO DE REGALO - LÓGICA
+        // ============================================
+        function initializeGiftWrapper() {
             // Animación al hacer clic en el botón de abrir regalo
             document.getElementById('gameUnwrapBtn').addEventListener('click', function() {
                 const giftBox = document.querySelector('.game-gift-box');
@@ -2092,7 +2563,7 @@
             
             // Inicializar efectos sin el juego (el juego se inicializa después del envoltorio)
             initializeEffectsOnly();
-        });
+        }
 
         function initializeEffectsOnly() {
             // Inicializar partículas
