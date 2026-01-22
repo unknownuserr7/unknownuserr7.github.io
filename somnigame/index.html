@@ -1449,13 +1449,13 @@
         }
         
         /* ============================================
-           POP-UP DE COOKIES - ESTILOS FUTURISTAS
+           POP-UP DE COOKIES - ESTILOS FUTURISTAS - MODIFICADO PARA CENTRAR
            ============================================= */
         .cookies-popup-futuristic {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 1100;
             background: rgba(26, 26, 46, 0.95);
             backdrop-filter: blur(20px);
@@ -1464,6 +1464,7 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), var(--neon-glow);
             animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             max-width: 500px;
+            width: 90%;
             margin: 0 auto;
             display: none;
         }
@@ -1471,11 +1472,11 @@
         @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px) scale(0.95);
+                transform: translate(-50%, -50%) scale(0.8);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translate(-50%, -50%) scale(1);
             }
         }
 
@@ -1708,9 +1709,10 @@
 
         @media (max-width: 576px) {
             .cookies-popup-futuristic {
-                left: 10px;
-                right: 10px;
-                bottom: 10px;
+                left: 50%; /* Mantener centrado */
+                right: auto;
+                bottom: auto;
+                width: 95%;
             }
             
             .cookies-container-futuristic {
@@ -1726,6 +1728,19 @@
                 gap: 0.8rem;
                 text-align: center;
             }
+        }
+        
+        /* 
+        MODIFICACIONES PARA LA PANTALLA DE GAME OVER CON DOS BOTONES
+        */
+        .game-over-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .game-over-buttons .game-btn {
+            flex: 1;
         }
     </style>
 </head>
@@ -1850,12 +1865,19 @@
                             <!-- Las estrellas se generarán dinámicamente -->
                             <!-- La nave y enemigos se generarán dinámicamente -->
                             <!-- 
-                            MENSAJE DEL JUEGO - AHORA DENTRO DEL ÁREA DE JUEGO
+                            MENSAJE DEL JUEGO - AHORA DENTRO DEL ÁREA DE JUEGO CON DOS BOTONES
                             -->
                             <div class="game-message" id="gameMessage">
                                 <h3 class="message-title" id="messageTitle">¡Juego Terminado!</h3>
                                 <p class="message-text" id="messageText">Tu puntaje final es: <span id="finalScore">0</span></p>
-                                <button class="game-btn game-btn-primary w-100" id="restartBtn">Jugar Otra Vez</button>
+                                <div class="game-over-buttons">
+                                    <button class="game-btn game-btn-primary" id="restartBtn">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>Reiniciar
+                                    </button>
+                                    <button class="game-btn game-btn-secondary" id="exitToMenuBtn">
+                                        <i class="bi bi-house-door me-2"></i>Salir al Menú
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         
@@ -2310,7 +2332,7 @@
     </div>
 
     <!-- ============================================
-    MODALES PARA PÁGINAS LEGALES
+    MODALES PARA PÁGINAS LEGALES - CENTRADAS
     ============================================= -->
     
     <!-- Modal Política de Cookies -->
@@ -2773,6 +2795,7 @@
                 this.messageText = document.getElementById('messageText');
                 this.finalScore = document.getElementById('finalScore');
                 this.restartBtn = document.getElementById('restartBtn');
+                this.exitToMenuBtn = document.getElementById('exitToMenuBtn');
                 
                 this.createStars();
                 this.createPlayer();
@@ -2874,6 +2897,11 @@
                     this.hideMessage();
                     this.resetGame();
                     this.startGame();
+                });
+                
+                // NUEVO: Botón para salir al menú
+                this.exitToMenuBtn.addEventListener('click', () => {
+                    this.exitToMenu();
                 });
             }
             
@@ -3164,6 +3192,65 @@
                 this.gameRunning = false;
                 cancelAnimationFrame(this.gameLoopId);
                 this.showMessage('¡Juego Terminado!', `Puntaje final: ${this.score}`);
+            }
+            
+            // NUEVO: Método para salir al menú
+            exitToMenu() {
+                this.gameRunning = false;
+                cancelAnimationFrame(this.gameLoopId);
+                this.hideMessage();
+                this.resetGame();
+                
+                // Restaurar el envoltorio de regalo
+                const gameContainer = document.querySelector('.game-container-futuristic');
+                const giftWrapper = document.createElement('div');
+                giftWrapper.className = 'game-gift-wrapper';
+                giftWrapper.innerHTML = `
+                    <div class="game-gift-container">
+                        <div class="game-gift-box">
+                            <div class="game-gift-lid"></div>
+                            <div class="game-gift-body">
+                                <div class="game-gift-ribbon-horizontal"></div>
+                                <div class="game-gift-ribbon-vertical"></div>
+                                <div class="game-gift-bow">
+                                    <div class="game-bow-center"></div>
+                                    <div class="game-bow-loop game-bow-left"></div>
+                                    <div class="game-bow-loop game-bow-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="game-gift-title">¿Te aburres?</h2>
+                        <p class="game-gift-subtitle">Haz clic para desenvolver el juego</p>
+                        <button class="game-btn game-btn-primary mt-3" id="gameUnwrapBtn" style="width: 200px; margin: 0 auto;">
+                            <i class="bi bi-gift me-2"></i>Abrir Regalo
+                        </button>
+                    </div>
+                `;
+                
+                // Insertar el envoltorio al principio del contenedor del juego
+                gameContainer.insertBefore(giftWrapper, gameContainer.firstChild);
+                
+                // Re-inicializar el botón de abrir regalo
+                document.getElementById('gameUnwrapBtn').addEventListener('click', function() {
+                    const giftBox = document.querySelector('.game-gift-box');
+                    const giftWrapper = document.querySelector('.game-gift-wrapper');
+                    
+                    giftBox.classList.add('game-unwrap-animation');
+                    
+                    setTimeout(() => {
+                        giftWrapper.classList.add('game-fade-out');
+                    }, 800);
+                    
+                    setTimeout(() => {
+                        giftWrapper.remove();
+                        initializeGameAndEffects();
+                    }, 1800);
+                });
+                
+                // Restablecer el botón de inicio
+                this.startBtn.innerHTML = '<i class="bi bi-play-fill me-2"></i>Iniciar Juego';
+                this.gameIndicator.textContent = 'Listo';
+                this.gameIndicator.style.color = '#8a8fa3';
             }
             
             resetGame() {
