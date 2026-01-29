@@ -1,1 +1,1225 @@
+<!DOCTYPE html>
+<html lang="ca">
 
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Abel Bernal | Portfoli</title>
+  <meta name="description" content="Portfoli professional d'Abel Bernal">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  
+  <style>
+    :root {
+      --primary: #1a1a1a;
+      --secondary: #0066cc;
+      --accent: #00cc88;
+      --light: #f8f9fa;
+      --dark: #121212;
+      --gray: #666;
+      --gray-light: #e9ecef;
+      --border-radius: 12px;
+      --spacing: 80px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--primary);
+      background: var(--light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    h1, h2, h3, h4 {
+      font-family: 'Source Code Pro', monospace;
+      font-weight: 600;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    /* Header */
+    .header {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 300px;
+      height: 100vh;
+      background: var(--dark);
+      color: white;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+    }
+    
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 2rem;
+      border: 4px solid var(--secondary);
+      box-shadow: 0 8px 32px rgba(0, 102, 204, 0.3);
+    }
+    
+    .profile-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      color: white;
+      letter-spacing: 1px;
+    }
+    
+    .logo .accent {
+      color: var(--accent);
+    }
+    
+    .navmenu ul {
+      list-style: none;
+      margin-bottom: 3rem;
+    }
+    
+    .navmenu li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .navmenu a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+    
+    .navmenu a:hover,
+    .navmenu a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transform: translateX(5px);
+    }
+    
+    .navicon {
+      margin-right: 0.75rem;
+      font-size: 1.1rem;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: auto;
+    }
+    
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+    }
+    
+    /* Main Content */
+    .main {
+      margin-left: 300px;
+      min-height: 100vh;
+    }
+    
+    section {
+      padding: var(--spacing) 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-title {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    
+    .section-title h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+    
+    .section-title p {
+      color: var(--gray);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Hero Section */
+    #hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 204, 136, 0.1) 100%);
+      clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero-content h1 {
+      font-size: 3.5rem;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, white 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-content .subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+    
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* About Section */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    
+    .about-image {
+      position: relative;
+    }
+    
+    .about-image-main {
+      width: 100%;
+      border-radius: var(--border-radius);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .about-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--secondary);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+    }
+    
+    .about-content h3 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .about-text {
+      color: var(--gray);
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .about-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--light);
+      border-radius: 8px;
+      border-left: 3px solid var(--secondary);
+    }
+    
+    .info-item i {
+      color: var(--secondary);
+      font-size: 1.2rem;
+    }
+    
+    /* Skills Section */
+    .skills-container {
+      background: white;
+      padding: 3rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    
+    .skill-category {
+      padding: 1.5rem;
+      background: var(--light);
+      border-radius: var(--border-radius);
+      transition: transform 0.3s ease;
+    }
+    
+    .skill-category:hover {
+      transform: translateY(-5px);
+    }
+    
+    .skill-category h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+    
+    .skill-category i {
+      color: var(--secondary);
+    }
+    
+    .skill-item {
+      margin-bottom: 1.5rem;
+    }
+    
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    .skill-name {
+      font-weight: 500;
+    }
+    
+    .skill-value {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    
+    .skill-bar {
+      height: 6px;
+      background: var(--gray-light);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .skill-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+    
+    /* Education Section */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: var(--secondary);
+    }
+    
+    .timeline-item {
+      margin-bottom: 3rem;
+      position: relative;
+      width: 50%;
+      padding-right: 3rem;
+    }
+    
+    .timeline-item:nth-child(even) {
+      margin-left: 50%;
+      padding-right: 0;
+      padding-left: 3rem;
+    }
+    
+    .timeline-dot {
+      position: absolute;
+      right: -6px;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--secondary);
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 4px var(--secondary);
+    }
+    
+    .timeline-item:nth-child(even) .timeline-dot {
+      right: auto;
+      left: -6px;
+    }
+    
+    .timeline-content {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    .timeline-date {
+      color: var(--secondary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    
+    .timeline-content h3 {
+      margin-bottom: 0.5rem;
+    }
+    
+    .timeline-content h4 {
+      color: var(--gray);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    
+    /* Contact Section */
+    #contact {
+      background: var(--dark);
+      color: white;
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+    }
+    
+    .contact-info h3 {
+      color: white;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+    
+    .contact-details {
+      margin-bottom: 3rem;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    
+    .contact-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .contact-item i {
+      width: 40px;
+      height: 40px;
+      background: var(--secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .contact-form-container {
+      background: white;
+      padding: 3rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid var(--gray-light);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--secondary);
+    }
+    
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      background: #0052a3;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 3rem 0;
+      text-align: center;
+      margin-left: 300px;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-text {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 2rem;
+    }
+    
+    .copyright {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .header {
+        width: 250px;
+      }
+      
+      .main {
+        margin-left: 250px;
+      }
+      
+      footer {
+        margin-left: 250px;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .header {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 2rem;
+      }
+      
+      .main {
+        margin-left: 0;
+      }
+      
+      footer {
+        margin-left: 0;
+      }
+      
+      .navmenu ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      
+      .navmenu li {
+        margin-bottom: 0;
+      }
+      
+      .about-grid,
+      .skills-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .timeline::before {
+        left: 30px;
+      }
+      
+      .timeline-item {
+        width: 100%;
+        padding-left: 60px;
+        padding-right: 0;
+      }
+      
+      .timeline-item:nth-child(even) {
+        margin-left: 0;
+        padding-left: 60px;
+      }
+      
+      .timeline-dot {
+        left: 24px;
+        right: auto;
+      }
+      
+      .timeline-item:nth-child(even) .timeline-dot {
+        left: 24px;
+      }
+      
+      #hero::before {
+        width: 100%;
+        opacity: 0.3;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+      
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero-stats {
+        flex-direction: column;
+        gap: 2rem;
+      }
+      
+      .skills-container {
+        padding: 2rem;
+      }
+      
+      .section-title h2 {
+        font-size: 2rem;
+      }
+      
+      .contact-form-container {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="profile-img">
+      <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Abel Bernal">
+    </div>
+    
+    <div class="logo">
+      <h1>Abel <span class="accent">Bernal</span></h1>
+    </div>
+    
+    <nav class="navmenu">
+      <ul>
+        <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Inici</a></li>
+        <li><a href="#about"><i class="bi bi-person navicon"></i>Sobre mi</a></li>
+        <li><a href="#skills"><i class="bi bi-gear navicon"></i>Habilitats</a></li>
+        <li><a href="#education"><i class="bi bi-mortarboard navicon"></i>Formació</a></li>
+        <li><a href="#contact"><i class="bi bi-envelope navicon"></i>Contacte</a></li>
+      </ul>
+    </nav>
+    
+    <div class="social-links">
+      <a href="https://linkedin.com" target="_blank"><i class="bi bi-linkedin"></i></a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Estudiant de<br>Sistemes Microinformàtics<br>i Xarxes</h1>
+          <p class="subtitle">
+            Amb una gran motivació per aprendre i contribuir al creixement en el camp de la informàtica. 
+            Obert a noves oportunitats per desenvolupar les meves habilitats tècniques.
+          </p>
+          
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Idiomes</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Motivació</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">∞</span>
+              <span class="stat-label">Potencial</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="container">
+        <div class="section-title">
+          <h2>Sobre mi</h2>
+          <p>Conèix-me millor</p>
+        </div>
+        
+        <div class="about-grid">
+          <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Informàtica" class="about-image-main">
+            <div class="about-badge">
+              <i class="bi bi-laptop"></i>
+              <div>
+                <div style="font-weight: 600;">Estudiant SMX</div>
+                <div style="font-size: 0.9rem;">En formació</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="about-content">
+            <h3>Estudiant apassionat per la tecnologia</h3>
+            
+            <div class="about-text">
+              <p>
+                Actualment cursant el Cicle Formatiu de Grau Mitjà en Sistemes Microinformàtics i Xarxes. 
+                Amb una gran motivació per aprendre i contribuir al creixement en el camp de la informàtica.
+              </p>
+              <p>
+                Tot i que no tinc experiència laboral prèvia, estic obert a adquirir noves habilitats 
+                i ajudar en qualsevol projecte o necessitat que pugui sorgir.
+              </p>
+            </div>
+            
+            <div class="about-info">
+              <div class="info-item">
+                <i class="bi bi-calendar"></i>
+                <span>27/09/2007</span>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-telephone"></i>
+                <span>+34 636 54 09 28</span>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-envelope"></i>
+                <span>abel.bernal@iaballester.cat</span>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-geo-alt"></i>
+                <span>Reus, Catalunya</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-title">
+          <h2>Habilitats</h2>
+          <p>Les meves competències tècniques i personals</p>
+        </div>
+        
+        <div class="skills-container">
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h3><i class="bi bi-cpu"></i> Tècniques</h3>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Muntatge d'Equips</span>
+                  <span class="skill-value">85%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 85%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Servidors Web</span>
+                  <span class="skill-value">75%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 75%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Xarxes</span>
+                  <span class="skill-value">80%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="skill-category">
+              <h3><i class="bi bi-translate"></i> Idiomes</h3>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Català</span>
+                  <span class="skill-value">Natiu</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 100%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Castellà</span>
+                  <span class="skill-value">Natiu</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 100%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Anglès</span>
+                  <span class="skill-value">Bàsic</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 40%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="skill-category">
+              <h3><i class="bi bi-person"></i> Personals</h3>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Treball en Equip</span>
+                  <span class="skill-value">90%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 90%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Responsabilitat</span>
+                  <span class="skill-value">95%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 95%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-header">
+                  <span class="skill-name">Motivació</span>
+                  <span class="skill-value">100%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" style="width: 100%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+      <div class="container">
+        <div class="section-title">
+          <h2>Formació</h2>
+          <p>El meu recorregut acadèmic</p>
+        </div>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2024 - Actualitat</div>
+              <h3>Cicle Formatiu de Grau Mitjà</h3>
+              <h4>Sistemes Microinformàtics i Xarxes</h4>
+              <p>INS Antoni Ballester, Mont Roig</p>
+              <p style="margin-top: 1rem; color: var(--gray);">
+                Formació en muntatge i manteniment d'equips, xarxes informàtiques, sistemes operatius i seguretat.
+              </p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2025</div>
+              <h3>Certificat Google</h3>
+              <h4>Intel·ligència Artificial i Productivitat</h4>
+              <p>Santander Open Academy</p>
+              <p style="margin-top: 1rem; color: var(--gray);">
+                Certificat en l'aplicació de la intel·ligència artificial per a la millora de la productivitat.
+              </p>
+            </div>
+          </div>
+          
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2019 - 2024</div>
+              <h3>Educació Secundària Obligatòria</h3>
+              <h4>Titolació ESO</h4>
+              <p>Maria Rosa Molas, Reus</p>
+              <p style="margin-top: 1rem; color: var(--gray);">
+                Titulació d'Educació Secundària Obligatòria completada amb èxit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-title">
+          <h2>Contacte</h2>
+          <p>Posem-nos en contacte</p>
+        </div>
+        
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h3>Informació de contacte</h3>
+            
+            <div class="contact-details">
+              <div class="contact-item">
+                <i class="bi bi-envelope"></i>
+                <span>abel.bernal@iaballester.cat</span>
+              </div>
+              
+              <div class="contact-item">
+                <i class="bi bi-telephone"></i>
+                <span>+34 636 54 09 28</span>
+              </div>
+              
+              <div class="contact-item">
+                <i class="bi bi-geo-alt"></i>
+                <span>Reus, Catalunya</span>
+              </div>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: var(--border-radius);">
+              <h4 style="margin-bottom: 1rem; color: var(--accent);">Disponibilitat</h4>
+              <p style="color: rgba(255, 255, 255, 0.8);">
+                Estic obert a oportunitats per desenvolupar les meves habilitats tècniques i créixer professionalment.
+              </p>
+            </div>
+          </div>
+          
+          <div class="contact-form-container">
+            <h3 style="color: var(--primary); margin-bottom: 2rem;">Envia'm un missatge</h3>
+            
+            <form action="https://formspree.io/f/mjvzzrqe" method="POST" id="contactForm">
+              <div class="form-group">
+                <label for="name">Nom complet *</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="subject">Assumpte *</label>
+                <input type="text" id="subject" name="subject" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="message">Missatge *</label>
+                <textarea id="message" name="message" class="form-control" required></textarea>
+              </div>
+              
+              <div id="form-messages" style="margin-bottom: 1.5rem;"></div>
+              
+              <button type="submit" class="submit-btn">
+                <span>Enviar missatge</span>
+                <i class="bi bi-send"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Abel Bernal</div>
+        <p class="footer-text">
+          Estudiant de Sistemes Microinformàtics i Xarxes amb moltes ganes d'aprendre i créixer professionalment.
+        </p>
+        <div style="margin: 2rem 0;">
+          <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 1.5rem;">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+        <div class="copyright">
+          © 2024 Abel Bernal. Tots els drets reservats.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navigation active state
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.navmenu a');
+    
+    window.addEventListener('scroll', () => {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        if (pageYOffset >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+    
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Form submission
+    const contactForm = document.getElementById('contactForm');
+    const formMessages = document.getElementById('form-messages');
+    
+    if (contactForm) {
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.innerHTML = '<span>Enviant...</span><i class="bi bi-hourglass"></i>';
+        submitBtn.disabled = true;
+        
+        // Clear previous messages
+        formMessages.innerHTML = '';
+        
+        try {
+          const formData = new FormData(this);
+          
+          const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          if (response.ok) {
+            formMessages.innerHTML = `
+              <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; border: 1px solid #c3e6cb; display: flex; align-items: center; gap: 0.75rem;">
+                <i class="bi bi-check-circle" style="color: #28a745;"></i>
+                <div>
+                  <strong>Gràcies!</strong> El teu missatge s'ha enviat correctament. Et respondré aviat.
+                </div>
+              </div>
+            `;
+            this.reset();
+          } else {
+            throw new Error('Error en la resposta del servidor');
+          }
+        } catch (error) {
+          formMessages.innerHTML = `
+            <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 8px; border: 1px solid #f5c6cb; display: flex; align-items: center; gap: 0.75rem;">
+              <i class="bi bi-exclamation-triangle" style="color: #dc3545;"></i>
+              <div>
+                <strong>Error!</strong> Hi ha hagut un problema en enviar el missatge. Si us plau, torna-ho a provar.
+              </div>
+            </div>
+          `;
+        } finally {
+          // Restore button state
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+        }
+      });
+    }
+    
+    // Animate skill bars on scroll
+    const animateSkillBars = () => {
+      const skillBars = document.querySelectorAll('.skill-progress');
+      
+      skillBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        
+        setTimeout(() => {
+          bar.style.width = width;
+        }, 300);
+      });
+    };
+    
+    // Intersection Observer for skill bars
+    const skillsSection = document.getElementById('skills');
+    
+    if (skillsSection) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateSkillBars();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(skillsSection);
+    }
+  </script>
+</body>
+</html>
