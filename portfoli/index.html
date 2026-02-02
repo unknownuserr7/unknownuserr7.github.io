@@ -5,27 +5,32 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Abel Bernal | Portfoli</title>
-  <meta name="description" content="Portfoli professional d'Abel Bernal">
+  <meta name="description" content="Portfoli professional d'Abel Bernal, estudiant SMX amb interès en DAM">
   
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   
   <style>
     :root {
-      --primary: #1a1a1a;
-      --secondary: #0066cc;
-      --accent: #00cc88;
-      --light: #f8f9fa;
-      --dark: #121212;
-      --gray: #666;
-      --gray-light: #e9ecef;
-      --border-radius: 12px;
-      --spacing: 80px;
+      --black: #0a0a0a;
+      --dark-gray: #1a1a1a;
+      --medium-gray: #2a2a2a;
+      --light-gray: #3a3a3a;
+      --white: #ffffff;
+      --accent: #00d9ff;
+      --accent-dark: #0099cc;
+      --border: 1px solid #333;
+      --border-radius: 8px;
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 2rem;
+      --spacing-lg: 4rem;
+      --spacing-xl: 6rem;
     }
     
     * {
@@ -40,15 +45,17 @@
     
     body {
       font-family: 'Inter', sans-serif;
-      color: var(--primary);
-      background: var(--light);
+      color: var(--white);
+      background: var(--black);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
     
-    h1, h2, h3, h4 {
-      font-family: 'Source Code Pro', monospace;
+    h1, h2, h3, h4, h5 {
+      font-family: 'Space Grotesk', sans-serif;
       font-weight: 600;
+      line-height: 1.2;
     }
     
     .container {
@@ -57,129 +64,18 @@
       padding: 0 2rem;
     }
     
-    /* Header */
-    .header {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 300px;
-      height: 100vh;
-      background: var(--dark);
-      color: white;
-      padding: 3rem 2rem;
-      display: flex;
-      flex-direction: column;
-      z-index: 1000;
-    }
-    
-    .profile-img {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin: 0 auto 2rem;
-      border: 4px solid var(--secondary);
-      box-shadow: 0 8px 32px rgba(0, 102, 204, 0.3);
-    }
-    
-    .profile-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .logo {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    
-    .logo h1 {
-      font-size: 1.8rem;
-      color: white;
-      letter-spacing: 1px;
-    }
-    
-    .logo .accent {
-      color: var(--accent);
-    }
-    
-    .navmenu ul {
-      list-style: none;
-      margin-bottom: 3rem;
-    }
-    
-    .navmenu li {
-      margin-bottom: 0.5rem;
-    }
-    
-    .navmenu a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      padding: 0.8rem 1rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      font-size: 0.95rem;
-    }
-    
-    .navmenu a:hover,
-    .navmenu a.active {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      transform: translateX(5px);
-    }
-    
-    .navicon {
-      margin-right: 0.75rem;
-      font-size: 1.1rem;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: auto;
-    }
-    
-    .social-links a {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-    
-    .social-links a:hover {
-      background: var(--secondary);
-      transform: translateY(-3px);
-    }
-    
-    /* Main Content */
-    .main {
-      margin-left: 300px;
-      min-height: 100vh;
-    }
-    
-    section {
-      padding: var(--spacing) 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
+    .section {
+      padding: var(--spacing-xl) 0;
     }
     
     .section-title {
-      margin-bottom: 3rem;
+      margin-bottom: var(--spacing-lg);
       text-align: center;
     }
     
     .section-title h2 {
       font-size: 2.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: var(--spacing-sm);
       position: relative;
       display: inline-block;
     }
@@ -187,26 +83,118 @@
     .section-title h2::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
       width: 60px;
       height: 3px;
-      background: var(--secondary);
-      border-radius: 2px;
+      background: var(--accent);
     }
     
     .section-title p {
-      color: var(--gray);
+      color: #999;
       font-size: 1.1rem;
       max-width: 600px;
       margin: 0 auto;
     }
     
-    /* Hero Section */
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 1rem 0;
+      border-bottom: var(--border);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+      padding: 0.5rem 0;
+      position: relative;
+    }
+    
+    nav a:hover,
+    nav a.active {
+      color: var(--white);
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* Hero */
     #hero {
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
       position: relative;
       overflow: hidden;
     }
@@ -216,64 +204,103 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 50%;
+      width: 40%;
       height: 100%;
-      background: linear-gradient(45deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 204, 136, 0.1) 100%);
+      background: linear-gradient(45deg, transparent, rgba(0, 217, 255, 0.1));
       clip-path: polygon(100% 0, 0% 100%, 100% 100%);
     }
     
     .hero-content {
       position: relative;
       z-index: 1;
+      max-width: 800px;
+    }
+    
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(0, 217, 255, 0.1);
+      color: var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: var(--spacing-lg);
+      border: 1px solid rgba(0, 217, 255, 0.2);
+    }
+    
+    .hero-badge i {
+      font-size: 1rem;
     }
     
     .hero-content h1 {
       font-size: 3.5rem;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, white 0%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      margin-bottom: var(--spacing-md);
+      line-height: 1.1;
     }
     
-    .hero-content .subtitle {
-      font-size: 1.3rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 2rem;
+    .hero-highlight {
+      color: var(--accent);
+      position: relative;
+    }
+    
+    .hero-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 217, 255, 0.2);
+      z-index: -1;
+    }
+    
+    .hero-description {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: var(--spacing-lg);
       max-width: 600px;
     }
     
-    .hero-stats {
+    .hero-contact {
       display: flex;
-      gap: 3rem;
-      margin-top: 3rem;
+      gap: 2rem;
+      flex-wrap: wrap;
     }
     
-    .stat {
-      text-align: center;
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--white);
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      background: var(--medium-gray);
+      border-radius: var(--border-radius);
+      transition: all 0.3s ease;
+      border: 1px solid var(--light-gray);
     }
     
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 700;
+    .contact-link:hover {
+      background: var(--light-gray);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .contact-link i {
       color: var(--accent);
-      display: block;
-      margin-bottom: 0.5rem;
     }
     
-    .stat-label {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.7);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    /* About */
+    #about {
+      background: var(--dark-gray);
     }
     
-    /* About Section */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+      gap: var(--spacing-lg);
       align-items: center;
     }
     
@@ -281,99 +308,108 @@
       position: relative;
     }
     
-    .about-image-main {
+    .profile-image {
       width: 100%;
       border-radius: var(--border-radius);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--light-gray);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
     
-    .about-badge {
+    .tech-stack {
       position: absolute;
       bottom: -20px;
       right: -20px;
-      background: var(--secondary);
-      color: white;
-      padding: 1rem 1.5rem;
+      background: var(--black);
+      padding: var(--spacing-md);
       border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .tech-stack h4 {
+      color: var(--accent);
+      margin-bottom: var(--spacing-sm);
+      font-size: 1rem;
+    }
+    
+    .tech-icons {
       display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+      gap: 1rem;
+      font-size: 1.5rem;
+    }
+    
+    .tech-icons i {
+      color: #666;
+      transition: color 0.3s ease;
+    }
+    
+    .tech-icons i:hover {
+      color: var(--accent);
     }
     
     .about-content h3 {
       font-size: 2rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--spacing-md);
     }
     
     .about-text {
-      color: var(--gray);
-      margin-bottom: 2rem;
+      color: #ccc;
+      margin-bottom: var(--spacing-lg);
       font-size: 1.1rem;
-      line-height: 1.8;
     }
     
-    .about-info {
+    .info-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: var(--spacing-sm);
     }
     
     .info-item {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      background: var(--light);
-      border-radius: 8px;
-      border-left: 3px solid var(--secondary);
+      gap: var(--spacing-sm);
+      padding: var(--spacing-sm);
+      background: var(--medium-gray);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
     }
     
     .info-item i {
-      color: var(--secondary);
+      color: var(--accent);
       font-size: 1.2rem;
     }
     
-    /* Skills Section */
-    .skills-container {
-      background: white;
-      padding: 3rem;
-      border-radius: var(--border-radius);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
-    
+    /* Skills */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-md);
     }
     
-    .skill-category {
-      padding: 1.5rem;
-      background: var(--light);
+    .skill-card {
+      background: var(--dark-gray);
+      padding: var(--spacing-lg);
       border-radius: var(--border-radius);
-      transition: transform 0.3s ease;
+      border: 1px solid var(--light-gray);
+      transition: all 0.3s ease;
     }
     
-    .skill-category:hover {
+    .skill-card:hover {
       transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(0, 217, 255, 0.1);
     }
     
-    .skill-category h3 {
+    .skill-card h3 {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-      font-size: 1.3rem;
-    }
-    
-    .skill-category i {
-      color: var(--secondary);
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
+      color: var(--accent);
     }
     
     .skill-item {
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--spacing-md);
     }
     
     .skill-header {
@@ -382,30 +418,24 @@
       margin-bottom: 0.5rem;
     }
     
-    .skill-name {
-      font-weight: 500;
-    }
-    
-    .skill-value {
-      color: var(--secondary);
-      font-weight: 600;
-    }
-    
     .skill-bar {
       height: 6px;
-      background: var(--gray-light);
+      background: var(--medium-gray);
       border-radius: 3px;
       overflow: hidden;
     }
     
     .skill-progress {
       height: 100%;
-      background: linear-gradient(90deg, var(--secondary), var(--accent));
+      background: linear-gradient(90deg, var(--accent), var(--accent-dark));
       border-radius: 3px;
-      transition: width 1s ease;
     }
     
-    /* Education Section */
+    /* Education */
+    #education {
+      background: var(--dark-gray);
+    }
+    
     .timeline {
       position: relative;
       max-width: 800px;
@@ -415,56 +445,43 @@
     .timeline::before {
       content: '';
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
+      top: 0;
+      bottom: 0;
       width: 2px;
-      height: 100%;
-      background: var(--secondary);
+      background: var(--accent);
     }
     
     .timeline-item {
-      margin-bottom: 3rem;
       position: relative;
-      width: 50%;
-      padding-right: 3rem;
-    }
-    
-    .timeline-item:nth-child(even) {
-      margin-left: 50%;
-      padding-right: 0;
-      padding-left: 3rem;
+      margin-bottom: var(--spacing-xl);
+      padding-left: var(--spacing-lg);
     }
     
     .timeline-dot {
       position: absolute;
-      right: -6px;
+      left: -9px;
       top: 0;
-      width: 12px;
-      height: 12px;
-      background: var(--secondary);
+      width: 16px;
+      height: 16px;
+      background: var(--black);
+      border: 3px solid var(--accent);
       border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 0 4px var(--secondary);
-    }
-    
-    .timeline-item:nth-child(even) .timeline-dot {
-      right: auto;
-      left: -6px;
-    }
-    
-    .timeline-content {
-      background: white;
-      padding: 2rem;
-      border-radius: var(--border-radius);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     }
     
     .timeline-date {
-      color: var(--secondary);
-      font-weight: 600;
+      color: var(--accent);
       font-size: 0.9rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
       letter-spacing: 1px;
+    }
+    
+    .timeline-content {
+      background: var(--black);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
     }
     
     .timeline-content h3 {
@@ -472,82 +489,196 @@
     }
     
     .timeline-content h4 {
-      color: var(--gray);
+      color: #999;
       font-weight: 500;
-      margin-bottom: 1rem;
+      margin-bottom: var(--spacing-sm);
     }
     
-    /* Contact Section */
+    /* Professional Blocks */
+    #professional-blocks {
+      background: var(--black);
+    }
+    
+    .blocks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    @media (max-width: 992px) {
+      .blocks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .block-card {
+      background: var(--dark-gray);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: 1px solid var(--light-gray);
+      transition: all 0.3s ease;
+    }
+    
+    .block-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(0, 217, 255, 0.1);
+    }
+    
+    .block-header {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      padding: var(--spacing-md);
+      text-align: center;
+    }
+    
+    .block-header h3 {
+      font-size: 1.5rem;
+      color: var(--black);
+    }
+    
+    .block-content {
+      padding: var(--spacing-md);
+    }
+    
+    .block-item {
+      margin-bottom: var(--spacing-md);
+      padding: var(--spacing-sm);
+      background: var(--medium-gray);
+      border-radius: var(--border-radius);
+      border-left: 3px solid var(--accent);
+    }
+    
+    .block-item h4 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    
+    .block-item ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    
+    .block-item li {
+      margin-bottom: 0.5rem;
+      color: #ccc;
+      position: relative;
+      padding-left: 1rem;
+    }
+    
+    .block-item li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    
+    .job-offers {
+      background: var(--dark-gray);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
+    }
+    
+    .offer-item {
+      margin-bottom: var(--spacing-md);
+      padding: var(--spacing-md);
+      background: var(--medium-gray);
+      border-radius: var(--border-radius);
+      border-left: 3px solid var(--accent);
+    }
+    
+    .offer-item h4 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    
+    .requirements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+    }
+    
+    .requirement-category {
+      background: var(--dark-gray);
+      padding: var(--spacing-sm);
+      border-radius: var(--border-radius);
+    }
+    
+    .requirement-category h5 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    /* Contact */
     #contact {
-      background: var(--dark);
-      color: white;
+      background: var(--dark-gray);
     }
     
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 4rem;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-lg);
+    }
+    
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
     }
     
     .contact-info h3 {
-      color: white;
-      margin-bottom: 2rem;
-      font-size: 1.8rem;
+      margin-bottom: var(--spacing-md);
     }
     
     .contact-details {
-      margin-bottom: 3rem;
+      margin-bottom: var(--spacing-lg);
     }
     
-    .contact-item {
+    .contact-detail {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      transition: background 0.3s ease;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-sm);
+      padding: var(--spacing-sm);
+      background: var(--medium-gray);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-gray);
     }
     
-    .contact-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    .contact-item i {
-      width: 40px;
-      height: 40px;
-      background: var(--secondary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+    .contact-detail i {
+      color: var(--accent);
+      font-size: 1.2rem;
     }
     
     .contact-form-container {
-      background: white;
-      padding: 3rem;
+      background: var(--black);
+      padding: var(--spacing-lg);
       border-radius: var(--border-radius);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--light-gray);
     }
     
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--spacing-md);
     }
     
     .form-group label {
       display: block;
       margin-bottom: 0.5rem;
-      color: var(--primary);
+      color: #ccc;
       font-weight: 500;
     }
     
     .form-control {
       width: 100%;
-      padding: 1rem;
-      border: 2px solid var(--gray-light);
-      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      background: var(--dark-gray);
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      color: var(--white);
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
       transition: border-color 0.3s ease;
@@ -555,7 +686,7 @@
     
     .form-control:focus {
       outline: none;
-      border-color: var(--secondary);
+      border-color: var(--accent);
     }
     
     textarea.form-control {
@@ -564,161 +695,180 @@
     }
     
     .submit-btn {
-      background: var(--secondary);
-      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: var(--black);
       border: none;
       padding: 1rem 2.5rem;
-      border-radius: 8px;
+      border-radius: var(--border-radius);
       font-family: 'Inter', sans-serif;
       font-weight: 600;
       font-size: 1rem;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 0.75rem;
       transition: all 0.3s ease;
     }
     
     .submit-btn:hover {
-      background: #0052a3;
       transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+      box-shadow: 0 10px 20px rgba(0, 217, 255, 0.3);
+    }
+    
+    #form-messages {
+      margin-top: var(--spacing-md);
+    }
+    
+    .message {
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius);
+      display: none;
+    }
+    
+    .message.success {
+      display: block;
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      color: #00ff88;
+    }
+    
+    .message.error {
+      display: block;
+      background: rgba(255, 0, 68, 0.1);
+      border: 1px solid rgba(255, 0, 68, 0.3);
+      color: #ff0044;
     }
     
     /* Footer */
     footer {
-      background: var(--primary);
-      color: white;
-      padding: 3rem 0;
-      text-align: center;
-      margin-left: 300px;
+      background: var(--black);
+      padding: var(--spacing-xl) 0 var(--spacing-md);
+      border-top: var(--border);
     }
     
     .footer-content {
+      text-align: center;
       max-width: 600px;
       margin: 0 auto;
     }
     
     .footer-logo {
-      font-family: 'Source Code Pro', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.5rem;
-      margin-bottom: 1rem;
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+      color: var(--accent);
     }
     
     .footer-text {
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 2rem;
+      color: #999;
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: var(--dark-gray);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid var(--light-gray);
+    }
+    
+    .footer-social a:hover {
+      background: var(--accent);
+      color: var(--black);
+      transform: translateY(-3px);
     }
     
     .copyright {
-      color: rgba(255, 255, 255, 0.5);
+      color: #666;
       font-size: 0.9rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: var(--spacing-md);
+      border-top: 1px solid var(--light-gray);
     }
     
     /* Responsive */
-    @media (max-width: 1200px) {
-      .header {
-        width: 250px;
-      }
-      
-      .main {
-        margin-left: 250px;
-      }
-      
-      footer {
-        margin-left: 250px;
-      }
-    }
-    
-    @media (max-width: 992px) {
-      .header {
-        position: relative;
-        width: 100%;
-        height: auto;
-        padding: 2rem;
-      }
-      
-      .main {
-        margin-left: 0;
-      }
-      
-      footer {
-        margin-left: 0;
-      }
-      
-      .navmenu ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-      
-      .navmenu li {
-        margin-bottom: 0;
-      }
-      
-      .about-grid,
-      .skills-grid,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .timeline::before {
-        left: 30px;
-      }
-      
-      .timeline-item {
-        width: 100%;
-        padding-left: 60px;
-        padding-right: 0;
-      }
-      
-      .timeline-item:nth-child(even) {
-        margin-left: 0;
-        padding-left: 60px;
-      }
-      
-      .timeline-dot {
-        left: 24px;
-        right: auto;
-      }
-      
-      .timeline-item:nth-child(even) .timeline-dot {
-        left: 24px;
-      }
-      
-      #hero::before {
-        width: 100%;
-        opacity: 0.3;
-      }
-    }
-    
     @media (max-width: 768px) {
-      .container {
-        padding: 0 1.5rem;
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: var(--dark-gray);
+        padding: var(--spacing-md);
+        border-bottom: var(--border);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      
+      nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
       }
       
       .hero-content h1 {
         font-size: 2.5rem;
       }
       
-      .hero-stats {
-        flex-direction: column;
-        gap: 2rem;
+      .about-grid {
+        grid-template-columns: 1fr;
       }
       
-      .skills-container {
-        padding: 2rem;
+      .tech-stack {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        margin-top: var(--spacing-md);
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
       }
       
       .section-title h2 {
         font-size: 2rem;
       }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1rem;
+      }
       
-      .contact-form-container {
-        padding: 2rem;
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .hero-contact {
+        flex-direction: column;
+      }
+      
+      .contact-link {
+        justify-content: center;
       }
     }
   </style>
@@ -726,348 +876,636 @@
 
 <body>
   <!-- Header -->
-  <header class="header">
-    <div class="profile-img">
-      <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Abel Bernal">
-    </div>
-    
-    <div class="logo">
-      <h1>Abel <span class="accent">Bernal</span></h1>
-    </div>
-    
-    <nav class="navmenu">
-      <ul>
-        <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Inici</a></li>
-        <li><a href="#about"><i class="bi bi-person navicon"></i>Sobre mi</a></li>
-        <li><a href="#skills"><i class="bi bi-gear navicon"></i>Habilitats</a></li>
-        <li><a href="#education"><i class="bi bi-mortarboard navicon"></i>Formació</a></li>
-        <li><a href="#contact"><i class="bi bi-envelope navicon"></i>Contacte</a></li>
-      </ul>
-    </nav>
-    
-    <div class="social-links">
-      <a href="https://linkedin.com" target="_blank"><i class="bi bi-linkedin"></i></a>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <span>AB</span>
+          <div class="logo-dot"></div>
+        </a>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="bi bi-list"></i>
+        </button>
+        
+        <nav id="mainNav">
+          <ul>
+            <li><a href="#hero" class="active">Inici</a></li>
+            <li><a href="#about">Sobre mi</a></li>
+            <li><a href="#skills">Habilitats</a></li>
+            <li><a href="#education">Formació</a></li>
+            <li><a href="#professional-blocks">Projecte Professional</a></li>
+            <li><a href="#contact">Contacte</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="main">
-    <!-- Hero Section -->
-    <section id="hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1>Estudiant de<br>Sistemes Microinformàtics<br>i Xarxes</h1>
-          <p class="subtitle">
-            Amb una gran motivació per aprendre i contribuir al creixement en el camp de la informàtica. 
-            Obert a noves oportunitats per desenvolupar les meves habilitats tècniques.
+  <!-- Hero Section -->
+  <section id="hero" class="section">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="bi bi-code-slash"></i>
+          <span>Estudiant SMX | Futur Desenvolupador DAM</span>
+        </div>
+        
+        <h1>Abel <span class="hero-highlight">Bernal</span></h1>
+        
+        <p class="hero-description">
+          Estic construint el meu camí en el món de la tecnologia. Actualment cursant SMX i amb l'objectiu 
+          de convertir-me en desenvolupador d'aplicacions multiplataforma. Aprenent constantment i preparat 
+          per als nous reptes tecnològics.
+        </p>
+        
+        <div class="hero-contact">
+          <a href="mailto:abel.bernal@iaballester.cat" class="contact-link">
+            <i class="bi bi-envelope"></i>
+            <span>abel.bernal@iaballester.cat</span>
+          </a>
+          
+          <a href="tel:+34636540928" class="contact-link">
+            <i class="bi bi-phone"></i>
+            <span>+34 636 54 09 28</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Sobre mi</h2>
+        <p>Estudiant de tecnologia amb visió de futur</p>
+      </div>
+      
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Abel Bernal" class="profile-image">
+          
+          <div class="tech-stack">
+            <h4>Tecnologies que aprenc</h4>
+            <div class="tech-icons">
+              <i class="bi bi-filetype-js" title="JavaScript"></i>
+              <i class="bi bi-filetype-java" title="Java"></i>
+              <i class="bi bi-database" title="Bases de dades"></i>
+              <i class="bi bi-git" title="Git"></i>
+              <i class="bi bi-terminal" title="Terminal"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="about-content">
+          <h3>Aprenent de sistemes i programació</h3>
+          
+          <p class="about-text">
+            Actualment cursant el Cicle Formatiu de Grau Mitjà en Sistemes Microinformàtics i Xarxes. 
+            Amb una gran motivació per aprendre i créixer en el camp de la informàtica. El meu objectiu 
+            és continuar formant-me amb el Cicle Superior de Desenvolupament d'Aplicacions Multiplataforma (DAM) 
+            per convertir-me en desenvolupador professional.
           </p>
           
-          <div class="hero-stats">
-            <div class="stat">
-              <span class="stat-number">3</span>
-              <span class="stat-label">Idiomes</span>
+          <div class="info-grid">
+            <div class="info-item">
+              <i class="bi bi-calendar"></i>
+              <span>27/09/2007</span>
             </div>
-            <div class="stat">
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Motivació</span>
+            
+            <div class="info-item">
+              <i class="bi bi-phone"></i>
+              <span>+34 636 54 09 28</span>
             </div>
-            <div class="stat">
-              <span class="stat-number">∞</span>
-              <span class="stat-label">Potencial</span>
+            
+            <div class="info-item">
+              <i class="bi bi-envelope"></i>
+              <span>abel.bernal@iaballester.cat</span>
+            </div>
+            
+            <div class="info-item">
+              <i class="bi bi-geo-alt"></i>
+              <span>Reus, Catalunya</span>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- About Section -->
-    <section id="about">
-      <div class="container">
-        <div class="section-title">
-          <h2>Sobre mi</h2>
-          <p>Conèix-me millor</p>
-        </div>
-        
-        <div class="about-grid">
-          <div class="about-image">
-            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Informàtica" class="about-image-main">
-            <div class="about-badge">
-              <i class="bi bi-laptop"></i>
-              <div>
-                <div style="font-weight: 600;">Estudiant SMX</div>
-                <div style="font-size: 0.9rem;">En formació</div>
-              </div>
+  <!-- Skills Section -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Habilitats</h2>
+        <p>Competències tècniques i personals en desenvolupament</p>
+      </div>
+      
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3><i class="bi bi-cpu"></i> Tècniques SMX</h3>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Muntatge i Manteniment</span>
+              <span>85%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 85%"></div>
             </div>
           </div>
           
-          <div class="about-content">
-            <h3>Estudiant apassionat per la tecnologia</h3>
-            
-            <div class="about-text">
-              <p>
-                Actualment cursant el Cicle Formatiu de Grau Mitjà en Sistemes Microinformàtics i Xarxes. 
-                Amb una gran motivació per aprendre i contribuir al creixement en el camp de la informàtica.
-              </p>
-              <p>
-                Tot i que no tinc experiència laboral prèvia, estic obert a adquirir noves habilitats 
-                i ajudar en qualsevol projecte o necessitat que pugui sorgir.
-              </p>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Xarxes i Sistemes</span>
+              <span>80%</span>
             </div>
-            
-            <div class="about-info">
-              <div class="info-item">
-                <i class="bi bi-calendar"></i>
-                <span>27/09/2007</span>
-              </div>
-              <div class="info-item">
-                <i class="bi bi-telephone"></i>
-                <span>+34 636 54 09 28</span>
-              </div>
-              <div class="info-item">
-                <i class="bi bi-envelope"></i>
-                <span>abel.bernal@iaballester.cat</span>
-              </div>
-              <div class="info-item">
-                <i class="bi bi-geo-alt"></i>
-                <span>Reus, Catalunya</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills">
-      <div class="container">
-        <div class="section-title">
-          <h2>Habilitats</h2>
-          <p>Les meves competències tècniques i personals</p>
-        </div>
-        
-        <div class="skills-container">
-          <div class="skills-grid">
-            <div class="skill-category">
-              <h3><i class="bi bi-cpu"></i> Tècniques</h3>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Muntatge d'Equips</span>
-                  <span class="skill-value">85%</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 85%"></div>
-                </div>
-              </div>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Servidors Web</span>
-                  <span class="skill-value">75%</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 75%"></div>
-                </div>
-              </div>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Xarxes</span>
-                  <span class="skill-value">80%</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 80%"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="skill-category">
-              <h3><i class="bi bi-translate"></i> Idiomes</h3>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Català</span>
-                  <span class="skill-value">Natiu</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 100%"></div>
-                </div>
-              </div>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Castellà</span>
-                  <span class="skill-value">Natiu</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 100%"></div>
-                </div>
-              </div>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Anglès</span>
-                  <span class="skill-value">Bàsic</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 40%"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="skill-category">
-              <h3><i class="bi bi-person"></i> Personals</h3>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Treball en Equip</span>
-                  <span class="skill-value">90%</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 90%"></div>
-                </div>
-              </div>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Responsabilitat</span>
-                  <span class="skill-value">95%</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 95%"></div>
-                </div>
-              </div>
-              <div class="skill-item">
-                <div class="skill-header">
-                  <span class="skill-name">Motivació</span>
-                  <span class="skill-value">100%</span>
-                </div>
-                <div class="skill-bar">
-                  <div class="skill-progress" style="width: 100%"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Education Section -->
-    <section id="education">
-      <div class="container">
-        <div class="section-title">
-          <h2>Formació</h2>
-          <p>El meu recorregut acadèmic</p>
-        </div>
-        
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">2024 - Actualitat</div>
-              <h3>Cicle Formatiu de Grau Mitjà</h3>
-              <h4>Sistemes Microinformàtics i Xarxes</h4>
-              <p>INS Antoni Ballester, Mont Roig</p>
-              <p style="margin-top: 1rem; color: var(--gray);">
-                Formació en muntatge i manteniment d'equips, xarxes informàtiques, sistemes operatius i seguretat.
-              </p>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 80%"></div>
             </div>
           </div>
           
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">2025</div>
-              <h3>Certificat Google</h3>
-              <h4>Intel·ligència Artificial i Productivitat</h4>
-              <p>Santander Open Academy</p>
-              <p style="margin-top: 1rem; color: var(--gray);">
-                Certificat en l'aplicació de la intel·ligència artificial per a la millora de la productivitat.
-              </p>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Servidors Web</span>
+              <span>75%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 75%"></div>
             </div>
           </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">2019 - 2024</div>
-              <h3>Educació Secundària Obligatòria</h3>
-              <h4>Titolació ESO</h4>
-              <p>Maria Rosa Molas, Reus</p>
-              <p style="margin-top: 1rem; color: var(--gray);">
-                Titulació d'Educació Secundària Obligatòria completada amb èxit.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-      <div class="container">
-        <div class="section-title">
-          <h2>Contacte</h2>
-          <p>Posem-nos en contacte</p>
         </div>
         
-        <div class="contact-grid">
-          <div class="contact-info">
-            <h3>Informació de contacte</h3>
-            
-            <div class="contact-details">
-              <div class="contact-item">
-                <i class="bi bi-envelope"></i>
-                <span>abel.bernal@iaballester.cat</span>
-              </div>
-              
-              <div class="contact-item">
-                <i class="bi bi-telephone"></i>
-                <span>+34 636 54 09 28</span>
-              </div>
-              
-              <div class="contact-item">
-                <i class="bi bi-geo-alt"></i>
-                <span>Reus, Catalunya</span>
-              </div>
+        <div class="skill-card">
+          <h3><i class="bi bi-code-slash"></i> Programació</h3>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Lògica de Programació</span>
+              <span>70%</span>
             </div>
-            
-            <div style="background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: var(--border-radius);">
-              <h4 style="margin-bottom: 1rem; color: var(--accent);">Disponibilitat</h4>
-              <p style="color: rgba(255, 255, 255, 0.8);">
-                Estic obert a oportunitats per desenvolupar les meves habilitats tècniques i créixer professionalment.
-              </p>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 70%"></div>
             </div>
           </div>
           
-          <div class="contact-form-container">
-            <h3 style="color: var(--primary); margin-bottom: 2rem;">Envia'm un missatge</h3>
-            
-            <form action="https://formspree.io/f/xqebppjr" method="POST" id="contactForm">
-              <div class="form-group">
-                <label for="name">Nom complet *</label>
-                <input type="text" id="name" name="name" class="form-control" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" class="form-control" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="subject">Assumpte *</label>
-                <input type="text" id="subject" name="subject" class="form-control" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="message">Missatge *</label>
-                <textarea id="message" name="message" class="form-control" required></textarea>
-              </div>
-              
-              <div id="form-messages" style="margin-bottom: 1.5rem;"></div>
-              
-              <button type="submit" class="submit-btn">
-                <span>Enviar missatge</span>
-                <i class="bi bi-send"></i>
-              </button>
-            </form>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>HTML/CSS Bàsic</span>
+              <span>65%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 65%"></div>
+            </div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Java (aprenent)</span>
+              <span>50%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 50%"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="skill-card">
+          <h3><i class="bi bi-people"></i> Personals</h3>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Treball en Equip</span>
+              <span>90%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 90%"></div>
+            </div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Aprenentatge Ràpid</span>
+              <span>95%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 95%"></div>
+            </div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span>Motivació</span>
+              <span>100%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-progress" style="width: 100%"></div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Formació</h2>
+        <p>El meu recorregut acadèmic i plans de futur</p>
+      </div>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2024 - Actualitat</div>
+          <div class="timeline-content">
+            <h3>Cicle Formatiu de Grau Mitjà</h3>
+            <h4>Sistemes Microinformàtics i Xarxes</h4>
+            <p>INS Antoni Ballester, Mont Roig</p>
+            <p style="margin-top: 1rem; color: #999;">
+              Formació en muntatge i manteniment d'equips, xarxes informàtiques, sistemes operatius, 
+              seguretat informàtica i serveis de xarxa.
+            </p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">2025</div>
+          <div class="timeline-content">
+            <h3>Certificat Google</h3>
+            <h4>Intel·ligència Artificial i Productivitat</h4>
+            <p>Santander Open Academy</p>
+            <p style="margin-top: 1rem; color: #999;">
+              Certificat en l'aplicació de la intel·ligència artificial per a la millora de la productivitat 
+              i automatització de tasques.
+            </p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Futur (2026-2028)</div>
+          <div class="timeline-content">
+            <h3>Cicle Superior</h3>
+            <h4>Desenvolupament d'Aplicacions Multiplataforma (DAM)</h4>
+            <p>Objectiu professional</p>
+            <p style="margin-top: 1rem; color: #999;">
+              Planifico cursar DAM per especialitzar-me en desenvolupament de software, 
+              creant aplicacions per a diferents dispositius i plataformes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Professional Blocks -->
+  <section id="professional-blocks" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Projecte Professional</h2>
+        <p>Planificació de carrera en desenvolupament de software</p>
+      </div>
+      
+      <!-- Bloque A -->
+      <div class="blocks-grid">
+        <div class="block-card">
+          <div class="block-header">
+            <h3>BLOQUE A</h3>
+          </div>
+          <div class="block-content">
+            <div class="block-item">
+              <h4>Sortida Professional Escollida</h4>
+              <p><strong>Desenvolupador d'Aplicacions Multiplataforma</strong></p>
+              <p>Especialitzat en creació de software per a dispositius mòbils, web i escriptori</p>
+            </div>
+            
+            <div class="block-item">
+              <h4>1. Definició de la Feina</h4>
+              <p>Professional que dissenya, desenvolupa i manté aplicacions informàtiques que funcionen en múltiples plataformes (Android, iOS, Windows, Linux, web) utilitzant tecnologies com Java, Kotlin, Swift, React Native, Flutter, etc.</p>
+            </div>
+            
+            <div class="block-item">
+              <h4>2. Tasques Principals</h4>
+              <ul>
+                <li>Analitzar requisits del client/projecte</li>
+                <li>Dissenyar arquitectura de software</li>
+                <li>Programar codi seguint estàndards</li>
+                <li>Provar i depurar aplicacions</li>
+                <li>Documentar el codi i processos</li>
+                <li>Mantenir i actualitzar aplicacions</li>
+                <li>Col·laborar en equip amb metodologies àgils</li>
+                <li>Integrar APIs i serveis web</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>3. Competències Necessàries</h4>
+              <ul>
+                <li><strong>Tècniques:</strong> Programació (Java, Kotlin, Swift), bases de dades, APIs, Git</li>
+                <li><strong>Metodològiques:</strong> Scrum, Kanban, DevOps</li>
+                <li><strong>Personals:</strong> Resolució de problemes, treball en equip, aprenentatge continu</li>
+                <li><strong>Idiomes:</strong> Anglès tècnic (imprescindible)</li>
+                <li><strong>Específiques:</strong> UX/UI bàsic, seguretat informàtica, patrons de disseny</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bloque B -->
+        <div class="block-card">
+          <div class="block-header">
+            <h3>BLOQUE B</h3>
+          </div>
+          <div class="block-content">
+            <div class="block-item">
+              <h4>Anàlisi d'Ofertes de Treball</h4>
+              <p>Recerca realitzada en InfoJobs, LinkedIn i altres portals especialitzats</p>
+            </div>
+            
+            <div class="block-item">
+              <h4>Oferta 1: Programador Junior Java</h4>
+              <p><strong>Empresa:</strong> Consultoria tecnològica a Barcelona</p>
+              <p><strong>Requisits:</strong></p>
+              <ul>
+                <li>Cicle Superior DAM o Enginyeria Informàtica</li>
+                <li>Java 8+, Spring Framework</li>
+                <li>SQL i bases de dades relacionals</li>
+                <li>Git i control de versions</li>
+                <li>Anglès bàsic</li>
+                <li>Actitud d'aprenentatge</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Oferta 2: Desenvolupador Android</h4>
+              <p><strong>Empresa:</strong> Startup tecnològica a Tarragona</p>
+              <ul>
+                <li>Kotlin/Java per Android</li>
+                <li>Android SDK i Android Studio</li>
+                <li>APIs REST i JSON</li>
+                <li>Patrons MVVM/MVC</li>
+                <li>Portafolis de projectes propis</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Oferta 3: Programador Full-Stack</h4>
+              <p><strong>Empresa:</strong> Agència digital a Reus</p>
+              <ul>
+                <li>Frontend: HTML5, CSS3, JavaScript</li>
+                <li>Backend: Node.js o PHP</li>
+                <li>Bases de dades MySQL/MongoDB</li>
+                <li>Frameworks: React o Angular</li>
+                <li>Experiència pràctica (bootcamps acceptats)</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Oferta 4: Desenvolupador .NET</h4>
+              <p><strong>Empresa:</strong> Multinacional amb oficines a Lleida</p>
+              <ul>
+                <li>C# i .NET Core</li>
+                <li>ASP.NET MVC</li>
+                <li>Entity Framework</li>
+                <li>SQL Server</li>
+                <li>Metodologies àgils</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Oferta 5: Becari Desenvolupament</h4>
+              <p><strong>Empresa:</strong> Centre tecnològic a Camp de Tarragona</p>
+              <ul>
+                <li>Estudiant de DAM o equivalent</li>
+                <li>Iniciativa i proactivitat</li>
+                <li>Bones notes acadèmiques</li>
+                <li>Disposició per aprendre</li>
+                <li>Projectes personals valorats</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bloque C -->
+        <div class="block-card">
+          <div class="block-header">
+            <h3>BLOQUE C</h3>
+          </div>
+          <div class="block-content">
+            <div class="block-item">
+              <h4>Itinerari Formatiu</h4>
+              <p>Ruta planificada per convertir-me en desenvolupador professional</p>
+            </div>
+            
+            <div class="block-item">
+              <h4>Fase 1: Formació Reglada (Actual)</h4>
+              <ul>
+                <li><strong>Cicle Mitjà SMX (2024-2025):</strong> Bases de sistemes, xarxes i hardware</li>
+                <li><strong>Competències adquirides:</strong> Muntatge equips, xarxes locals, sistemes operatius</li>
+                <li><strong>Complementari:</strong> Cursos online (Google AI, programació bàsica)</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Fase 2: Cicle Superior DAM (Planificat)</h4>
+              <ul>
+                <li><strong>Durada:</strong> 2 anys (2026-2028)</li>
+                <li><strong>Mòduls principals:</strong>
+                  <ul>
+                    <li>Programació (Java, C#, PHP)</li>
+                    <li>Bases de dades (SQL, NoSQL)</li>
+                    <li>Entorns de desenvolupament</li>
+                    <li>Desenvolupament d'interfícies</li>
+                    <li>Accés a dades</li>
+                    <li>Desenvolupament web i mòbil</li>
+                  </ul>
+                </li>
+                <li><strong>Pràctiques en empresa:</strong> 400 hores obligatòries</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Fase 3: Especialització i Experiència</h4>
+              <ul>
+                <li><strong>Especialitzacions possibles:</strong>
+                  <ul>
+                    <li>Desenvolupament Android (Kotlin)</li>
+                    <li>Desenvolupament iOS (Swift)</li>
+                    <li>Full-Stack JavaScript</li>
+                    <li>Desenvolupament de videojocs</li>
+                  </ul>
+                </li>
+                <li><strong>Certificacions valorades:</strong>
+                  <ul>
+                    <li>Oracle Certified Associate (Java)</li>
+                    <li>Google Associate Android Developer</li>
+                    <li>Microsoft Certified: Azure Fundamentals</li>
+                  </ul>
+                </li>
+                <li><strong>Idiomes:</strong> Millorar anglès fins a B2/C1</li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Fase 4: Desenvolupament Professional</h4>
+              <ul>
+                <li><strong>Primer lloc de treball:</strong> Programador Junior (1-2 anys)</li>
+                <li><strong>Evolució:</strong> Programador Senior (3-5 anys)</li>
+                <li><strong>Possibles direccions:</strong>
+                  <ul>
+                    <li>Arquitecte de software</li>
+                    <li>Tech Lead</li>
+                    <li>Especialista en una tecnologia concreta</li>
+                    <li>Freelance/Consultor</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="block-item">
+              <h4>Recursos i Portals d'Ocupació</h4>
+              <ul>
+                <li><strong>Portals oficials:</strong> SOC, Servei d'Ocupació de Catalunya</li>
+                <li><strong>Portals generals:</strong> InfoJobs, LinkedIn, Tecnoempleo</li>
+                <li><strong>Especialitzats IT:</strong> ITJobs, Ticjob, GitHub Jobs</li>
+                <li><strong>Xarxes professionals:</strong> LinkedIn, Twitter tech community</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Resumen de ofertas -->
+      <div class="job-offers">
+        <h3 style="text-align: center; margin-bottom: var(--spacing-lg); color: var(--accent);">
+          Resum de Requisits en Ofertes de Treball
+        </h3>
+        
+        <div class="requirements-grid">
+          <div class="requirement-category">
+            <h5>Formació Acadèmica</h5>
+            <ul>
+              <li>DAM o Enginyeria Informàtica (95%)</li>
+              <li>Bootcamps/Formació no reglada (60%)</li>
+              <li>Experiència prèvia valorada (85%)</li>
+            </ul>
+          </div>
+          
+          <div class="requirement-category">
+            <h5>Llenguatges de Programació</h5>
+            <ul>
+              <li>Java (80%)</li>
+              <li>JavaScript (75%)</li>
+              <li>Python (40%)</li>
+              <li>C# (35%)</li>
+              <li>Kotlin/Swift (30%)</li>
+            </ul>
+          </div>
+          
+          <div class="requirement-category">
+            <h5>Competències Tècniques</h5>
+            <ul>
+              <li>Bases de dades SQL (90%)</li>
+              <li>Git i control de versions (85%)</li>
+              <li>APIs REST (80%)</li>
+              <li>Metodologies àgils (70%)</li>
+              <li>Docker/Contenidors (40%)</li>
+            </ul>
+          </div>
+          
+          <div class="requirement-category">
+            <h5>Idiomes i Soft Skills</h5>
+            <ul>
+              <li>Anglès tècnic (70%)</li>
+              <li>Treball en equip (95%)</li>
+              <li>Resolució problemes (90%)</li>
+              <li>Aprenentatge autònom (85%)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Contacte</h2>
+        <p>Posem-nos en contacte per a oportunitats d'aprenentatge i col·laboració</p>
+      </div>
+      
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Informació de contacte</h3>
+          
+          <div class="contact-details">
+            <div class="contact-detail">
+              <i class="bi bi-envelope"></i>
+              <span>abel.bernal@iaballester.cat</span>
+            </div>
+            
+            <div class="contact-detail">
+              <i class="bi bi-phone"></i>
+              <span>+34 636 54 09 28</span>
+            </div>
+            
+            <div class="contact-detail">
+              <i class="bi bi-geo-alt"></i>
+              <span>Reus, Catalunya</span>
+            </div>
+          </div>
+          
+          <div style="background: var(--medium-gray); padding: var(--spacing-md); border-radius: var(--border-radius); border-left: 3px solid var(--accent);">
+            <h4 style="color: var(--accent); margin-bottom: var(--spacing-sm);">Disponible per</h4>
+            <ul style="color: #ccc; padding-left: 1rem;">
+              <li>Pràctiques de SMX (2025)</li>
+              <li>Projectes de col·laboració</li>
+              <li>Aprenentatge tutoritzat</li>
+              <li>Intercanvi de coneixements</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="contact-form-container">
+          <h3>Envia'm un missatge</h3>
+          
+          <form action="https://formspree.io/f/mjvzzrqe" method="POST" id="contactForm">
+            <div class="form-group">
+              <label for="name">Nom complet *</label>
+              <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="subject">Assumpte *</label>
+              <input type="text" id="subject" name="subject" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Missatge *</label>
+              <textarea id="message" name="message" class="form-control" required></textarea>
+            </div>
+            
+            <div id="form-messages"></div>
+            
+            <button type="submit" class="submit-btn">
+              <span>Enviar missatge</span>
+              <i class="bi bi-send"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer>
@@ -1075,33 +1513,62 @@
       <div class="footer-content">
         <div class="footer-logo">Abel Bernal</div>
         <p class="footer-text">
-          Estudiant de Sistemes Microinformàtics i Xarxes amb moltes ganes d'aprendre i créixer professionalment.
+          Estudiant de tecnologia en constant evolució. SMX actual, DAM al futur. 
+          Compromès amb l'aprenentatge continu i la innovació tecnològica.
         </p>
-        <div style="margin: 2rem 0;">
-          <a href="https://linkedin.com" target="_blank" style="color: white; font-size: 1.5rem;">
+        
+        <div class="footer-social">
+          <a href="https://linkedin.com" target="_blank">
             <i class="bi bi-linkedin"></i>
           </a>
+          <a href="https://github.com" target="_blank">
+            <i class="bi bi-github"></i>
+          </a>
+          <a href="mailto:abel.bernal@iaballester.cat">
+            <i class="bi bi-envelope"></i>
+          </a>
         </div>
+        
         <div class="copyright">
-          © 2024 Abel Bernal. Tots els drets reservats.
+          © 2024 Abel Bernal. Tots els drets reservats.<br>
+          Dissenyat per a projecte professional SMX
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    // Navigation active state
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.navmenu a');
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
     
+    mobileMenuBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+        ? '<i class="bi bi-x"></i>' 
+        : '<i class="bi bi-list"></i>';
+    });
+    
+    // Close mobile menu on link click
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+        mobileMenuBtn.innerHTML = '<i class="bi bi-list"></i>';
+      });
+    });
+    
+    // Active navigation on scroll
     window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('nav a');
+      
       let current = '';
       
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
         
-        if (pageYOffset >= sectionTop - 200) {
+        if (scrollY >= (sectionTop - 150)) {
           current = section.getAttribute('id');
         }
       });
@@ -1110,24 +1577,6 @@
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${current}`) {
           link.classList.add('active');
-        }
-      });
-    });
-    
-    // Smooth scroll for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop,
-            behavior: 'smooth'
-          });
         }
       });
     });
@@ -1163,11 +1612,9 @@
           
           if (response.ok) {
             formMessages.innerHTML = `
-              <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 8px; border: 1px solid #c3e6cb; display: flex; align-items: center; gap: 0.75rem;">
-                <i class="bi bi-check-circle" style="color: #28a745;"></i>
-                <div>
-                  <strong>Gràcies!</strong> El teu missatge s'ha enviat correctament. Et respondré aviat.
-                </div>
+              <div class="message success">
+                <i class="bi bi-check-circle"></i>
+                <span>Gràcies! El teu missatge s'ha enviat correctament. Et respondré aviat.</span>
               </div>
             `;
             this.reset();
@@ -1176,11 +1623,9 @@
           }
         } catch (error) {
           formMessages.innerHTML = `
-            <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 8px; border: 1px solid #f5c6cb; display: flex; align-items: center; gap: 0.75rem;">
-              <i class="bi bi-exclamation-triangle" style="color: #dc3545;"></i>
-              <div>
-                <strong>Error!</strong> Hi ha hagut un problema en enviar el missatge. Si us plau, torna-ho a provar.
-              </div>
+            <div class="message error">
+              <i class="bi bi-exclamation-triangle"></i>
+              <span>Hi ha hagut un error en enviar el missatge. Si us plau, torna-ho a provar.</span>
             </div>
           `;
         } finally {
@@ -1191,35 +1636,58 @@
       });
     }
     
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
     // Animate skill bars on scroll
-    const animateSkillBars = () => {
+    const animateOnScroll = () => {
       const skillBars = document.querySelectorAll('.skill-progress');
+      const windowHeight = window.innerHeight;
       
       skillBars.forEach(bar => {
-        const width = bar.style.width;
-        bar.style.width = '0';
+        const elementTop = bar.getBoundingClientRect().top;
         
-        setTimeout(() => {
+        if (elementTop < windowHeight - 100) {
+          const width = bar.getAttribute('data-width') || bar.style.width;
           bar.style.width = width;
-        }, 300);
+        }
       });
     };
     
-    // Intersection Observer for skill bars
-    const skillsSection = document.getElementById('skills');
+    // Set initial width for animation
+    document.querySelectorAll('.skill-progress').forEach(bar => {
+      const width = bar.style.width;
+      bar.setAttribute('data-width', width);
+      bar.style.width = '0';
+    });
     
-    if (skillsSection) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            animateSkillBars();
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.5 });
-      
-      observer.observe(skillsSection);
-    }
+    // Trigger animation on scroll
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+    
+    // Initialize with active link
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentSection = window.location.hash || '#hero';
+      const activeLink = document.querySelector(`nav a[href="${currentSection}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    });
   </script>
 </body>
 </html>
