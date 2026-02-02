@@ -301,7 +301,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--spacing-lg);
-      align-items: center;
+      align-items: start;
     }
     
     .about-image {
@@ -316,14 +316,13 @@
     }
     
     .tech-stack {
-      position: absolute;
-      bottom: -20px;
-      right: -20px;
+      margin-top: var(--spacing-md);
       background: var(--black);
       padding: var(--spacing-md);
       border-radius: var(--border-radius);
       border: 1px solid var(--light-gray);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
     }
     
     .tech-stack h4 {
@@ -334,7 +333,8 @@
     
     .tech-icons {
       display: flex;
-      gap: 1rem;
+      justify-content: center;
+      gap: 1.5rem;
       font-size: 1.5rem;
     }
     
@@ -494,22 +494,17 @@
       margin-bottom: var(--spacing-sm);
     }
     
-    /* Professional Blocks */
+    /* Professional Blocks - VERTICAL */
     #professional-blocks {
       background: var(--black);
     }
     
-    .blocks-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-xl);
-    }
-    
-    @media (max-width: 992px) {
-      .blocks-grid {
-        grid-template-columns: 1fr;
-      }
+    .blocks-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xl);
+      max-width: 800px;
+      margin: 0 auto;
     }
     
     .block-card {
@@ -579,6 +574,7 @@
       padding: var(--spacing-lg);
       border-radius: var(--border-radius);
       border: 1px solid var(--light-gray);
+      margin-top: var(--spacing-lg);
     }
     
     .offer-item {
@@ -949,10 +945,9 @@
           <div class="tech-stack">
             <h4>Tecnologies que aprenc</h4>
             <div class="tech-icons">
+              <i class="bi bi-filetype-py" title="Python"></i>
               <i class="bi bi-filetype-js" title="JavaScript"></i>
-              <i class="bi bi-filetype-java" title="Java"></i>
               <i class="bi bi-database" title="Bases de dades"></i>
-              <i class="bi bi-git" title="Git"></i>
               <i class="bi bi-terminal" title="Terminal"></i>
             </div>
           </div>
@@ -1062,7 +1057,7 @@
           
           <div class="skill-item">
             <div class="skill-header">
-              <span>Java (aprenent)</span>
+              <span>Python/JavaScript</span>
               <span>50%</span>
             </div>
             <div class="skill-bar">
@@ -1108,7 +1103,7 @@
     </div>
   </section>
 
-  <!-- Education Section -->
+  <!-- Education Section - ORDEN MODIFICADO: DAM primero, SMX, Certificado Google, ESO al final -->
   <section id="education" class="section">
     <div class="container">
       <div class="section-title">
@@ -1117,6 +1112,20 @@
       </div>
       
       <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Futur (2026-2028)</div>
+          <div class="timeline-content">
+            <h3>Cicle Superior</h3>
+            <h4>Desenvolupament d'Aplicacions Multiplataforma (DAM)</h4>
+            <p>Objectiu professional</p>
+            <p style="margin-top: 1rem; color: #999;">
+              Planifico cursar DAM per especialitzar-me en desenvolupament de software, 
+              creant aplicacions per a diferents dispositius i plataformes.
+            </p>
+          </div>
+        </div>
+        
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-date">2024 - Actualitat</div>
@@ -1147,14 +1156,13 @@
         
         <div class="timeline-item">
           <div class="timeline-dot"></div>
-          <div class="timeline-date">Futur (2026-2028)</div>
+          <div class="timeline-date">2019 - 2024</div>
           <div class="timeline-content">
-            <h3>Cicle Superior</h3>
-            <h4>Desenvolupament d'Aplicacions Multiplataforma (DAM)</h4>
-            <p>Objectiu professional</p>
+            <h3>Educació Secundària Obligatòria</h3>
+            <h4>Titolació ESO</h4>
+            <p>Maria Rosa Molas, Reus</p>
             <p style="margin-top: 1rem; color: #999;">
-              Planifico cursar DAM per especialitzar-me en desenvolupament de software, 
-              creant aplicacions per a diferents dispositius i plataformes.
+              Titulació d'Educació Secundària Obligatòria completada amb èxit.
             </p>
           </div>
         </div>
@@ -1162,7 +1170,7 @@
     </div>
   </section>
 
-  <!-- Professional Blocks -->
+  <!-- Professional Blocks - AHORA EN VERTICAL -->
   <section id="professional-blocks" class="section">
     <div class="container">
       <div class="section-title">
@@ -1170,11 +1178,13 @@
         <p>Planificació de carrera en desenvolupament de software</p>
       </div>
       
-      <!-- Bloque A -->
-      <div class="blocks-grid">
+      <!-- Contenedor vertical para los bloques -->
+      <div class="blocks-container">
+        
+        <!-- Bloque A -->
         <div class="block-card">
           <div class="block-header">
-            <h3>BLOQUE A</h3>
+            <h3>BLOQUE A - Sortida Professional DAM</h3>
           </div>
           <div class="block-content">
             <div class="block-item">
@@ -1218,15 +1228,15 @@
         <!-- Bloque B -->
         <div class="block-card">
           <div class="block-header">
-            <h3>BLOQUE B</h3>
+            <h3>BLOQUE B - Anàlisi d'Ofertes Laborals</h3>
           </div>
           <div class="block-content">
             <div class="block-item">
-              <h4>Anàlisi d'Ofertes de Treball</h4>
-              <p>Recerca realitzada en InfoJobs, LinkedIn i altres portals especialitzats</p>
+              <h4>Recerca en portals laborals</h4>
+              <p>Anàlisi realitzada en InfoJobs, LinkedIn i altres portals especialitzats</p>
             </div>
             
-            <div class="block-item">
+            <div class="offer-item">
               <h4>Oferta 1: Programador Junior Java</h4>
               <p><strong>Empresa:</strong> Consultoria tecnològica a Barcelona</p>
               <p><strong>Requisits:</strong></p>
@@ -1240,7 +1250,7 @@
               </ul>
             </div>
             
-            <div class="block-item">
+            <div class="offer-item">
               <h4>Oferta 2: Desenvolupador Android</h4>
               <p><strong>Empresa:</strong> Startup tecnològica a Tarragona</p>
               <ul>
@@ -1252,7 +1262,7 @@
               </ul>
             </div>
             
-            <div class="block-item">
+            <div class="offer-item">
               <h4>Oferta 3: Programador Full-Stack</h4>
               <p><strong>Empresa:</strong> Agència digital a Reus</p>
               <ul>
@@ -1264,7 +1274,7 @@
               </ul>
             </div>
             
-            <div class="block-item">
+            <div class="offer-item">
               <h4>Oferta 4: Desenvolupador .NET</h4>
               <p><strong>Empresa:</strong> Multinacional amb oficines a Lleida</p>
               <ul>
@@ -1276,7 +1286,7 @@
               </ul>
             </div>
             
-            <div class="block-item">
+            <div class="offer-item">
               <h4>Oferta 5: Becari Desenvolupament</h4>
               <p><strong>Empresa:</strong> Centre tecnològic a Camp de Tarragona</p>
               <ul>
@@ -1293,12 +1303,12 @@
         <!-- Bloque C -->
         <div class="block-card">
           <div class="block-header">
-            <h3>BLOQUE C</h3>
+            <h3>BLOQUE C - Itinerari Formatiu</h3>
           </div>
           <div class="block-content">
             <div class="block-item">
-              <h4>Itinerari Formatiu</h4>
-              <p>Ruta planificada per convertir-me en desenvolupador professional</p>
+              <h4>Ruta cap al desenvolupament professional</h4>
+              <p>Planificació completa per convertir-me en desenvolupador</p>
             </div>
             
             <div class="block-item">
@@ -1311,9 +1321,8 @@
             </div>
             
             <div class="block-item">
-              <h4>Fase 2: Cicle Superior DAM (Planificat)</h4>
+              <h4>Fase 2: Cicle Superior DAM (Planificat 2026-2028)</h4>
               <ul>
-                <li><strong>Durada:</strong> 2 anys (2026-2028)</li>
                 <li><strong>Mòduls principals:</strong>
                   <ul>
                     <li>Programació (Java, C#, PHP)</li>
@@ -1336,14 +1345,12 @@
                     <li>Desenvolupament Android (Kotlin)</li>
                     <li>Desenvolupament iOS (Swift)</li>
                     <li>Full-Stack JavaScript</li>
-                    <li>Desenvolupament de videojocs</li>
                   </ul>
                 </li>
                 <li><strong>Certificacions valorades:</strong>
                   <ul>
                     <li>Oracle Certified Associate (Java)</li>
                     <li>Google Associate Android Developer</li>
-                    <li>Microsoft Certified: Azure Fundamentals</li>
                   </ul>
                 </li>
                 <li><strong>Idiomes:</strong> Millorar anglès fins a B2/C1</li>
@@ -1355,24 +1362,7 @@
               <ul>
                 <li><strong>Primer lloc de treball:</strong> Programador Junior (1-2 anys)</li>
                 <li><strong>Evolució:</strong> Programador Senior (3-5 anys)</li>
-                <li><strong>Possibles direccions:</strong>
-                  <ul>
-                    <li>Arquitecte de software</li>
-                    <li>Tech Lead</li>
-                    <li>Especialista en una tecnologia concreta</li>
-                    <li>Freelance/Consultor</li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            
-            <div class="block-item">
-              <h4>Recursos i Portals d'Ocupació</h4>
-              <ul>
-                <li><strong>Portals oficials:</strong> SOC, Servei d'Ocupació de Catalunya</li>
-                <li><strong>Portals generals:</strong> InfoJobs, LinkedIn, Tecnoempleo</li>
-                <li><strong>Especialitzats IT:</strong> ITJobs, Ticjob, GitHub Jobs</li>
-                <li><strong>Xarxes professionals:</strong> LinkedIn, Twitter tech community</li>
+                <li><strong>Portals d'ocupació a utilitzar:</strong> InfoJobs, LinkedIn, SOC, Ticjob</li>
               </ul>
             </div>
           </div>
