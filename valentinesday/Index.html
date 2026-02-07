@@ -46,9 +46,15 @@
             padding: 20px;
             line-height: 1.4;
             position: relative;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
         }
 
-        /* CORAZONES FLOTANTES - MUCHOS Y DESDE EL PRINCIPIO */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* CORAZONES FLOTANTES - OPTIMIZADOS */
         .floating-hearts {
             position: fixed;
             top: 0;
@@ -67,6 +73,7 @@
             animation: floatHeart 20s infinite linear;
             will-change: transform, opacity;
             filter: drop-shadow(0 4px 8px rgba(201, 24, 74, 0.25));
+            z-index: 0;
         }
 
         @keyframes floatHeart {
@@ -124,6 +131,12 @@
             box-shadow: 0 15px 40px rgba(255, 55, 95, 0.4);
             border: 4px solid rgba(255, 255, 255, 0.9);
             position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .icon-container::after {
@@ -192,7 +205,7 @@
             line-height: 1.3;
         }
 
-        /* Sección de pregunta - Se ocultará cuando se acepte */
+        /* Sección de pregunta */
         .question-section {
             margin: 50px 0;
             padding: 45px 40px;
@@ -235,7 +248,7 @@
             line-height: 1.3;
         }
 
-        /* Botones - CORREGIDO PARA NO OCULTARSE */
+        /* Botones - FIXED PARA MÓVILES */
         .buttons-container {
             display: flex;
             justify-content: center;
@@ -245,6 +258,7 @@
             flex-wrap: wrap;
             position: relative;
             min-height: 120px;
+            width: 100%;
         }
 
         .button {
@@ -305,10 +319,9 @@
             background: rgba(255, 255, 255, 0.95);
             color: var(--accent-red);
             border: 2px solid rgba(255, 55, 95, 0.4);
-            position: absolute;
-            z-index: 1000;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 8px 25px rgba(255, 55, 95, 0.25);
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .button-no:hover {
@@ -316,7 +329,7 @@
             box-shadow: 0 12px 35px rgba(255, 55, 95, 0.35);
         }
 
-        /* Mensaje de respuesta - SOLO ESTO SE MUESTRA DESPUÉS */
+        /* Mensaje de respuesta */
         .response-section {
             display: none;
             margin-top: 0;
@@ -415,7 +428,7 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* Responsive */
+        /* Responsive - MEJORADO */
         @media (max-width: 900px) {
             .container {
                 max-width: 90%;
@@ -491,7 +504,9 @@
             }
             
             .button-no {
-                position: relative;
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
                 width: 100%;
                 max-width: 300px;
             }
@@ -521,6 +536,12 @@
             .nounours {
                 font-size: 1.4rem;
                 padding: 6px 15px;
+            }
+            
+            /* Menos corazones en móviles para mejor rendimiento */
+            .floating-heart {
+                font-size: 20px;
+                animation-duration: 15s;
             }
         }
 
@@ -610,7 +631,7 @@
     </style>
 </head>
 <body>
-    <!-- CORAZONES FLOTANTES - MUCHOS Y ESPARCIDOS -->
+    <!-- CORAZONES FLOTANTES -->
     <div class="floating-hearts" id="floatingHearts"></div>
     
     <div class="container">
@@ -624,7 +645,7 @@
             <p class="subtitle">La femme de ma vie, ma Valentine éternelle</p>
         </div>
         
-        <!-- Sección de pregunta - Se ocultará al aceptar -->
+        <!-- Sección de pregunta -->
         <div class="question-section" id="questionSection">
             <h2 class="question">Veux-tu être ma Valentine cette année ?</h2>
             <p class="instruction">Choisis avec ton cœur, ma belle ❤️</p>
@@ -639,7 +660,7 @@
             </div>
         </div>
         
-        <!-- Sección de respuesta - Solo esto se mostrará después -->
+        <!-- Sección de respuesta -->
         <div class="response-section" id="responseSection">
             <h3 class="response-title">Youpi ! Tu as dit OUI ! 🎉💖</h3>
             <div class="response-message">
@@ -698,44 +719,43 @@
                 "Je te veux pour toujours 💞"
             ];
             
-            // CORAZONES FLOTANTES - MUCHOS Y DESDE EL PRINCIPIO
+            // Crear corazones flotantes
             function createFloatingHearts() {
                 const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘', '💝'];
-                const heartCount = 60; // MUCHOS CORAZONES
+                let heartCount = 50;
+                
+                // Menos corazones en móviles
+                if (window.innerWidth <= 768) heartCount = 25;
                 
                 for (let i = 0; i < heartCount; i++) {
                     const heart = document.createElement('div');
                     heart.className = 'floating-heart';
                     heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                     
-                    // Tamaños muy variados
-                    const size = 18 + Math.random() * 36;
+                    // Tamaño
+                    const size = 18 + Math.random() * 30;
                     heart.style.fontSize = `${size}px`;
                     
-                    // Distribuidos por toda la pantalla horizontalmente
+                    // Posición aleatoria
                     heart.style.left = `${Math.random() * 100}%`;
                     
-                    // Inician desde diferentes alturas
-                    const startY = 100 + Math.random() * 50;
-                    heart.style.transform = `translateY(${startY}vh)`;
-                    
-                    // Animaciones con diferentes velocidades
-                    const delay = Math.random() * 3; // Todos empiezan rápido
-                    const duration = 12 + Math.random() * 18;
+                    // Animación
+                    const delay = Math.random() * 5;
+                    const duration = 15 + Math.random() * 15;
                     heart.style.animationDelay = `${delay}s`;
                     heart.style.animationDuration = `${duration}s`;
                     
-                    // Opacidad variada
+                    // Opacidad
                     heart.style.opacity = `${0.3 + Math.random() * 0.7}`;
                     
                     floatingHeartsContainer.appendChild(heart);
                 }
             }
             
-            // Inicializar corazones INMEDIATAMENTE
+            // Inicializar corazones
             createFloatingHearts();
             
-            // FUNCIÓN MEJORADA PARA BOTÓN "NO" - NO SE OCULTA NUNCA
+            // FUNCIÓN MEJORADA PARA BOTÓN "NO" - SE MANTIENE DENTRO DE PANTALLA
             function moveNoButton(event) {
                 if (isYesClicked) return;
                 
@@ -746,67 +766,37 @@
                 
                 noButtonAttempts++;
                 
+                // Cambiar texto
                 const textIndex = (noButtonAttempts - 1) % noButtonTexts.length;
                 noButton.innerHTML = `<i class="fas fa-heart"></i> ${noButtonTexts[textIndex]}`;
                 
-                // Obtener dimensiones exactas
-                const screenWidth = window.innerWidth;
-                const screenHeight = window.innerHeight;
-                const buttonWidth = noButton.offsetWidth;
-                const buttonHeight = noButton.offsetHeight;
-                
-                // MÁRGENES SEGUROS - el botón NO se oculta
-                const topMargin = 10; // Mínimo margen superior
-                const sideMargin = 10; // Mínimo margen lateral
-                const bottomMargin = 10; // Mínimo margen inferior
-                
-                // Calcular límites con márgenes seguros
-                const minX = sideMargin;
-                const maxX = Math.max(minX, screenWidth - buttonWidth - sideMargin);
-                const minY = topMargin;
-                const maxY = Math.max(minY, screenHeight - buttonHeight - bottomMargin);
-                
-                // Si la pantalla es demasiado pequeña, usar posición relativa
-                if (maxX <= minX + 20 || maxY <= minY + 20) {
-                    noButton.style.position = 'relative';
-                    noButton.style.left = 'auto';
-                    noButton.style.top = 'auto';
+                // Solo mover en pantallas grandes
+                if (window.innerWidth <= 768) {
+                    // En móviles, solo cambio de texto
+                    noButton.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        noButton.style.transform = 'scale(1)';
+                    }, 200);
                     return;
                 }
                 
-                // Patrón de posiciones que garantiza visibilidad completa
-                const positions = [
-                    // Posiciones visibles en toda la pantalla
-                    {x: minX + 15, y: minY + 15}, // Esquina superior izquierda visible
-                    {x: maxX - 15, y: minY + 15}, // Esquina superior derecha visible
-                    {x: minX + 15, y: maxY - 15}, // Esquina inferior izquierda visible
-                    {x: maxX - 15, y: maxY - 15}, // Esquina inferior derecha visible
-                    
-                    // Posiciones centrales
-                    {x: (minX + maxX) / 2, y: minY + 30}, // Centro superior
-                    {x: (minX + maxX) / 2, y: maxY - 30}, // Centro inferior
-                    {x: minX + 30, y: (minY + maxY) / 2}, // Centro izquierda
-                    {x: maxX - 30, y: (minY + maxY) / 2}, // Centro derecha
-                    
-                    // Posiciones intermedias
-                    {x: minX + 50, y: minY + 50},
-                    {x: maxX - 50, y: minY + 50},
-                    {x: minX + 50, y: maxY - 50},
-                    {x: maxX - 50, y: maxY - 50}
-                ];
+                // Para pantallas grandes: mover el botón
+                const container = document.querySelector('.buttons-container');
+                const containerRect = container.getBoundingClientRect();
+                const buttonRect = noButton.getBoundingClientRect();
                 
-                // Seleccionar posición del patrón
-                const posIndex = noButtonAttempts % positions.length;
+                // Calcular nueva posición dentro del contenedor
+                const maxX = containerRect.width - buttonRect.width - 10;
+                const maxY = containerRect.height - buttonRect.height - 10;
                 
-                // VERIFICACIÓN EXTRA DE VISIBILIDAD
-                const safeX = Math.max(minX, Math.min(positions[posIndex].x, maxX));
-                const safeY = Math.max(minY, Math.min(positions[posIndex].y, maxY));
+                // Posición aleatoria dentro del contenedor
+                const newX = Math.max(10, Math.min(maxX, Math.random() * maxX));
+                const newY = Math.max(10, Math.min(maxY, Math.random() * maxY));
                 
-                // Aplicar posición SEGURA Y VISIBLE
-                noButton.style.position = 'fixed';
-                noButton.style.left = `${safeX}px`;
-                noButton.style.top = `${safeY}px`;
-                noButton.style.zIndex = '10000';
+                // Aplicar nueva posición
+                noButton.style.position = 'absolute';
+                noButton.style.left = `${newX}px`;
+                noButton.style.top = `${newY}px`;
                 
                 // Efecto visual
                 noButton.style.transform = 'scale(1.08)';
@@ -820,14 +810,6 @@
                     noButton.style.transform = 'scale(1)';
                     noButton.style.boxShadow = '0 8px 25px rgba(255, 55, 95, 0.25)';
                 }, 300);
-                
-                // Aumentar velocidad progresivamente
-                if (noButtonAttempts > 8) {
-                    noButton.style.transition = 'transform 0.2s, left 0.3s, top 0.3s';
-                }
-                if (noButtonAttempts > 16) {
-                    noButton.style.transition = 'transform 0.2s, left 0.25s, top 0.25s';
-                }
             }
             
             // Función para crear partículas
@@ -841,7 +823,7 @@
                     y = event.clientY;
                 }
                 
-                const particleCount = 3 + Math.floor(Math.random() * 3);
+                const particleCount = 3;
                 const heartEmojis = ['❤️', '💖', '💗'];
                 
                 for (let i = 0; i < particleCount; i++) {
@@ -882,7 +864,7 @@
                 }
             }
             
-            // Función para el botón "Sí" - OCULTA LA PREGUNTA, MUESTRA SOLO LA RESPUESTA
+            // Función para el botón "Sí"
             function handleYesClick() {
                 if (isYesClicked) return;
                 
@@ -895,18 +877,18 @@
                 // Crear animación de celebración
                 createCelebration();
                 
-                // Ocultar sección de pregunta con animación
+                // Ocultar sección de pregunta
                 setTimeout(() => {
                     questionSection.style.opacity = '0';
                     questionSection.style.transform = 'translateY(20px)';
                     questionSection.style.pointerEvents = 'none';
                     
-                    // Después de ocultar la pregunta, mostrar solo la respuesta
+                    // Mostrar respuesta
                     setTimeout(() => {
                         questionSection.style.display = 'none';
                         responseSection.style.display = 'block';
                         
-                        // Efecto de entrada para la respuesta
+                        // Efecto de entrada
                         setTimeout(() => {
                             responseSection.style.opacity = '1';
                             responseSection.style.transform = 'translateY(0)';
@@ -930,8 +912,9 @@
             // Función para crear confeti
             function createConfetti() {
                 const colors = ['#FF375F', '#FF8FAB', '#FF2D55', '#FF5D8F'];
+                const confettiCount = window.innerWidth <= 768 ? 50 : 80;
                 
-                for (let i = 0; i < 80; i++) {
+                for (let i = 0; i < confettiCount; i++) {
                     setTimeout(() => {
                         const confetti = document.createElement('div');
                         confetti.style.position = 'fixed';
@@ -968,8 +951,9 @@
             // Función para corazones especiales
             function createSpecialHearts() {
                 const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘'];
+                const heartCount = window.innerWidth <= 768 ? 15 : 20;
                 
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < heartCount; i++) {
                     setTimeout(() => {
                         const heart = document.createElement('div');
                         heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
@@ -1013,42 +997,6 @@
             noButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 moveNoButton(e);
-            });
-            
-            // VERIFICACIÓN EN TIEMPO REAL - GARANTIZA QUE EL BOTÓN NO SE OCULTE
-            window.addEventListener('resize', function() {
-                if (noButton.style.position === 'fixed') {
-                    const buttonRect = noButton.getBoundingClientRect();
-                    const screenWidth = window.innerWidth;
-                    const screenHeight = window.innerHeight;
-                    
-                    // Márgenes mínimos para visibilidad
-                    const topMargin = 10;
-                    const sideMargin = 10;
-                    const bottomMargin = 10;
-                    
-                    // Si está parcialmente fuera, corregir inmediatamente
-                    if (buttonRect.right > screenWidth - sideMargin || 
-                        buttonRect.bottom > screenHeight - bottomMargin ||
-                        buttonRect.left < sideMargin || 
-                        buttonRect.top < topMargin) {
-                        
-                        const buttonWidth = noButton.offsetWidth;
-                        const buttonHeight = noButton.offsetHeight;
-                        
-                        const minX = sideMargin;
-                        const maxX = Math.max(minX, screenWidth - buttonWidth - sideMargin);
-                        const minY = topMargin;
-                        const maxY = Math.max(minY, screenHeight - buttonHeight - bottomMargin);
-                        
-                        const currentX = parseFloat(noButton.style.left) || minX;
-                        const currentY = parseFloat(noButton.style.top) || minY;
-                        
-                        // Forzar posición segura y visible
-                        noButton.style.left = `${Math.max(minX, Math.min(currentX, maxX))}px`;
-                        noButton.style.top = `${Math.max(minY, Math.min(currentY, maxY))}px`;
-                    }
-                }
             });
             
             // Inicialización
