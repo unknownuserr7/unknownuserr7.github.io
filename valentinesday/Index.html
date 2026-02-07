@@ -1,1 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon amour pour Amel ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
 
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Cœur flottants en arrière-plan */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.7);
+            font-size: 24px;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Conteneur principal */
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Header avec les oursons */
+        .header {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .teddy-bear {
+            font-size: 48px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #ff4d8d;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .name {
+            background: linear-gradient(45deg, #ff6b9d, #ff8fab);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            font-size: 3rem;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        /* Section de la question */
+        .question-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 240, 245, 0.9));
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+            border: 1px solid rgba(255, 182, 193, 0.5);
+        }
+
+        .question {
+            font-size: 2rem;
+            color: #d63384;
+            margin-bottom: 30px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Boutons */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #34c759, #32d74b);
+            color: white;
+            border: 1px solid #30d158;
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(52, 199, 89, 0.4);
+        }
+
+        .btn-yes:active {
+            transform: translateY(-2px);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #ff3b30, #ff453a);
+            color: white;
+            border: 1px solid #ff3b30;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        /* Message spécial */
+        .special-message {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 240, 245, 0.9), rgba(255, 228, 230, 0.9));
+            border-radius: 18px;
+            border-left: 6px solid #ff6b9d;
+            display: none;
+        }
+
+        .message-title {
+            font-size: 1.8rem;
+            color: #d63384;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .message-text {
+            font-size: 1.3rem;
+            color: #a61e4d;
+            line-height: 1.6;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #ff4d8d;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            color: #ff6b9d;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .question {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 16px 30px;
+                font-size: 1.2rem;
+            }
+            
+            .buttons {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cœurs flottants en arrière-plan -->
+    <div class="floating-hearts" id="hearts-container"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="teddy-bear">🧸</div>
+            <h1 class="title">Joyeuse Saint-Valentin ❤️</h1>
+            <h2 class="subtitle">Pour mon amour, ma chère</h2>
+            <div class="name">Amel</div>
+            <p class="subtitle">Mon petit osito de peluche 🐻💖</p>
+        </div>
+
+        <div class="question-section">
+            <h2 class="question">Veux-tu être ma Valentine cette année ? 💝</h2>
+            <p style="color: #ff6b9d; font-size: 1.2rem; margin-top: 15px;">Choisis ta réponse, ma belle 💋</p>
+            
+            <div class="buttons">
+                <button class="btn btn-yes" id="yesBtn">
+                    <i class="fas fa-heart"></i> OUI ! Absolument !
+                </button>
+                <button class="btn btn-no" id="noBtn">
+                    <i class="fas fa-times"></i> Non, désolée
+                </button>
+            </div>
+        </div>
+
+        <div class="special-message" id="specialMessage">
+            <h3 class="message-title">Youpi ! Tu as dit OUI ! 🎉💖</h3>
+            <p class="message-text">
+                Je suis tellement heureux que tu aies accepté d'être ma Valentine ! 
+                Tu es la personne la plus incroyable de ma vie et chaque moment avec toi est un trésor. 
+                J'ai hâte de célébrer cette journée spéciale avec toi, mon amour. 
+                Je t'aime plus que les mots ne peuvent le dire. 💕<br><br>
+                Toujours ton osito de peluche qui t'adore 🧸💘
+            </p>
+        </div>
+
+        <div class="signature" id="signature">
+            Avec tout mon amour pour toi, Amel 💞
+        </div>
+
+        <div class="footer">
+            <p>Une page faite avec amour pour la plus merveilleuse des françaises 🇫🇷💖</p>
+        </div>
+    </div>
+
+    <script>
+        // Créer des cœurs flottants
+        const heartsContainer = document.getElementById('hearts-container');
+        const heartColors = ['#ff4d8d', '#ff6b9d', '#ff8fab', '#ffb3c6'];
+        
+        for (let i = 0; i < 25; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = `${Math.random() * 100}%`;
+            heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+            heart.style.color = heartColors[Math.floor(Math.random() * heartColors.length)];
+            heart.style.animationDelay = `${Math.random() * 5}s`;
+            heart.style.opacity = `${Math.random() * 0.5 + 0.3}`;
+            heartsContainer.appendChild(heart);
+        }
+
+        // Gestion du bouton "Non" qui bouge
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const specialMessage = document.getElementById('specialMessage');
+        const signature = document.getElementById('signature');
+        
+        // Variables pour suivre la position du bouton
+        let moveCount = 0;
+        const maxMoves = 10;
+        
+        noBtn.addEventListener('mouseover', function() {
+            if (moveCount >= maxMoves) return;
+            
+            moveCount++;
+            
+            // Calculer une nouvelle position aléatoire
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Déterminer les limites de déplacement
+            const maxX = containerRect.width - btnRect.width - 40;
+            const maxY = containerRect.height - btnRect.height - 40;
+            
+            // Nouvelle position aléatoire
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+            
+            // Appliquer la nouvelle position
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+            
+            // Changer le texte après quelques mouvements
+            if (moveCount === 3) {
+                noBtn.innerHTML = '<i class="fas fa-smile-wink"></i> Sûre ?';
+            } else if (moveCount === 6) {
+                noBtn.innerHTML = '<i class="fas fa-grin-tongue"></i> Réfléchis bien !';
+            } else if (moveCount === 9) {
+                noBtn.innerHTML = '<i class="fas fa-heart-broken"></i> Tu es cruelle !';
+            }
+            
+            // Si on a atteint le nombre maximum de mouvements, forcer le "Oui"
+            if (moveCount >= maxMoves) {
+                setTimeout(() => {
+                    alert("Bon d'accord, je vois que tu es têtue ! Je vais choisir pour toi : OUI ! ❤️");
+                    showSpecialMessage();
+                }, 300);
+            }
+        });
+        
+        // Gestion du bouton "Oui"
+        yesBtn.addEventListener('click', function() {
+            showSpecialMessage();
+            
+            // Effet de confettis visuels
+            createConfetti();
+        });
+        
+        function showSpecialMessage() {
+            // Afficher le message spécial
+            specialMessage.style.display = 'block';
+            signature.style.display = 'block';
+            
+            // Cacher les boutons
+            document.querySelector('.buttons').style.display = 'none';
+            
+            // Animation d'apparition
+            specialMessage.style.animation = 'fadeIn 1s ease';
+            
+            // Jouer un son de succès (simulé par une alerte visuelle)
+            yesBtn.style.animation = 'pulse 0.5s 3';
+            
+            // Ajouter des cœurs supplémentaires
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createFloatingHeart();
+                }, i * 200);
+            }
+        }
+        
+        // Créer des cœurs qui flottent vers le haut
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.fontSize = '30px';
+            heart.style.color = heartColors[Math.floor(Math.random() * heartColors.length)];
+            heart.style.left = `${Math.random() * 80 + 10}%`;
+            heart.style.bottom = '0';
+            heart.style.zIndex = '1000';
+            heart.style.pointerEvents = 'none';
+            document.body.appendChild(heart);
+            
+            // Animation de flottement vers le haut
+            const animation = heart.animate([
+                { transform: 'translateY(0) scale(1)', opacity: 1 },
+                { transform: `translateY(-${window.innerHeight}px) scale(0.5)`, opacity: 0 }
+            ], {
+                duration: 3000,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+            
+            // Supprimer l'élément après l'animation
+            animation.onfinish = () => {
+                heart.remove();
+            };
+        }
+        
+        // Créer un effet de confettis
+        function createConfetti() {
+            const confettiColors = ['#ff4d8d', '#ff6b9d', '#ff8fab', '#32d74b', '#64d2ff'];
+            const confettiContainer = document.createElement('div');
+            confettiContainer.style.position = 'fixed';
+            confettiContainer.style.top = '0';
+            confettiContainer.style.left = '0';
+            confettiContainer.style.width = '100%';
+            confettiContainer.style.height = '100%';
+            confettiContainer.style.pointerEvents = 'none';
+            confettiContainer.style.zIndex = '1000';
+            document.body.appendChild(confettiContainer);
+            
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+                    confetti.style.position = 'absolute';
+                    confetti.style.fontSize = `${Math.random() * 20 + 15}px`;
+                    confetti.style.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.top = '-50px';
+                    confettiContainer.appendChild(confetti);
+                    
+                    // Animation de chute
+                    const animation = confetti.animate([
+                        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, ${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                    ], {
+                        duration: Math.random() * 3000 + 2000,
+                        easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+                    });
+                    
+                    // Supprimer l'élément après l'animation
+                    animation.onfinish = () => {
+                        confetti.remove();
+                    };
+                }, i * 30);
+            }
+            
+            // Supprimer le conteneur après la fin des animations
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 8000);
+        }
+        
+        // Ajouter quelques animations CSS supplémentaires
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
