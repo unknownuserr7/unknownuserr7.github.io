@@ -43,7 +43,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
             line-height: 1.4;
             position: relative;
         }
@@ -62,7 +62,7 @@
 
         .floating-heart {
             position: absolute;
-            font-size: 28px;
+            font-size: 24px;
             opacity: 0;
             animation: floatHeart 20s infinite linear;
             will-change: transform, opacity;
@@ -86,53 +86,62 @@
             }
         }
 
-        /* Contenedor principal */
+        /* Contenedor principal - Ajustado para visualización completa */
         .container {
             background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-radius: 30px;
+            border-radius: 26px;
             border: 2px solid rgba(255, 255, 255, 0.8);
             box-shadow: var(--shadow), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.6),
                         0 0 0 1px rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 700px;
-            padding: 60px 50px;
+            max-width: 680px;
+            padding: 30px 30px;
             text-align: center;
             position: relative;
             z-index: 10;
             overflow: visible;
-            margin: 0 auto;
+            margin: 5px auto;
+            max-height: 95vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Header */
+        /* Ocultar scrollbar pero mantener funcionalidad */
+        .container::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Header ajustado - Menos espacio arriba */
         .header {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             position: relative;
         }
 
         .icon-container {
-            width: 100px;
-            height: 100px;
+            width: 85px;
+            height: 85px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 35px;
-            box-shadow: 0 18px 45px rgba(255, 55, 95, 0.4);
-            border: 5px solid rgba(255, 255, 255, 0.9);
+            margin: 0 auto 20px;
+            box-shadow: 0 12px 30px rgba(255, 55, 95, 0.4);
+            border: 4px solid rgba(255, 255, 255, 0.9);
             position: relative;
         }
 
         .icon-container::after {
             content: '';
             position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
             border-radius: 50%;
             z-index: -1;
@@ -140,29 +149,29 @@
         }
 
         .icon-container i {
-            font-size: 40px;
+            font-size: 32px;
             color: white;
         }
 
         .greeting {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 3.2rem;
+            font-size: 2.6rem;
             font-weight: 900;
             color: var(--accent-pink);
             margin-bottom: 5px;
-            letter-spacing: -0.8px;
+            letter-spacing: -0.6px;
             line-height: 1.1;
         }
 
         .name {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 4rem;
+            font-size: 3.2rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--accent-red) 0%, #FF8FAB 50%, var(--accent-pink) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin: 20px 0;
+            margin: 12px 0;
             display: block;
             position: relative;
             line-height: 1;
@@ -170,37 +179,37 @@
 
         .nounours {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: var(--accent-soft);
-            margin-top: 10px;
+            margin-top: 6px;
             display: inline-block;
-            padding: 8px 20px;
+            padding: 6px 15px;
             background: rgba(255, 255, 255, 0.7);
             border-radius: 50px;
             border: 2px solid rgba(255, 143, 171, 0.3);
-            box-shadow: 0 5px 15px rgba(255, 143, 171, 0.2);
+            box-shadow: 0 3px 10px rgba(255, 143, 171, 0.2);
         }
 
         .subtitle {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-secondary);
-            margin-top: 15px;
-            letter-spacing: 0.5px;
+            margin-top: 10px;
+            letter-spacing: 0.3px;
             line-height: 1.3;
         }
 
-        /* Sección de pregunta */
+        /* Sección de pregunta ajustada */
         .question-container {
-            margin: 60px 0;
-            padding: 50px 40px;
+            margin: 35px 0;
+            padding: 35px 30px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
-            border-radius: 25px;
+            border-radius: 20px;
             border: 2px solid rgba(255, 255, 255, 0.9);
             position: relative;
-            box-shadow: 0 12px 45px rgba(255, 143, 171, 0.2);
+            box-shadow: 0 8px 30px rgba(255, 143, 171, 0.2);
             overflow: hidden;
         }
 
@@ -210,16 +219,16 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
+            height: 4px;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
-            border-radius: 25px 25px 0 0;
+            border-radius: 20px 20px 0 0;
         }
 
         .question {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.2;
             color: #A4133C;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -227,43 +236,43 @@
 
         .instruction {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-secondary);
-            margin-top: 20px;
+            margin-top: 12px;
             line-height: 1.3;
         }
 
-        /* Botones - FIX PARA BOTÓN NO QUE NO SE SALGA */
+        /* Botones - Menos margen arriba */
         .buttons-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
-            margin-top: 60px;
+            gap: 20px;
+            margin-top: 35px;
             flex-wrap: wrap;
             position: relative;
-            min-height: 140px;
+            min-height: 110px;
         }
 
         .button {
-            padding: 22px 45px;
+            padding: 18px 35px;
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            border-radius: 18px;
+            border-radius: 15px;
             border: none;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            min-width: 220px;
+            gap: 8px;
+            min-width: 180px;
             position: relative;
             overflow: hidden;
             letter-spacing: 0.3px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             z-index: 100;
             transform: translateZ(0);
         }
@@ -288,12 +297,12 @@
             background: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-pink) 100%);
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 12px 35px rgba(255, 55, 95, 0.35);
+            box-shadow: 0 8px 25px rgba(255, 55, 95, 0.35);
         }
 
         .button-yes:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 20px 50px rgba(255, 55, 95, 0.5);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.5);
         }
 
         .button-yes:active {
@@ -307,26 +316,26 @@
             position: absolute;
             z-index: 1000;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(255, 55, 95, 0.25);
+            box-shadow: 0 6px 20px rgba(255, 55, 95, 0.25);
         }
 
         .button-no:hover {
             background: white;
-            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.35);
+            box-shadow: 0 10px 30px rgba(255, 55, 95, 0.35);
         }
 
-        /* Mensaje de respuesta */
+        /* Mensaje de respuesta - Más compacto */
         .response-container {
             display: none;
-            margin-top: 70px;
-            padding: 50px 40px;
+            margin-top: 40px;
+            padding: 35px 30px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
-            border-radius: 25px;
+            border-radius: 20px;
             border: 2px solid rgba(255, 255, 255, 0.9);
             animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 18px 55px rgba(255, 143, 171, 0.3);
+            box-shadow: 0 12px 40px rgba(255, 143, 171, 0.3);
         }
 
         .response-container::before {
@@ -335,15 +344,15 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
+            height: 4px;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
-            border-radius: 25px 25px 0 0;
+            border-radius: 20px 20px 0 0;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(50px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -353,9 +362,9 @@
 
         .response-title {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 2.3rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             -webkit-background-clip: text;
             background-clip: text;
@@ -365,27 +374,27 @@
 
         .response-message {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.3rem;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            line-height: 1.5;
             color: var(--text-primary);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: left;
             font-weight: 700;
         }
 
         .response-message p {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .signature {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 900;
             color: var(--accent-pink);
-            margin-top: 40px;
+            margin-top: 30px;
             text-align: right;
             position: relative;
-            padding-top: 25px;
+            padding-top: 15px;
         }
 
         .signature::before {
@@ -393,139 +402,58 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 150px;
+            width: 100px;
             height: 3px;
             background: linear-gradient(90deg, transparent, rgba(255, 55, 95, 0.5));
         }
 
-        /* Footer */
+        /* Footer compacto */
         .footer {
-            margin-top: 70px;
-            padding-top: 30px;
+            margin-top: 40px;
+            padding-top: 20px;
             border-top: 2px solid rgba(255, 255, 255, 0.7);
         }
 
         .footer-text {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 900;
             color: var(--accent-pink);
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* Responsive */
+        /* Botón para volver arriba */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(255, 55, 95, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 55, 95, 0.5);
+        }
+
+        /* Responsive ajustado */
         @media (max-width: 900px) {
             .container {
                 max-width: 90%;
-                padding: 50px 40px;
-            }
-            
-            .greeting {
-                font-size: 2.8rem;
-            }
-            
-            .name {
-                font-size: 3.2rem;
-            }
-            
-            .nounours {
-                font-size: 1.7rem;
-                margin-top: 15px;
-            }
-            
-            .question {
-                font-size: 2.2rem;
-            }
-            
-            .question-container {
-                padding: 45px 35px;
-            }
-            
-            .buttons-container {
-                gap: 25px;
-            }
-            
-            .button {
-                padding: 20px 35px;
-                font-size: 1.3rem;
-                min-width: 200px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .container {
-                padding: 45px 30px;
-                max-width: 95%;
-            }
-            
-            .greeting {
-                font-size: 2.5rem;
-            }
-            
-            .name {
-                font-size: 2.8rem;
-            }
-            
-            .question {
-                font-size: 2rem;
-            }
-            
-            .buttons-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-                min-height: 180px;
-            }
-            
-            .button {
-                width: 100%;
-                max-width: 320px;
-                padding: 22px 30px;
-            }
-            
-            .button-no {
-                position: relative;
-                width: 100%;
-                max-width: 320px;
-            }
-            
-            .response-container {
-                padding: 45px 35px;
-            }
-            
-            .response-title {
-                font-size: 2rem;
-            }
-            
-            .response-message {
-                font-size: 1.2rem;
-            }
-            
-            .icon-container {
-                width: 85px;
-                height: 85px;
-                margin-bottom: 30px;
-            }
-            
-            .icon-container i {
-                font-size: 34px;
-            }
-            
-            .nounours {
-                font-size: 1.5rem;
-                padding: 6px 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 40px 25px;
-                border-radius: 25px;
+                padding: 25px 25px;
             }
             
             .greeting {
@@ -533,76 +461,218 @@
             }
             
             .name {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
+            }
+            
+            .nounours {
+                font-size: 1.4rem;
+                margin-top: 10px;
             }
             
             .question {
                 font-size: 1.8rem;
             }
             
-            .button {
-                padding: 20px 25px;
-                font-size: 1.2rem;
-            }
-            
             .question-container {
-                padding: 35px 25px;
+                padding: 30px 25px;
+                margin: 30px 0;
             }
             
-            .subtitle {
-                font-size: 1.2rem;
+            .buttons-container {
+                gap: 15px;
+            }
+            
+            .button {
+                padding: 16px 25px;
+                font-size: 1.1rem;
+                min-width: 160px;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
+            
+            .container {
+                padding: 25px 20px;
+                max-width: 95%;
+                max-height: 96vh;
+            }
+            
+            .greeting {
+                font-size: 2rem;
+            }
+            
+            .name {
+                font-size: 2.4rem;
+            }
+            
+            .question {
+                font-size: 1.6rem;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                min-height: 140px;
+            }
+            
+            .button {
+                width: 100%;
+                max-width: 280px;
+                padding: 18px 22px;
+            }
+            
+            .button-no {
+                position: relative;
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .response-container {
+                padding: 30px 25px;
+            }
+            
+            .response-title {
+                font-size: 1.6rem;
             }
             
             .response-message {
-                font-size: 1.15rem;
+                font-size: 1rem;
+            }
+            
+            .icon-container {
+                width: 75px;
+                height: 75px;
+                margin-bottom: 18px;
+            }
+            
+            .icon-container i {
+                font-size: 28px;
+            }
+            
+            .nounours {
+                font-size: 1.3rem;
+                padding: 5px 12px;
+            }
+            
+            .back-to-top {
+                bottom: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 22px 18px;
+                border-radius: 22px;
+            }
+            
+            .greeting {
+                font-size: 1.8rem;
+            }
+            
+            .name {
+                font-size: 2.1rem;
+            }
+            
+            .question {
+                font-size: 1.5rem;
+            }
+            
+            .button {
+                padding: 16px 20px;
+                font-size: 1rem;
+            }
+            
+            .question-container {
+                padding: 25px 20px;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .response-message {
+                font-size: 0.95rem;
             }
             
             .footer-text {
-                font-size: 1.1rem;
+                font-size: 0.9rem;
+            }
+            
+            .back-to-top {
+                bottom: 12px;
+                right: 12px;
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
             }
         }
 
         @media (max-height: 750px) and (orientation: landscape) {
             body {
                 align-items: flex-start;
-                padding: 15px;
+                padding: 5px;
             }
             
             .container {
-                margin: 15px 0;
-                padding: 35px 30px;
+                margin: 5px 0;
+                padding: 20px 18px;
+                max-height: 98vh;
             }
             
             .header {
-                margin-bottom: 30px;
+                margin-bottom: 15px;
             }
             
             .greeting {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
             
             .name {
-                font-size: 2.5rem;
-                margin: 15px 0;
+                font-size: 2rem;
+                margin: 10px 0;
             }
             
             .question-container {
-                margin: 35px 0;
-                padding: 30px 25px;
+                margin: 20px 0;
+                padding: 22px 18px;
             }
             
             .question {
-                font-size: 1.8rem;
-                margin-bottom: 25px;
+                font-size: 1.5rem;
+                margin-bottom: 15px;
             }
             
             .buttons-container {
-                margin-top: 35px;
+                margin-top: 20px;
             }
             
             .nounours {
-                margin-top: 10px;
-                font-size: 1.3rem;
+                margin-top: 5px;
+                font-size: 1.2rem;
+            }
+            
+            .back-to-top {
+                bottom: 10px;
+                right: 10px;
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
             }
         }
     </style>
@@ -610,6 +680,11 @@
 <body>
     <!-- CORAZONES FLOTANTES - MUCHOS Y ESPARCIDOS -->
     <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <!-- Botón para volver arriba -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
     
     <div class="container">
         <div class="header">
@@ -662,6 +737,8 @@
             const responseContainer = document.getElementById('responseContainer');
             const buttonsContainer = document.querySelector('.buttons-container');
             const floatingHeartsContainer = document.getElementById('floatingHearts');
+            const backToTop = document.getElementById('backToTop');
+            const container = document.querySelector('.container');
             let noButtonAttempts = 0;
             let isYesClicked = false;
             
@@ -694,10 +771,30 @@
                 "Je te veux pour toujours 💞"
             ];
             
+            // Función para mostrar/ocultar botón de volver arriba
+            function toggleBackToTop() {
+                if (container.scrollTop > 300) {
+                    backToTop.style.display = 'flex';
+                } else {
+                    backToTop.style.display = 'none';
+                }
+            }
+            
+            // Evento de scroll en el contenedor
+            container.addEventListener('scroll', toggleBackToTop);
+            
+            // Evento para volver arriba
+            backToTop.addEventListener('click', function() {
+                container.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
             // CORAZONES FLOTANTES - MUCHOS Y DESDE EL PRINCIPIO
             function createFloatingHearts() {
                 const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘', '💝'];
-                const heartCount = 50; // MUCHOS CORAZONES
+                const heartCount = 60; // MUCHOS CORAZONES
                 
                 for (let i = 0; i < heartCount; i++) {
                     const heart = document.createElement('div');
@@ -705,19 +802,19 @@
                     heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                     
                     // Tamaños muy variados
-                    const size = 20 + Math.random() * 40;
+                    const size = 18 + Math.random() * 36;
                     heart.style.fontSize = `${size}px`;
                     
                     // Distribuidos por toda la pantalla horizontalmente
                     heart.style.left = `${Math.random() * 100}%`;
                     
-                    // Inician desde diferentes alturas (no todos desde abajo)
+                    // Inician desde diferentes alturas
                     const startY = 100 + Math.random() * 50;
                     heart.style.transform = `translateY(${startY}vh)`;
                     
                     // Animaciones con diferentes velocidades
-                    const delay = Math.random() * 5; // Todos empiezan rápido
-                    const duration = 15 + Math.random() * 20;
+                    const delay = Math.random() * 3; // Todos empiezan rápido
+                    const duration = 12 + Math.random() * 18;
                     heart.style.animationDelay = `${delay}s`;
                     heart.style.animationDuration = `${duration}s`;
                     
@@ -731,7 +828,7 @@
             // Inicializar corazones INMEDIATAMENTE
             createFloatingHearts();
             
-            // FUNCIÓN MEJORADA PARA BOTÓN "NO" - NO SE SALE NUNCA
+            // FUNCIÓN MEJORADA PARA BOTÓN "NO" - VISIBLE COMPLETAMENTE
             function moveNoButton(event) {
                 if (isYesClicked) return;
                 
@@ -751,43 +848,47 @@
                 const buttonWidth = noButton.offsetWidth;
                 const buttonHeight = noButton.offsetHeight;
                 
-                // Márgenes de seguridad más grandes
-                const margin = 40;
-                const maxX = Math.max(margin, screenWidth - buttonWidth - margin);
-                const maxY = Math.max(margin, screenHeight - buttonHeight - margin);
+                // MÁRGENES LIMITADOS - Superior más grande pero visible
+                const topMargin = 80; // Menos margen superior para que sea visible
+                const sideMargin = 25;
+                const bottomMargin = 25;
+                
+                // Calcular límites con márgenes específicos
+                const minX = sideMargin;
+                const maxX = Math.max(minX, screenWidth - buttonWidth - sideMargin);
+                const minY = topMargin; // Margen superior ajustado
+                const maxY = Math.max(minY, screenHeight - buttonHeight - bottomMargin);
                 
                 // Si la pantalla es demasiado pequeña, usar posición relativa
-                if (maxX <= margin * 2 || maxY <= margin * 2) {
+                if (maxX <= minX + 20 || maxY <= minY + 20) {
                     noButton.style.position = 'relative';
                     noButton.style.left = 'auto';
                     noButton.style.top = 'auto';
                     return;
                 }
                 
-                // Posiciones predefinidas que NUNCA se salen
+                // Posiciones predefinidas que NUNCA se salen y son visibles
                 const positions = [
-                    {x: margin, y: margin}, // Esquina superior izquierda
-                    {x: maxX, y: margin},   // Esquina superior derecha
-                    {x: margin, y: maxY},   // Esquina inferior izquierda
-                    {x: maxX, y: maxY},     // Esquina inferior derecha
-                    {x: margin, y: (screenHeight - buttonHeight) / 2}, // Centro izquierda
-                    {x: maxX, y: (screenHeight - buttonHeight) / 2},   // Centro derecha
-                    {x: (screenWidth - buttonWidth) / 2, y: margin},   // Centro arriba
-                    {x: (screenWidth - buttonWidth) / 2, y: maxY},     // Centro abajo
-                    {x: (screenWidth - buttonWidth) / 3, y: (screenHeight - buttonHeight) / 3}, // Punto 1
-                    {x: (screenWidth - buttonWidth) * 2/3, y: (screenHeight - buttonHeight) / 3}, // Punto 2
-                    {x: (screenWidth - buttonWidth) / 3, y: (screenHeight - buttonHeight) * 2/3}, // Punto 3
-                    {x: (screenWidth - buttonWidth) * 2/3, y: (screenHeight - buttonHeight) * 2/3} // Punto 4
+                    {x: minX + 30, y: minY + 30}, // Cerca esquina superior izquierda
+                    {x: maxX - 30, y: minY + 30}, // Cerca esquina superior derecha
+                    {x: minX + 30, y: maxY - 30}, // Cerca esquina inferior izquierda
+                    {x: maxX - 30, y: maxY - 30}, // Cerca esquina inferior derecha
+                    {x: minX + 30, y: (minY + maxY) / 2}, // Centro izquierda
+                    {x: maxX - 30, y: (minY + maxY) / 2}, // Centro derecha
+                    {x: (minX + maxX) / 2, y: minY + 40}, // Centro arriba (con margen extra)
+                    {x: (minX + maxX) / 2, y: maxY - 40}, // Centro abajo
+                    {x: (minX + maxX) / 3, y: (minY + maxY) / 3}, // Punto 1
+                    {x: (minX + maxX) * 2/3, y: (minY + maxY) / 3}, // Punto 2
+                    {x: (minX + maxX) / 3, y: (minY + maxY) * 2/3}, // Punto 3
+                    {x: (minX + maxX) * 2/3, y: (minY + maxY) * 2/3} // Punto 4
                 ];
                 
                 // Seleccionar posición del patrón
                 const posIndex = noButtonAttempts % positions.length;
-                const newX = Math.max(margin, Math.min(positions[posIndex].x, maxX));
-                const newY = Math.max(margin, Math.min(positions[posIndex].y, maxY));
                 
                 // VERIFICACIÓN FINAL DE SEGURIDAD
-                const safeX = Math.max(margin, Math.min(newX, maxX));
-                const safeY = Math.max(margin, Math.min(newY, maxY));
+                const safeX = Math.max(minX, Math.min(positions[posIndex].x, maxX));
+                const safeY = Math.max(minY, Math.min(positions[posIndex].y, maxY));
                 
                 // Aplicar posición SEGURA
                 noButton.style.position = 'fixed';
@@ -796,8 +897,8 @@
                 noButton.style.zIndex = '10000';
                 
                 // Efecto visual
-                noButton.style.transform = 'scale(1.1)';
-                noButton.style.boxShadow = '0 18px 45px rgba(255, 55, 95, 0.5)';
+                noButton.style.transform = 'scale(1.08)';
+                noButton.style.boxShadow = '0 15px 35px rgba(255, 55, 95, 0.5)';
                 
                 // Crear partículas
                 createHeartParticles(event);
@@ -805,14 +906,14 @@
                 // Restaurar efecto
                 setTimeout(() => {
                     noButton.style.transform = 'scale(1)';
-                    noButton.style.boxShadow = '0 10px 30px rgba(255, 55, 95, 0.25)';
-                }, 350);
+                    noButton.style.boxShadow = '0 8px 25px rgba(255, 55, 95, 0.25)';
+                }, 300);
                 
                 // Aumentar velocidad progresivamente
-                if (noButtonAttempts > 10) {
-                    noButton.style.transition = 'transform 0.2s, left 0.35s, top 0.35s';
+                if (noButtonAttempts > 8) {
+                    noButton.style.transition = 'transform 0.2s, left 0.3s, top 0.3s';
                 }
-                if (noButtonAttempts > 20) {
+                if (noButtonAttempts > 16) {
                     noButton.style.transition = 'transform 0.2s, left 0.25s, top 0.25s';
                 }
             }
@@ -828,7 +929,7 @@
                     y = event.clientY;
                 }
                 
-                const particleCount = 4 + Math.floor(Math.random() * 3);
+                const particleCount = 3 + Math.floor(Math.random() * 3);
                 const heartEmojis = ['❤️', '💖', '💗'];
                 
                 for (let i = 0; i < particleCount; i++) {
@@ -836,7 +937,7 @@
                         const heart = document.createElement('div');
                         heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                         heart.style.position = 'fixed';
-                        heart.style.fontSize = `${18 + Math.random() * 24}px`;
+                        heart.style.fontSize = `${16 + Math.random() * 20}px`;
                         heart.style.color = '#FF375F';
                         heart.style.left = `${x}px`;
                         heart.style.top = `${y}px`;
@@ -847,7 +948,7 @@
                         document.body.appendChild(heart);
                         
                         const angle = Math.random() * Math.PI * 2;
-                        const distance = 40 + Math.random() * 80;
+                        const distance = 30 + Math.random() * 60;
                         const size = 0.6 + Math.random() * 0.8;
                         
                         const animation = heart.animate([
@@ -860,45 +961,45 @@
                                 opacity: 0
                             }
                         ], {
-                            duration: 600 + Math.random() * 700,
+                            duration: 500 + Math.random() * 600,
                             easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
                         });
                         
                         animation.onfinish = () => heart.remove();
-                    }, i * 50);
+                    }, i * 40);
                 }
             }
             
-            // Función para el botón "Sí"
+            // Función para el botón "Sí" - SIN SCROLL AUTOMÁTICO
             function handleYesClick() {
                 if (isYesClicked) return;
                 
                 isYesClicked = true;
                 
-                yesButton.style.transform = 'scale(0.96)';
-                yesButton.style.boxShadow = '0 6px 25px rgba(255, 55, 95, 0.6)';
+                yesButton.style.transform = 'scale(0.95)';
+                yesButton.style.boxShadow = '0 6px 20px rgba(255, 55, 95, 0.6)';
                 
                 createCelebration();
                 
                 setTimeout(() => {
                     buttonsContainer.style.opacity = '0';
-                    buttonsContainer.style.transform = 'translateY(35px)';
+                    buttonsContainer.style.transform = 'translateY(30px)';
                     buttonsContainer.style.pointerEvents = 'none';
                     
+                    // Mostrar respuesta sin hacer scroll automático
                     responseContainer.style.display = 'block';
                     
+                    // NO hacemos scroll automático, dejamos que el usuario decida
+                    // Mostramos el botón para volver arriba si es necesario
                     setTimeout(() => {
-                        responseContainer.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'center' 
-                        });
+                        toggleBackToTop();
                     }, 500);
-                }, 700);
+                }, 600);
                 
                 setTimeout(() => {
                     yesButton.style.transform = 'scale(1)';
-                    yesButton.style.boxShadow = '0 12px 35px rgba(255, 55, 95, 0.35)';
-                }, 350);
+                    yesButton.style.boxShadow = '0 10px 30px rgba(255, 55, 95, 0.35)';
+                }, 300);
             }
             
             // Función de celebración
@@ -911,16 +1012,16 @@
             function createConfetti() {
                 const colors = ['#FF375F', '#FF8FAB', '#FF2D55', '#FF5D8F'];
                 
-                for (let i = 0; i < 100; i++) {
+                for (let i = 0; i < 80; i++) {
                     setTimeout(() => {
                         const confetti = document.createElement('div');
                         confetti.style.position = 'fixed';
-                        confetti.style.width = `${8 + Math.random() * 12}px`;
-                        confetti.style.height = `${8 + Math.random() * 12}px`;
+                        confetti.style.width = `${6 + Math.random() * 10}px`;
+                        confetti.style.height = `${6 + Math.random() * 10}px`;
                         confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
                         confetti.style.borderRadius = Math.random() > 0.7 ? '50%' : '2px';
                         confetti.style.left = `${Math.random() * 100}%`;
-                        confetti.style.top = '-20px';
+                        confetti.style.top = '-15px';
                         confetti.style.zIndex = '9998';
                         confetti.style.opacity = '0.95';
                         
@@ -932,16 +1033,16 @@
                                 opacity: 1
                             },
                             { 
-                                transform: `translate(${Math.random() * 180 - 90}px, ${window.innerHeight + 100}px) rotate(${Math.random() * 720}deg)`,
+                                transform: `translate(${Math.random() * 150 - 75}px, ${window.innerHeight + 80}px) rotate(${Math.random() * 720}deg)`,
                                 opacity: 0
                             }
                         ], {
-                            duration: 1800 + Math.random() * 1800,
+                            duration: 1500 + Math.random() * 1500,
                             easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
                         });
                         
                         animation.onfinish = () => confetti.remove();
-                    }, i * 20);
+                    }, i * 15);
                 }
             }
             
@@ -949,15 +1050,15 @@
             function createSpecialHearts() {
                 const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘'];
                 
-                for (let i = 0; i < 25; i++) {
+                for (let i = 0; i < 20; i++) {
                     setTimeout(() => {
                         const heart = document.createElement('div');
                         heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                         heart.style.position = 'fixed';
-                        heart.style.fontSize = `${25 + Math.random() * 35}px`;
+                        heart.style.fontSize = `${20 + Math.random() * 30}px`;
                         heart.style.color = '#FF375F';
                         heart.style.left = `${Math.random() * 100}%`;
-                        heart.style.top = `${100 + Math.random() * 20}%`;
+                        heart.style.top = `${100 + Math.random() * 15}%`;
                         heart.style.zIndex = '9997';
                         heart.style.pointerEvents = 'none';
                         heart.style.opacity = '0.9';
@@ -971,16 +1072,16 @@
                                 opacity: 1
                             },
                             { 
-                                transform: `scale(1.6) translateY(-${250 + Math.random() * 350}px) rotate(${Math.random() * 360}deg)`,
+                                transform: `scale(1.4) translateY(-${200 + Math.random() * 300}px) rotate(${Math.random() * 360}deg)`,
                                 opacity: 0
                             }
                         ], {
-                            duration: 1600 + Math.random() * 1600,
+                            duration: 1400 + Math.random() * 1400,
                             easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
                         });
                         
                         animation.onfinish = () => heart.remove();
-                    }, i * 60);
+                    }, i * 50);
                 }
             }
             
@@ -1001,26 +1102,32 @@
                     const buttonRect = noButton.getBoundingClientRect();
                     const screenWidth = window.innerWidth;
                     const screenHeight = window.innerHeight;
-                    const margin = 40;
+                    
+                    // Márgenes ajustados
+                    const topMargin = 80;
+                    const sideMargin = 25;
+                    const bottomMargin = 25;
                     
                     // Si está fuera, corregir inmediatamente
-                    if (buttonRect.right > screenWidth - margin || 
-                        buttonRect.bottom > screenHeight - margin ||
-                        buttonRect.left < margin || 
-                        buttonRect.top < margin) {
+                    if (buttonRect.right > screenWidth - sideMargin || 
+                        buttonRect.bottom > screenHeight - bottomMargin ||
+                        buttonRect.left < sideMargin || 
+                        buttonRect.top < topMargin) {
                         
                         const buttonWidth = noButton.offsetWidth;
                         const buttonHeight = noButton.offsetHeight;
                         
-                        const maxX = Math.max(margin, screenWidth - buttonWidth - margin);
-                        const maxY = Math.max(margin, screenHeight - buttonHeight - margin);
+                        const minX = sideMargin;
+                        const maxX = Math.max(minX, screenWidth - buttonWidth - sideMargin);
+                        const minY = topMargin;
+                        const maxY = Math.max(minY, screenHeight - buttonHeight - bottomMargin);
                         
-                        const currentX = parseFloat(noButton.style.left) || margin;
-                        const currentY = parseFloat(noButton.style.top) || margin;
+                        const currentX = parseFloat(noButton.style.left) || minX;
+                        const currentY = parseFloat(noButton.style.top) || minY;
                         
                         // Forzar posición segura
-                        noButton.style.left = `${Math.max(margin, Math.min(currentX, maxX))}px`;
-                        noButton.style.top = `${Math.max(margin, Math.min(currentY, maxY))}px`;
+                        noButton.style.left = `${Math.max(minX, Math.min(currentX, maxX))}px`;
+                        noButton.style.top = `${Math.max(minY, Math.min(currentY, maxY))}px`;
                     }
                 }
             });
@@ -1028,6 +1135,8 @@
             // Inicialización
             setTimeout(() => {
                 document.body.style.opacity = '1';
+                // Hacer scroll al inicio para asegurar que se vea la parte superior
+                container.scrollTop = 0;
             }, 50);
         });
     </script>
