@@ -43,7 +43,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 20px;
             line-height: 1.4;
             position: relative;
         }
@@ -86,51 +86,42 @@
             }
         }
 
-        /* Contenedor principal - Ajustado para visualización completa */
+        /* Contenedor principal */
         .container {
             background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-radius: 26px;
+            border-radius: 28px;
             border: 2px solid rgba(255, 255, 255, 0.8);
             box-shadow: var(--shadow), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.6),
                         0 0 0 1px rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 680px;
-            padding: 30px 30px;
+            max-width: 700px;
+            padding: 50px 45px;
             text-align: center;
             position: relative;
             z-index: 10;
             overflow: visible;
-            margin: 5px auto;
-            max-height: 95vh;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            margin: 0 auto;
         }
 
-        /* Ocultar scrollbar pero mantener funcionalidad */
-        .container::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-
-        /* Header ajustado - Menos espacio arriba */
+        /* Header */
         .header {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             position: relative;
         }
 
         .icon-container {
-            width: 85px;
-            height: 85px;
+            width: 90px;
+            height: 90px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 12px 30px rgba(255, 55, 95, 0.4);
+            margin: 0 auto 30px;
+            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.4);
             border: 4px solid rgba(255, 255, 255, 0.9);
             position: relative;
         }
@@ -138,10 +129,10 @@
         .icon-container::after {
             content: '';
             position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
             border-radius: 50%;
             z-index: -1;
@@ -149,29 +140,29 @@
         }
 
         .icon-container i {
-            font-size: 32px;
+            font-size: 36px;
             color: white;
         }
 
         .greeting {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 2.6rem;
+            font-size: 3rem;
             font-weight: 900;
             color: var(--accent-pink);
-            margin-bottom: 5px;
-            letter-spacing: -0.6px;
+            margin-bottom: 10px;
+            letter-spacing: -0.8px;
             line-height: 1.1;
         }
 
         .name {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 3.2rem;
+            font-size: 3.8rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--accent-red) 0%, #FF8FAB 50%, var(--accent-pink) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin: 12px 0;
+            margin: 15px 0;
             display: block;
             position: relative;
             line-height: 1;
@@ -179,56 +170,57 @@
 
         .nounours {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--accent-soft);
-            margin-top: 6px;
+            margin-top: 8px;
             display: inline-block;
-            padding: 6px 15px;
+            padding: 7px 18px;
             background: rgba(255, 255, 255, 0.7);
             border-radius: 50px;
             border: 2px solid rgba(255, 143, 171, 0.3);
-            box-shadow: 0 3px 10px rgba(255, 143, 171, 0.2);
+            box-shadow: 0 4px 12px rgba(255, 143, 171, 0.2);
         }
 
         .subtitle {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-secondary);
-            margin-top: 10px;
-            letter-spacing: 0.3px;
+            margin-top: 12px;
+            letter-spacing: 0.4px;
             line-height: 1.3;
         }
 
-        /* Sección de pregunta ajustada */
-        .question-container {
-            margin: 35px 0;
-            padding: 35px 30px;
+        /* Sección de pregunta - Se ocultará cuando se acepte */
+        .question-section {
+            margin: 50px 0;
+            padding: 45px 40px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
-            border-radius: 20px;
+            border-radius: 24px;
             border: 2px solid rgba(255, 255, 255, 0.9);
             position: relative;
-            box-shadow: 0 8px 30px rgba(255, 143, 171, 0.2);
+            box-shadow: 0 10px 40px rgba(255, 143, 171, 0.2);
             overflow: hidden;
+            transition: var(--transition);
         }
 
-        .question-container::before {
+        .question-section::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 5px;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
-            border-radius: 20px 20px 0 0;
+            border-radius: 24px 24px 0 0;
         }
 
         .question {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 2rem;
+            font-size: 2.4rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             line-height: 1.2;
             color: #A4133C;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -236,43 +228,43 @@
 
         .instruction {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-secondary);
-            margin-top: 12px;
+            margin-top: 15px;
             line-height: 1.3;
         }
 
-        /* Botones - Menos margen arriba */
+        /* Botones - CORREGIDO PARA NO OCULTARSE */
         .buttons-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            margin-top: 35px;
+            gap: 25px;
+            margin-top: 40px;
             flex-wrap: wrap;
             position: relative;
-            min-height: 110px;
+            min-height: 120px;
         }
 
         .button {
-            padding: 18px 35px;
+            padding: 20px 40px;
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            border-radius: 15px;
+            border-radius: 16px;
             border: none;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            min-width: 180px;
+            gap: 10px;
+            min-width: 200px;
             position: relative;
             overflow: hidden;
             letter-spacing: 0.3px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             z-index: 100;
             transform: translateZ(0);
         }
@@ -297,12 +289,12 @@
             background: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-pink) 100%);
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 25px rgba(255, 55, 95, 0.35);
+            box-shadow: 0 10px 30px rgba(255, 55, 95, 0.35);
         }
 
         .button-yes:hover {
             transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.5);
+            box-shadow: 0 18px 45px rgba(255, 55, 95, 0.5);
         }
 
         .button-yes:active {
@@ -316,37 +308,37 @@
             position: absolute;
             z-index: 1000;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 6px 20px rgba(255, 55, 95, 0.25);
+            box-shadow: 0 8px 25px rgba(255, 55, 95, 0.25);
         }
 
         .button-no:hover {
             background: white;
-            box-shadow: 0 10px 30px rgba(255, 55, 95, 0.35);
+            box-shadow: 0 12px 35px rgba(255, 55, 95, 0.35);
         }
 
-        /* Mensaje de respuesta - Más compacto */
-        .response-container {
+        /* Mensaje de respuesta - SOLO ESTO SE MUESTRA DESPUÉS */
+        .response-section {
             display: none;
-            margin-top: 40px;
-            padding: 35px 30px;
+            margin-top: 0;
+            padding: 50px 40px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
-            border-radius: 20px;
+            border-radius: 24px;
             border: 2px solid rgba(255, 255, 255, 0.9);
             animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 12px 40px rgba(255, 143, 171, 0.3);
+            box-shadow: 0 15px 50px rgba(255, 143, 171, 0.3);
         }
 
-        .response-container::before {
+        .response-section::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 5px;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
-            border-radius: 20px 20px 0 0;
+            border-radius: 24px 24px 0 0;
         }
 
         @keyframes fadeInUp {
@@ -362,9 +354,9 @@
 
         .response-title {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             -webkit-background-clip: text;
             background-clip: text;
@@ -374,27 +366,27 @@
 
         .response-message {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.1rem;
-            line-height: 1.5;
+            font-size: 1.2rem;
+            line-height: 1.6;
             color: var(--text-primary);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: left;
             font-weight: 700;
         }
 
         .response-message p {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .signature {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 900;
             color: var(--accent-pink);
-            margin-top: 30px;
+            margin-top: 40px;
             text-align: right;
             position: relative;
-            padding-top: 15px;
+            padding-top: 20px;
         }
 
         .signature::before {
@@ -402,110 +394,140 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 100px;
+            width: 120px;
             height: 3px;
             background: linear-gradient(90deg, transparent, rgba(255, 55, 95, 0.5));
         }
 
-        /* Footer compacto */
+        /* Footer */
         .footer {
-            margin-top: 40px;
-            padding-top: 20px;
+            margin-top: 50px;
+            padding-top: 25px;
             border-top: 2px solid rgba(255, 255, 255, 0.7);
         }
 
         .footer-text {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 900;
             color: var(--accent-pink);
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* Botón para volver arriba */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--accent-red);
-            color: white;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(255, 55, 95, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            transition: var(--transition);
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 55, 95, 0.5);
-        }
-
-        /* Responsive ajustado */
+        /* Responsive */
         @media (max-width: 900px) {
             .container {
                 max-width: 90%;
-                padding: 25px 25px;
+                padding: 40px 35px;
             }
             
             .greeting {
-                font-size: 2.2rem;
+                font-size: 2.6rem;
+            }
+            
+            .name {
+                font-size: 3.2rem;
+            }
+            
+            .nounours {
+                font-size: 1.6rem;
+                margin-top: 12px;
+            }
+            
+            .question {
+                font-size: 2.1rem;
+            }
+            
+            .question-section {
+                padding: 40px 35px;
+                margin: 40px 0;
+            }
+            
+            .buttons-container {
+                gap: 20px;
+            }
+            
+            .button {
+                padding: 18px 35px;
+                font-size: 1.2rem;
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 35px 30px;
+                max-width: 95%;
+            }
+            
+            .greeting {
+                font-size: 2.3rem;
             }
             
             .name {
                 font-size: 2.8rem;
             }
             
-            .nounours {
-                font-size: 1.4rem;
-                margin-top: 10px;
-            }
-            
             .question {
-                font-size: 1.8rem;
-            }
-            
-            .question-container {
-                padding: 30px 25px;
-                margin: 30px 0;
+                font-size: 1.9rem;
             }
             
             .buttons-container {
+                flex-direction: column;
+                align-items: center;
                 gap: 15px;
+                min-height: 160px;
             }
             
             .button {
-                padding: 16px 25px;
-                font-size: 1.1rem;
-                min-width: 160px;
+                width: 100%;
+                max-width: 300px;
+                padding: 20px 30px;
             }
             
-            .back-to-top {
-                bottom: 20px;
-                right: 20px;
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
+            .button-no {
+                position: relative;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .response-section {
+                padding: 40px 35px;
+            }
+            
+            .response-title {
+                font-size: 2rem;
+            }
+            
+            .response-message {
+                font-size: 1.1rem;
+            }
+            
+            .icon-container {
+                width: 85px;
+                height: 85px;
+                margin-bottom: 25px;
+            }
+            
+            .icon-container i {
+                font-size: 32px;
+            }
+            
+            .nounours {
+                font-size: 1.4rem;
+                padding: 6px 15px;
             }
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 8px;
-            }
-            
+        @media (max-width: 480px) {
             .container {
-                padding: 25px 20px;
-                max-width: 95%;
-                max-height: 96vh;
+                padding: 30px 25px;
+                border-radius: 24px;
             }
             
             .greeting {
@@ -513,166 +535,76 @@
             }
             
             .name {
-                font-size: 2.4rem;
+                font-size: 2.5rem;
             }
             
             .question {
-                font-size: 1.6rem;
-            }
-            
-            .buttons-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 12px;
-                min-height: 140px;
+                font-size: 1.7rem;
             }
             
             .button {
-                width: 100%;
-                max-width: 280px;
-                padding: 18px 22px;
+                padding: 18px 25px;
+                font-size: 1.1rem;
             }
             
-            .button-no {
-                position: relative;
-                width: 100%;
-                max-width: 280px;
-            }
-            
-            .response-container {
-                padding: 30px 25px;
-            }
-            
-            .response-title {
-                font-size: 1.6rem;
-            }
-            
-            .response-message {
-                font-size: 1rem;
-            }
-            
-            .icon-container {
-                width: 75px;
-                height: 75px;
-                margin-bottom: 18px;
-            }
-            
-            .icon-container i {
-                font-size: 28px;
-            }
-            
-            .nounours {
-                font-size: 1.3rem;
-                padding: 5px 12px;
-            }
-            
-            .back-to-top {
-                bottom: 15px;
-                right: 15px;
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 22px 18px;
-                border-radius: 22px;
-            }
-            
-            .greeting {
-                font-size: 1.8rem;
-            }
-            
-            .name {
-                font-size: 2.1rem;
-            }
-            
-            .question {
-                font-size: 1.5rem;
-            }
-            
-            .button {
-                padding: 16px 20px;
-                font-size: 1rem;
-            }
-            
-            .question-container {
-                padding: 25px 20px;
+            .question-section {
+                padding: 35px 25px;
             }
             
             .subtitle {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
             .response-message {
-                font-size: 0.95rem;
+                font-size: 1.05rem;
             }
             
             .footer-text {
-                font-size: 0.9rem;
-            }
-            
-            .back-to-top {
-                bottom: 12px;
-                right: 12px;
-                width: 36px;
-                height: 36px;
-                font-size: 14px;
+                font-size: 1rem;
             }
         }
 
         @media (max-height: 750px) and (orientation: landscape) {
             body {
                 align-items: flex-start;
-                padding: 5px;
+                padding: 10px;
             }
             
             .container {
-                margin: 5px 0;
-                padding: 20px 18px;
-                max-height: 98vh;
+                margin: 10px 0;
+                padding: 25px 20px;
             }
             
             .header {
-                margin-bottom: 15px;
+                margin-bottom: 20px;
             }
             
             .greeting {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
             .name {
-                font-size: 2rem;
-                margin: 10px 0;
+                font-size: 2.2rem;
+                margin: 12px 0;
             }
             
-            .question-container {
-                margin: 20px 0;
-                padding: 22px 18px;
+            .question-section {
+                margin: 25px 0;
+                padding: 25px 20px;
             }
             
             .question {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+                font-size: 1.7rem;
+                margin-bottom: 20px;
             }
             
             .buttons-container {
-                margin-top: 20px;
+                margin-top: 25px;
             }
             
             .nounours {
-                margin-top: 5px;
+                margin-top: 8px;
                 font-size: 1.2rem;
-            }
-            
-            .back-to-top {
-                bottom: 10px;
-                right: 10px;
-                width: 32px;
-                height: 32px;
-                font-size: 12px;
             }
         }
     </style>
@@ -680,11 +612,6 @@
 <body>
     <!-- CORAZONES FLOTANTES - MUCHOS Y ESPARCIDOS -->
     <div class="floating-hearts" id="floatingHearts"></div>
-    
-    <!-- Botón para volver arriba -->
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
     
     <div class="container">
         <div class="header">
@@ -697,7 +624,8 @@
             <p class="subtitle">La femme de ma vie, ma Valentine éternelle</p>
         </div>
         
-        <div class="question-container">
+        <!-- Sección de pregunta - Se ocultará al aceptar -->
+        <div class="question-section" id="questionSection">
             <h2 class="question">Veux-tu être ma Valentine cette année ?</h2>
             <p class="instruction">Choisis avec ton cœur, ma belle ❤️</p>
             
@@ -711,7 +639,8 @@
             </div>
         </div>
         
-        <div class="response-container" id="responseContainer">
+        <!-- Sección de respuesta - Solo esto se mostrará después -->
+        <div class="response-section" id="responseSection">
             <h3 class="response-title">Youpi ! Tu as dit OUI ! 🎉💖</h3>
             <div class="response-message">
                 <p>Je suis tellement heureux que tu aies accepté d'être ma Valentine !</p>
@@ -734,11 +663,9 @@
             // Variables principales
             const yesButton = document.getElementById('yesButton');
             const noButton = document.getElementById('noButton');
-            const responseContainer = document.getElementById('responseContainer');
-            const buttonsContainer = document.querySelector('.buttons-container');
+            const questionSection = document.getElementById('questionSection');
+            const responseSection = document.getElementById('responseSection');
             const floatingHeartsContainer = document.getElementById('floatingHearts');
-            const backToTop = document.getElementById('backToTop');
-            const container = document.querySelector('.container');
             let noButtonAttempts = 0;
             let isYesClicked = false;
             
@@ -770,26 +697,6 @@
                 "Tu es mon bonheur 😊",
                 "Je te veux pour toujours 💞"
             ];
-            
-            // Función para mostrar/ocultar botón de volver arriba
-            function toggleBackToTop() {
-                if (container.scrollTop > 300) {
-                    backToTop.style.display = 'flex';
-                } else {
-                    backToTop.style.display = 'none';
-                }
-            }
-            
-            // Evento de scroll en el contenedor
-            container.addEventListener('scroll', toggleBackToTop);
-            
-            // Evento para volver arriba
-            backToTop.addEventListener('click', function() {
-                container.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
             
             // CORAZONES FLOTANTES - MUCHOS Y DESDE EL PRINCIPIO
             function createFloatingHearts() {
@@ -828,7 +735,7 @@
             // Inicializar corazones INMEDIATAMENTE
             createFloatingHearts();
             
-            // FUNCIÓN MEJORADA PARA BOTÓN "NO" - VISIBLE COMPLETAMENTE
+            // FUNCIÓN MEJORADA PARA BOTÓN "NO" - NO SE OCULTA NUNCA
             function moveNoButton(event) {
                 if (isYesClicked) return;
                 
@@ -848,15 +755,15 @@
                 const buttonWidth = noButton.offsetWidth;
                 const buttonHeight = noButton.offsetHeight;
                 
-                // MÁRGENES LIMITADOS - Superior más grande pero visible
-                const topMargin = 80; // Menos margen superior para que sea visible
-                const sideMargin = 25;
-                const bottomMargin = 25;
+                // MÁRGENES SEGUROS - el botón NO se oculta
+                const topMargin = 10; // Mínimo margen superior
+                const sideMargin = 10; // Mínimo margen lateral
+                const bottomMargin = 10; // Mínimo margen inferior
                 
-                // Calcular límites con márgenes específicos
+                // Calcular límites con márgenes seguros
                 const minX = sideMargin;
                 const maxX = Math.max(minX, screenWidth - buttonWidth - sideMargin);
-                const minY = topMargin; // Margen superior ajustado
+                const minY = topMargin;
                 const maxY = Math.max(minY, screenHeight - buttonHeight - bottomMargin);
                 
                 // Si la pantalla es demasiado pequeña, usar posición relativa
@@ -867,30 +774,35 @@
                     return;
                 }
                 
-                // Posiciones predefinidas que NUNCA se salen y son visibles
+                // Patrón de posiciones que garantiza visibilidad completa
                 const positions = [
-                    {x: minX + 30, y: minY + 30}, // Cerca esquina superior izquierda
-                    {x: maxX - 30, y: minY + 30}, // Cerca esquina superior derecha
-                    {x: minX + 30, y: maxY - 30}, // Cerca esquina inferior izquierda
-                    {x: maxX - 30, y: maxY - 30}, // Cerca esquina inferior derecha
+                    // Posiciones visibles en toda la pantalla
+                    {x: minX + 15, y: minY + 15}, // Esquina superior izquierda visible
+                    {x: maxX - 15, y: minY + 15}, // Esquina superior derecha visible
+                    {x: minX + 15, y: maxY - 15}, // Esquina inferior izquierda visible
+                    {x: maxX - 15, y: maxY - 15}, // Esquina inferior derecha visible
+                    
+                    // Posiciones centrales
+                    {x: (minX + maxX) / 2, y: minY + 30}, // Centro superior
+                    {x: (minX + maxX) / 2, y: maxY - 30}, // Centro inferior
                     {x: minX + 30, y: (minY + maxY) / 2}, // Centro izquierda
                     {x: maxX - 30, y: (minY + maxY) / 2}, // Centro derecha
-                    {x: (minX + maxX) / 2, y: minY + 40}, // Centro arriba (con margen extra)
-                    {x: (minX + maxX) / 2, y: maxY - 40}, // Centro abajo
-                    {x: (minX + maxX) / 3, y: (minY + maxY) / 3}, // Punto 1
-                    {x: (minX + maxX) * 2/3, y: (minY + maxY) / 3}, // Punto 2
-                    {x: (minX + maxX) / 3, y: (minY + maxY) * 2/3}, // Punto 3
-                    {x: (minX + maxX) * 2/3, y: (minY + maxY) * 2/3} // Punto 4
+                    
+                    // Posiciones intermedias
+                    {x: minX + 50, y: minY + 50},
+                    {x: maxX - 50, y: minY + 50},
+                    {x: minX + 50, y: maxY - 50},
+                    {x: maxX - 50, y: maxY - 50}
                 ];
                 
                 // Seleccionar posición del patrón
                 const posIndex = noButtonAttempts % positions.length;
                 
-                // VERIFICACIÓN FINAL DE SEGURIDAD
+                // VERIFICACIÓN EXTRA DE VISIBILIDAD
                 const safeX = Math.max(minX, Math.min(positions[posIndex].x, maxX));
                 const safeY = Math.max(minY, Math.min(positions[posIndex].y, maxY));
                 
-                // Aplicar posición SEGURA
+                // Aplicar posición SEGURA Y VISIBLE
                 noButton.style.position = 'fixed';
                 noButton.style.left = `${safeX}px`;
                 noButton.style.top = `${safeY}px`;
@@ -970,32 +882,39 @@
                 }
             }
             
-            // Función para el botón "Sí" - SIN SCROLL AUTOMÁTICO
+            // Función para el botón "Sí" - OCULTA LA PREGUNTA, MUESTRA SOLO LA RESPUESTA
             function handleYesClick() {
                 if (isYesClicked) return;
                 
                 isYesClicked = true;
                 
+                // Efecto visual en el botón Sí
                 yesButton.style.transform = 'scale(0.95)';
                 yesButton.style.boxShadow = '0 6px 20px rgba(255, 55, 95, 0.6)';
                 
+                // Crear animación de celebración
                 createCelebration();
                 
+                // Ocultar sección de pregunta con animación
                 setTimeout(() => {
-                    buttonsContainer.style.opacity = '0';
-                    buttonsContainer.style.transform = 'translateY(30px)';
-                    buttonsContainer.style.pointerEvents = 'none';
+                    questionSection.style.opacity = '0';
+                    questionSection.style.transform = 'translateY(20px)';
+                    questionSection.style.pointerEvents = 'none';
                     
-                    // Mostrar respuesta sin hacer scroll automático
-                    responseContainer.style.display = 'block';
-                    
-                    // NO hacemos scroll automático, dejamos que el usuario decida
-                    // Mostramos el botón para volver arriba si es necesario
+                    // Después de ocultar la pregunta, mostrar solo la respuesta
                     setTimeout(() => {
-                        toggleBackToTop();
-                    }, 500);
+                        questionSection.style.display = 'none';
+                        responseSection.style.display = 'block';
+                        
+                        // Efecto de entrada para la respuesta
+                        setTimeout(() => {
+                            responseSection.style.opacity = '1';
+                            responseSection.style.transform = 'translateY(0)';
+                        }, 100);
+                    }, 400);
                 }, 600);
                 
+                // Restaurar botón
                 setTimeout(() => {
                     yesButton.style.transform = 'scale(1)';
                     yesButton.style.boxShadow = '0 10px 30px rgba(255, 55, 95, 0.35)';
@@ -1096,19 +1015,19 @@
                 moveNoButton(e);
             });
             
-            // VERIFICACIÓN EN TIEMPO REAL - GARANTIZA QUE NO SE SALGA
+            // VERIFICACIÓN EN TIEMPO REAL - GARANTIZA QUE EL BOTÓN NO SE OCULTE
             window.addEventListener('resize', function() {
                 if (noButton.style.position === 'fixed') {
                     const buttonRect = noButton.getBoundingClientRect();
                     const screenWidth = window.innerWidth;
                     const screenHeight = window.innerHeight;
                     
-                    // Márgenes ajustados
-                    const topMargin = 80;
-                    const sideMargin = 25;
-                    const bottomMargin = 25;
+                    // Márgenes mínimos para visibilidad
+                    const topMargin = 10;
+                    const sideMargin = 10;
+                    const bottomMargin = 10;
                     
-                    // Si está fuera, corregir inmediatamente
+                    // Si está parcialmente fuera, corregir inmediatamente
                     if (buttonRect.right > screenWidth - sideMargin || 
                         buttonRect.bottom > screenHeight - bottomMargin ||
                         buttonRect.left < sideMargin || 
@@ -1125,7 +1044,7 @@
                         const currentX = parseFloat(noButton.style.left) || minX;
                         const currentY = parseFloat(noButton.style.top) || minY;
                         
-                        // Forzar posición segura
+                        // Forzar posición segura y visible
                         noButton.style.left = `${Math.max(minX, Math.min(currentX, maxX))}px`;
                         noButton.style.top = `${Math.max(minY, Math.min(currentY, maxY))}px`;
                     }
@@ -1135,8 +1054,6 @@
             // Inicialización
             setTimeout(() => {
                 document.body.style.opacity = '1';
-                // Hacer scroll al inicio para asegurar que se vea la parte superior
-                container.scrollTop = 0;
             }, 50);
         });
     </script>
