@@ -48,7 +48,7 @@
             position: relative;
         }
 
-        /* Corazones flotantes optimizados */
+        /* CORAZONES FLOTANTES - MUCHOS Y DESDE EL PRINCIPIO */
         .floating-hearts {
             position: fixed;
             top: 0;
@@ -64,7 +64,7 @@
             position: absolute;
             font-size: 28px;
             opacity: 0;
-            animation: floatHeart 25s infinite linear;
+            animation: floatHeart 20s infinite linear;
             will-change: transform, opacity;
             filter: drop-shadow(0 4px 8px rgba(201, 24, 74, 0.25));
         }
@@ -106,7 +106,7 @@
             margin: 0 auto;
         }
 
-        /* Header mejorado */
+        /* Header */
         .header {
             margin-bottom: 50px;
             position: relative;
@@ -234,7 +234,7 @@
             line-height: 1.3;
         }
 
-        /* Botones optimizados - Mejor control de posición */
+        /* Botones - FIX PARA BOTÓN NO QUE NO SE SALGA */
         .buttons-container {
             display: flex;
             justify-content: center;
@@ -414,7 +414,7 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* Responsive optimizado */
+        /* Responsive */
         @media (max-width: 900px) {
             .container {
                 max-width: 90%;
@@ -608,7 +608,7 @@
     </style>
 </head>
 <body>
-    <!-- Corazones flotantes -->
+    <!-- CORAZONES FLOTANTES - MUCHOS Y ESPARCIDOS -->
     <div class="floating-hearts" id="floatingHearts"></div>
     
     <div class="container">
@@ -694,38 +694,44 @@
                 "Je te veux pour toujours 💞"
             ];
             
-            // Función para crear corazones flotantes
+            // CORAZONES FLOTANTES - MUCHOS Y DESDE EL PRINCIPIO
             function createFloatingHearts() {
                 const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘', '💝'];
-                const heartCount = 20;
+                const heartCount = 50; // MUCHOS CORAZONES
                 
                 for (let i = 0; i < heartCount; i++) {
-                    setTimeout(() => {
-                        const heart = document.createElement('div');
-                        heart.className = 'floating-heart';
-                        heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                        
-                        const size = 24 + Math.random() * 36;
-                        heart.style.fontSize = `${size}px`;
-                        
-                        heart.style.left = `${Math.random() * 100}%`;
-                        
-                        const delay = Math.random() * 25;
-                        const duration = 18 + Math.random() * 30;
-                        heart.style.animationDelay = `${delay}s`;
-                        heart.style.animationDuration = `${duration}s`;
-                        
-                        heart.style.opacity = `${0.5 + Math.random() * 0.5}`;
-                        
-                        floatingHeartsContainer.appendChild(heart);
-                    }, i * 300);
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                    
+                    // Tamaños muy variados
+                    const size = 20 + Math.random() * 40;
+                    heart.style.fontSize = `${size}px`;
+                    
+                    // Distribuidos por toda la pantalla horizontalmente
+                    heart.style.left = `${Math.random() * 100}%`;
+                    
+                    // Inician desde diferentes alturas (no todos desde abajo)
+                    const startY = 100 + Math.random() * 50;
+                    heart.style.transform = `translateY(${startY}vh)`;
+                    
+                    // Animaciones con diferentes velocidades
+                    const delay = Math.random() * 5; // Todos empiezan rápido
+                    const duration = 15 + Math.random() * 20;
+                    heart.style.animationDelay = `${delay}s`;
+                    heart.style.animationDuration = `${duration}s`;
+                    
+                    // Opacidad variada
+                    heart.style.opacity = `${0.3 + Math.random() * 0.7}`;
+                    
+                    floatingHeartsContainer.appendChild(heart);
                 }
             }
             
-            // Inicializar corazones
-            setTimeout(createFloatingHearts, 500);
+            // Inicializar corazones INMEDIATAMENTE
+            createFloatingHearts();
             
-            // Función para mover el botón "No" sin salirse de la pantalla
+            // FUNCIÓN MEJORADA PARA BOTÓN "NO" - NO SE SALE NUNCA
             function moveNoButton(event) {
                 if (isYesClicked) return;
                 
@@ -739,76 +745,54 @@
                 const textIndex = (noButtonAttempts - 1) % noButtonTexts.length;
                 noButton.innerHTML = `<i class="fas fa-heart"></i> ${noButtonTexts[textIndex]}`;
                 
-                // Obtener dimensiones de la pantalla y del botón
+                // Obtener dimensiones exactas
                 const screenWidth = window.innerWidth;
                 const screenHeight = window.innerHeight;
                 const buttonWidth = noButton.offsetWidth;
                 const buttonHeight = noButton.offsetHeight;
                 
-                // Calcular límites con márgenes
-                const margin = 30;
-                const maxX = screenWidth - buttonWidth - margin;
-                const maxY = screenHeight - buttonHeight - margin;
+                // Márgenes de seguridad más grandes
+                const margin = 40;
+                const maxX = Math.max(margin, screenWidth - buttonWidth - margin);
+                const maxY = Math.max(margin, screenHeight - buttonHeight - margin);
                 
-                // Si el botón es demasiado grande para la pantalla
-                if (maxX <= margin || maxY <= margin) {
+                // Si la pantalla es demasiado pequeña, usar posición relativa
+                if (maxX <= margin * 2 || maxY <= margin * 2) {
                     noButton.style.position = 'relative';
                     noButton.style.left = 'auto';
                     noButton.style.top = 'auto';
                     return;
                 }
                 
-                // Generar nueva posición asegurando que esté dentro de los límites
-                let newX, newY;
+                // Posiciones predefinidas que NUNCA se salen
+                const positions = [
+                    {x: margin, y: margin}, // Esquina superior izquierda
+                    {x: maxX, y: margin},   // Esquina superior derecha
+                    {x: margin, y: maxY},   // Esquina inferior izquierda
+                    {x: maxX, y: maxY},     // Esquina inferior derecha
+                    {x: margin, y: (screenHeight - buttonHeight) / 2}, // Centro izquierda
+                    {x: maxX, y: (screenHeight - buttonHeight) / 2},   // Centro derecha
+                    {x: (screenWidth - buttonWidth) / 2, y: margin},   // Centro arriba
+                    {x: (screenWidth - buttonWidth) / 2, y: maxY},     // Centro abajo
+                    {x: (screenWidth - buttonWidth) / 3, y: (screenHeight - buttonHeight) / 3}, // Punto 1
+                    {x: (screenWidth - buttonWidth) * 2/3, y: (screenHeight - buttonHeight) / 3}, // Punto 2
+                    {x: (screenWidth - buttonWidth) / 3, y: (screenHeight - buttonHeight) * 2/3}, // Punto 3
+                    {x: (screenWidth - buttonWidth) * 2/3, y: (screenHeight - buttonHeight) * 2/3} // Punto 4
+                ];
                 
-                // Después de varios intentos, usar posiciones estratégicas
-                const pattern = noButtonAttempts % 8;
-                switch(pattern) {
-                    case 0:
-                        newX = margin;
-                        newY = margin;
-                        break;
-                    case 1:
-                        newX = maxX;
-                        newY = margin;
-                        break;
-                    case 2:
-                        newX = margin;
-                        newY = maxY;
-                        break;
-                    case 3:
-                        newX = maxX;
-                        newY = maxY;
-                        break;
-                    case 4:
-                        newX = margin;
-                        newY = screenHeight / 2 - buttonHeight / 2;
-                        break;
-                    case 5:
-                        newX = maxX;
-                        newY = screenHeight / 2 - buttonHeight / 2;
-                        break;
-                    case 6:
-                        newX = screenWidth / 2 - buttonWidth / 2;
-                        newY = margin;
-                        break;
-                    case 7:
-                        newX = screenWidth / 2 - buttonWidth / 2;
-                        newY = maxY;
-                        break;
-                    default:
-                        newX = margin + Math.random() * (maxX - margin);
-                        newY = margin + Math.random() * (maxY - margin);
-                }
+                // Seleccionar posición del patrón
+                const posIndex = noButtonAttempts % positions.length;
+                const newX = Math.max(margin, Math.min(positions[posIndex].x, maxX));
+                const newY = Math.max(margin, Math.min(positions[posIndex].y, maxY));
                 
-                // Asegurar que no se sale de los límites
-                newX = Math.max(margin, Math.min(newX, maxX));
-                newY = Math.max(margin, Math.min(newY, maxY));
+                // VERIFICACIÓN FINAL DE SEGURIDAD
+                const safeX = Math.max(margin, Math.min(newX, maxX));
+                const safeY = Math.max(margin, Math.min(newY, maxY));
                 
-                // Aplicar nueva posición
+                // Aplicar posición SEGURA
                 noButton.style.position = 'fixed';
-                noButton.style.left = `${newX}px`;
-                noButton.style.top = `${newY}px`;
+                noButton.style.left = `${safeX}px`;
+                noButton.style.top = `${safeY}px`;
                 noButton.style.zIndex = '10000';
                 
                 // Efecto visual
@@ -824,9 +808,12 @@
                     noButton.style.boxShadow = '0 10px 30px rgba(255, 55, 95, 0.25)';
                 }, 350);
                 
-                // Aumentar velocidad después de muchos intentos
-                if (noButtonAttempts > 12) {
-                    noButton.style.transition = 'transform 0.2s, left 0.3s, top 0.3s';
+                // Aumentar velocidad progresivamente
+                if (noButtonAttempts > 10) {
+                    noButton.style.transition = 'transform 0.2s, left 0.35s, top 0.35s';
+                }
+                if (noButtonAttempts > 20) {
+                    noButton.style.transition = 'transform 0.2s, left 0.25s, top 0.25s';
                 }
             }
             
@@ -841,7 +828,7 @@
                     y = event.clientY;
                 }
                 
-                const particleCount = 5 + Math.floor(Math.random() * 4);
+                const particleCount = 4 + Math.floor(Math.random() * 3);
                 const heartEmojis = ['❤️', '💖', '💗'];
                 
                 for (let i = 0; i < particleCount; i++) {
@@ -860,7 +847,7 @@
                         document.body.appendChild(heart);
                         
                         const angle = Math.random() * Math.PI * 2;
-                        const distance = 50 + Math.random() * 100;
+                        const distance = 40 + Math.random() * 80;
                         const size = 0.6 + Math.random() * 0.8;
                         
                         const animation = heart.animate([
@@ -873,12 +860,12 @@
                                 opacity: 0
                             }
                         ], {
-                            duration: 700 + Math.random() * 800,
+                            duration: 600 + Math.random() * 700,
                             easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
                         });
                         
                         animation.onfinish = () => heart.remove();
-                    }, i * 60);
+                    }, i * 50);
                 }
             }
             
@@ -924,16 +911,16 @@
             function createConfetti() {
                 const colors = ['#FF375F', '#FF8FAB', '#FF2D55', '#FF5D8F'];
                 
-                for (let i = 0; i < 120; i++) {
+                for (let i = 0; i < 100; i++) {
                     setTimeout(() => {
                         const confetti = document.createElement('div');
                         confetti.style.position = 'fixed';
-                        confetti.style.width = `${10 + Math.random() * 15}px`;
-                        confetti.style.height = `${10 + Math.random() * 15}px`;
+                        confetti.style.width = `${8 + Math.random() * 12}px`;
+                        confetti.style.height = `${8 + Math.random() * 12}px`;
                         confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                        confetti.style.borderRadius = Math.random() > 0.7 ? '50%' : '3px';
+                        confetti.style.borderRadius = Math.random() > 0.7 ? '50%' : '2px';
                         confetti.style.left = `${Math.random() * 100}%`;
-                        confetti.style.top = '-25px';
+                        confetti.style.top = '-20px';
                         confetti.style.zIndex = '9998';
                         confetti.style.opacity = '0.95';
                         
@@ -945,16 +932,16 @@
                                 opacity: 1
                             },
                             { 
-                                transform: `translate(${Math.random() * 200 - 100}px, ${window.innerHeight + 150}px) rotate(${Math.random() * 720}deg)`,
+                                transform: `translate(${Math.random() * 180 - 90}px, ${window.innerHeight + 100}px) rotate(${Math.random() * 720}deg)`,
                                 opacity: 0
                             }
                         ], {
-                            duration: 2000 + Math.random() * 2000,
+                            duration: 1800 + Math.random() * 1800,
                             easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
                         });
                         
                         animation.onfinish = () => confetti.remove();
-                    }, i * 25);
+                    }, i * 20);
                 }
             }
             
@@ -962,15 +949,15 @@
             function createSpecialHearts() {
                 const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘'];
                 
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 25; i++) {
                     setTimeout(() => {
                         const heart = document.createElement('div');
                         heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                         heart.style.position = 'fixed';
-                        heart.style.fontSize = `${30 + Math.random() * 40}px`;
+                        heart.style.fontSize = `${25 + Math.random() * 35}px`;
                         heart.style.color = '#FF375F';
                         heart.style.left = `${Math.random() * 100}%`;
-                        heart.style.top = `${100 + Math.random() * 30}%`;
+                        heart.style.top = `${100 + Math.random() * 20}%`;
                         heart.style.zIndex = '9997';
                         heart.style.pointerEvents = 'none';
                         heart.style.opacity = '0.9';
@@ -984,16 +971,16 @@
                                 opacity: 1
                             },
                             { 
-                                transform: `scale(1.8) translateY(-${300 + Math.random() * 400}px) rotate(${Math.random() * 360}deg)`,
+                                transform: `scale(1.6) translateY(-${250 + Math.random() * 350}px) rotate(${Math.random() * 360}deg)`,
                                 opacity: 0
                             }
                         ], {
-                            duration: 1800 + Math.random() * 1800,
+                            duration: 1600 + Math.random() * 1600,
                             easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
                         });
                         
                         animation.onfinish = () => heart.remove();
-                    }, i * 70);
+                    }, i * 60);
                 }
             }
             
@@ -1008,34 +995,40 @@
                 moveNoButton(e);
             });
             
-            // Ajustar el botón "No" cuando se redimensiona la ventana
+            // VERIFICACIÓN EN TIEMPO REAL - GARANTIZA QUE NO SE SALGA
             window.addEventListener('resize', function() {
                 if (noButton.style.position === 'fixed') {
                     const buttonRect = noButton.getBoundingClientRect();
                     const screenWidth = window.innerWidth;
                     const screenHeight = window.innerHeight;
+                    const margin = 40;
                     
-                    if (buttonRect.right > screenWidth || buttonRect.bottom > screenHeight) {
+                    // Si está fuera, corregir inmediatamente
+                    if (buttonRect.right > screenWidth - margin || 
+                        buttonRect.bottom > screenHeight - margin ||
+                        buttonRect.left < margin || 
+                        buttonRect.top < margin) {
+                        
                         const buttonWidth = noButton.offsetWidth;
                         const buttonHeight = noButton.offsetHeight;
-                        const margin = 30;
                         
-                        const maxX = screenWidth - buttonWidth - margin;
-                        const maxY = screenHeight - buttonHeight - margin;
+                        const maxX = Math.max(margin, screenWidth - buttonWidth - margin);
+                        const maxY = Math.max(margin, screenHeight - buttonHeight - margin);
                         
                         const currentX = parseFloat(noButton.style.left) || margin;
                         const currentY = parseFloat(noButton.style.top) || margin;
                         
-                        noButton.style.left = `${Math.min(currentX, maxX)}px`;
-                        noButton.style.top = `${Math.min(currentY, maxY)}px`;
+                        // Forzar posición segura
+                        noButton.style.left = `${Math.max(margin, Math.min(currentX, maxX))}px`;
+                        noButton.style.top = `${Math.max(margin, Math.min(currentY, maxY))}px`;
                     }
                 }
             });
             
-            // Inicialización suave
+            // Inicialización
             setTimeout(() => {
                 document.body.style.opacity = '1';
-            }, 100);
+            }, 50);
         });
     </script>
 </body>
