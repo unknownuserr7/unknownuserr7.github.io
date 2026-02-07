@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pour Amel ❤️ | Valentine</title>
+    <title>Pour Amel ❤️ | Ton Nounours</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700;800;900&family=SF+Pro+Text:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700;800;900&family=SF+Pro+Text:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-bg: #FFE5EC;
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: rgba(255, 255, 255, 0.97);
             --text-primary: #1D1D1F;
             --text-secondary: #424245;
             --accent-red: #FF375F;
             --accent-pink: #FF2D55;
             --accent-soft: #FF8FAB;
-            --border-color: rgba(255, 255, 255, 0.8);
-            --shadow: 0 20px 60px rgba(255, 143, 171, 0.25);
-            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            --border-color: rgba(255, 255, 255, 0.9);
+            --shadow: 0 25px 60px rgba(255, 143, 171, 0.3);
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         * {
@@ -28,8 +28,9 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        html {
+        html, body {
             height: 100%;
+            width: 100%;
             overflow-x: hidden;
         }
 
@@ -43,12 +44,11 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            line-height: 1.5;
+            line-height: 1.4;
             position: relative;
-            overflow: hidden;
         }
 
-        /* Optimización de corazones flotantes */
+        /* Corazones flotantes optimizados */
         .floating-hearts {
             position: fixed;
             top: 0;
@@ -62,48 +62,48 @@
 
         .floating-heart {
             position: absolute;
-            font-size: 24px;
+            font-size: 28px;
             opacity: 0;
-            animation: floatHeart 20s infinite linear;
+            animation: floatHeart 25s infinite linear;
             will-change: transform, opacity;
-            filter: drop-shadow(0 4px 8px rgba(201, 24, 74, 0.2));
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            filter: drop-shadow(0 4px 8px rgba(201, 24, 74, 0.25));
         }
 
         @keyframes floatHeart {
             0% {
-                transform: translateY(100vh) translateX(-20px) rotate(0deg) scale(0.7);
+                transform: translateY(120vh) translateX(0) rotate(0deg) scale(0.6);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.9;
+            5% {
+                opacity: 0.8;
             }
-            90% {
-                opacity: 0.9;
+            95% {
+                opacity: 0.8;
             }
             100% {
-                transform: translateY(-100px) translateX(20px) rotate(360deg) scale(1.3);
+                transform: translateY(-100px) translateX(0) rotate(360deg) scale(1.2);
                 opacity: 0;
             }
         }
 
-        /* Contenedor principal optimizado */
+        /* Contenedor principal */
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border-radius: 28px;
-            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
             box-shadow: var(--shadow), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.6),
                         0 0 0 1px rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 520px;
-            padding: 60px 45px;
+            max-width: 700px;
+            padding: 60px 50px;
             text-align: center;
             position: relative;
             z-index: 10;
             overflow: visible;
+            margin: 0 auto;
         }
 
         /* Header mejorado */
@@ -113,40 +113,34 @@
         }
 
         .icon-container {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 35px;
-            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.35);
-            border: 4px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 18px 45px rgba(255, 55, 95, 0.4);
+            border: 5px solid rgba(255, 255, 255, 0.9);
             position: relative;
-            overflow: hidden;
         }
 
-        .icon-container::before {
+        .icon-container::after {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
             border-radius: 50%;
             z-index: -1;
-            animation: rotate 3s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            opacity: 0.7;
         }
 
         .icon-container i {
-            font-size: 36px;
+            font-size: 40px;
             color: white;
         }
 
@@ -155,7 +149,7 @@
             font-size: 3.2rem;
             font-weight: 900;
             color: var(--accent-pink);
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             letter-spacing: -0.8px;
             line-height: 1.1;
         }
@@ -169,39 +163,44 @@
             background-clip: text;
             color: transparent;
             margin: 20px 0;
-            display: inline-block;
+            display: block;
             position: relative;
-            padding: 0 25px;
+            line-height: 1;
         }
 
-        .name::after {
-            content: '🧸';
-            position: absolute;
-            right: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 3rem;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        .nounours {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-soft);
+            margin-top: 10px;
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50px;
+            border: 2px solid rgba(255, 143, 171, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 143, 171, 0.2);
         }
 
         .subtitle {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 1.3rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-secondary);
-            margin-top: 10px;
-            letter-spacing: 0.3px;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
         }
 
-        /* Sección de pregunta mejorada */
+        /* Sección de pregunta */
         .question-container {
             margin: 60px 0;
-            padding: 50px 35px;
+            padding: 50px 40px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
-            border-radius: 24px;
-            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
             position: relative;
-            box-shadow: 0 10px 40px rgba(255, 143, 171, 0.15);
+            box-shadow: 0 12px 45px rgba(255, 143, 171, 0.2);
             overflow: hidden;
         }
 
@@ -213,7 +212,7 @@
             width: 100%;
             height: 6px;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
-            border-radius: 24px 24px 0 0;
+            border-radius: 25px 25px 0 0;
         }
 
         .question {
@@ -221,36 +220,38 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 30px;
-            line-height: 1.3;
+            line-height: 1.2;
             color: #A4133C;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .instruction {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.3rem;
+            font-weight: 700;
             color: var(--text-secondary);
             margin-top: 20px;
+            line-height: 1.3;
         }
 
-        /* Botones optimizados */
+        /* Botones optimizados - Mejor control de posición */
         .buttons-container {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-top: 50px;
+            align-items: center;
+            gap: 30px;
+            margin-top: 60px;
             flex-wrap: wrap;
             position: relative;
-            min-height: 120px;
+            min-height: 140px;
         }
 
         .button {
             padding: 22px 45px;
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            border-radius: 16px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            border-radius: 18px;
             border: none;
             cursor: pointer;
             transition: var(--transition);
@@ -258,11 +259,11 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            min-width: 200px;
+            min-width: 220px;
             position: relative;
             overflow: hidden;
             letter-spacing: 0.3px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             z-index: 100;
             transform: translateZ(0);
         }
@@ -286,46 +287,46 @@
         .button-yes {
             background: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-pink) 100%);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 10px 30px rgba(255, 55, 95, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 35px rgba(255, 55, 95, 0.35);
         }
 
         .button-yes:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 16px 40px rgba(255, 55, 95, 0.4);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(255, 55, 95, 0.5);
         }
 
         .button-yes:active {
-            transform: translateY(-1px) scale(1.01);
+            transform: translateY(-2px) scale(1.01);
         }
 
         .button-no {
             background: rgba(255, 255, 255, 0.95);
             color: var(--accent-red);
-            border: 2px solid rgba(255, 55, 95, 0.3);
+            border: 2px solid rgba(255, 55, 95, 0.4);
             position: absolute;
             z-index: 1000;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 25px rgba(255, 55, 95, 0.2);
+            box-shadow: 0 10px 30px rgba(255, 55, 95, 0.25);
         }
 
         .button-no:hover {
             background: white;
-            box-shadow: 0 12px 35px rgba(255, 55, 95, 0.3);
+            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.35);
         }
 
-        /* Mensaje de respuesta mejorado */
+        /* Mensaje de respuesta */
         .response-container {
             display: none;
-            margin-top: 60px;
+            margin-top: 70px;
             padding: 50px 40px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
-            border-radius: 24px;
-            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
             animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 50px rgba(255, 143, 171, 0.25);
+            box-shadow: 0 18px 55px rgba(255, 143, 171, 0.3);
         }
 
         .response-container::before {
@@ -336,13 +337,13 @@
             width: 100%;
             height: 6px;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-soft), var(--accent-pink));
-            border-radius: 24px 24px 0 0;
+            border-radius: 25px 25px 0 0;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -354,7 +355,7 @@
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 2.3rem;
             font-weight: 900;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             -webkit-background-clip: text;
             background-clip: text;
@@ -364,22 +365,22 @@
 
         .response-message {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.2rem;
-            line-height: 1.7;
+            font-size: 1.3rem;
+            line-height: 1.6;
             color: var(--text-primary);
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-align: left;
-            font-weight: 500;
+            font-weight: 700;
         }
 
         .response-message p {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .signature {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
+            font-size: 1.6rem;
+            font-weight: 900;
             color: var(--accent-pink);
             margin-top: 40px;
             text-align: right;
@@ -392,40 +393,73 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 120px;
+            width: 150px;
             height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(255, 55, 95, 0.4));
+            background: linear-gradient(90deg, transparent, rgba(255, 55, 95, 0.5));
         }
 
-        /* Footer optimizado */
+        /* Footer */
         .footer {
-            margin-top: 60px;
-            padding-top: 25px;
-            border-top: 2px solid rgba(255, 255, 255, 0.6);
+            margin-top: 70px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(255, 255, 255, 0.7);
         }
 
         .footer-text {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 1.1rem;
-            font-weight: 800;
+            font-size: 1.2rem;
+            font-weight: 900;
             color: var(--accent-pink);
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         /* Responsive optimizado */
+        @media (max-width: 900px) {
+            .container {
+                max-width: 90%;
+                padding: 50px 40px;
+            }
+            
+            .greeting {
+                font-size: 2.8rem;
+            }
+            
+            .name {
+                font-size: 3.2rem;
+            }
+            
+            .nounours {
+                font-size: 1.7rem;
+                margin-top: 15px;
+            }
+            
+            .question {
+                font-size: 2.2rem;
+            }
+            
+            .question-container {
+                padding: 45px 35px;
+            }
+            
+            .buttons-container {
+                gap: 25px;
+            }
+            
+            .button {
+                padding: 20px 35px;
+                font-size: 1.3rem;
+                min-width: 200px;
+            }
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 15px;
-                align-items: flex-start;
-                min-height: 100dvh;
             }
             
             .container {
-                padding: 50px 30px;
-                border-radius: 24px;
-                margin-top: 10px;
-                margin-bottom: 10px;
+                padding: 45px 30px;
                 max-width: 95%;
             }
             
@@ -434,41 +468,24 @@
             }
             
             .name {
-                font-size: 3.2rem;
-                padding: 0 20px;
-            }
-            
-            .name::after {
-                position: relative;
-                right: auto;
-                top: auto;
-                transform: none;
-                display: block;
-                margin: 15px auto;
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
             .question {
                 font-size: 2rem;
             }
             
-            .question-container {
-                padding: 40px 25px;
-                margin: 50px 0;
-            }
-            
             .buttons-container {
                 flex-direction: column;
                 align-items: center;
                 gap: 20px;
-                min-height: 160px;
+                min-height: 180px;
             }
             
             .button {
                 width: 100%;
                 max-width: 320px;
-                padding: 24px 35px;
-                font-size: 1.2rem;
+                padding: 22px 30px;
             }
             
             .button-no {
@@ -478,36 +495,37 @@
             }
             
             .response-container {
-                padding: 40px 30px;
-                margin-top: 50px;
+                padding: 45px 35px;
             }
             
             .response-title {
-                font-size: 1.9rem;
+                font-size: 2rem;
             }
             
             .response-message {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
             
             .icon-container {
-                width: 80px;
-                height: 80px;
+                width: 85px;
+                height: 85px;
                 margin-bottom: 30px;
             }
             
             .icon-container i {
-                font-size: 32px;
+                font-size: 34px;
             }
             
-            .footer {
-                margin-top: 50px;
+            .nounours {
+                font-size: 1.5rem;
+                padding: 6px 15px;
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 45px 25px;
+                padding: 40px 25px;
+                border-radius: 25px;
             }
             
             .greeting {
@@ -515,7 +533,7 @@
             }
             
             .name {
-                font-size: 2.8rem;
+                font-size: 2.5rem;
             }
             
             .question {
@@ -523,44 +541,36 @@
             }
             
             .button {
-                padding: 22px 30px;
-                font-size: 1.1rem;
+                padding: 20px 25px;
+                font-size: 1.2rem;
             }
             
             .question-container {
-                padding: 35px 20px;
+                padding: 35px 25px;
             }
             
             .subtitle {
                 font-size: 1.2rem;
             }
-        }
-
-        /* Optimización para pantallas altas */
-        @media (min-height: 900px) {
-            .container {
-                padding: 70px 50px;
+            
+            .response-message {
+                font-size: 1.15rem;
             }
             
-            .header {
-                margin-bottom: 60px;
-            }
-            
-            .question-container {
-                margin: 70px 0;
+            .footer-text {
+                font-size: 1.1rem;
             }
         }
 
-        /* Para dispositivos muy pequeños en altura */
-        @media (max-height: 700px) and (orientation: landscape) {
+        @media (max-height: 750px) and (orientation: landscape) {
             body {
                 align-items: flex-start;
-                padding: 10px;
+                padding: 15px;
             }
             
             .container {
-                margin: 10px 0;
-                padding: 30px 25px;
+                margin: 15px 0;
+                padding: 35px 30px;
             }
             
             .header {
@@ -568,32 +578,37 @@
             }
             
             .greeting {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .name {
                 font-size: 2.5rem;
-                margin: 10px 0;
+                margin: 15px 0;
             }
             
             .question-container {
-                margin: 30px 0;
-                padding: 30px 20px;
+                margin: 35px 0;
+                padding: 30px 25px;
             }
             
             .question {
-                font-size: 1.7rem;
-                margin-bottom: 20px;
+                font-size: 1.8rem;
+                margin-bottom: 25px;
             }
             
             .buttons-container {
-                margin-top: 30px;
+                margin-top: 35px;
+            }
+            
+            .nounours {
+                margin-top: 10px;
+                font-size: 1.3rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Corazones flotantes optimizados -->
+    <!-- Corazones flotantes -->
     <div class="floating-hearts" id="floatingHearts"></div>
     
     <div class="container">
@@ -603,19 +618,20 @@
             </div>
             <h1 class="greeting">Pour Amel</h1>
             <div class="name">Mon Amour</div>
-            <p class="subtitle">Mon petit osito de peluche adoré</p>
+            <div class="nounours">🧸 Ton nounours</div>
+            <p class="subtitle">La femme de ma vie, ma Valentine éternelle</p>
         </div>
         
         <div class="question-container">
             <h2 class="question">Veux-tu être ma Valentine cette année ?</h2>
-            <p class="instruction">Choisis avec ton cœur ❤️</p>
+            <p class="instruction">Choisis avec ton cœur, ma belle ❤️</p>
             
             <div class="buttons-container">
                 <button class="button button-yes" id="yesButton">
                     <i class="fas fa-heart"></i> Oui, absolument !
                 </button>
                 <button class="button button-no" id="noButton">
-                    <i class="fas fa-times"></i> Non, peut-être...
+                    <i class="fas fa-times"></i> Peut-être...
                 </button>
             </div>
         </div>
@@ -629,12 +645,12 @@
                 <p>Je t'aime plus que les mots ne peuvent le dire. 💕</p>
             </div>
             <div class="signature">
-                Toujours ton osito de peluche qui t'adore 🧸💘
+                Pour toujours ton nounours qui t'adore 🧸💘
             </div>
         </div>
         
         <div class="footer">
-            <p class="footer-text">Une création spéciale pour toi ❤️</p>
+            <p class="footer-text">Une création spéciale pour toi, mon amour ❤️</p>
         </div>
     </div>
     
@@ -649,59 +665,67 @@
             let noButtonAttempts = 0;
             let isYesClicked = false;
             
-            // Textos para el botón "No" - más variedad
+            // Textos para el botón "No"
             const noButtonTexts = [
-                "Es-tu sûre? 😢",
+                "Es-tu sûre ? 😢",
                 "Réfléchis encore... ❤️",
                 "Tu me brises le cœur 💔",
-                "S'il te plaît, dis oui! 🥺",
+                "S'il te plaît, dis oui ! 🥺",
                 "Je sais que tu veux dire oui 😘",
                 "Tu es ma préférée 😍",
                 "Je t'aime tellement 💕",
-                "Sois ma Valentine! 💘",
+                "Sois ma Valentine ! 💘",
                 "Tu es mon soleil ☀️",
                 "Je serai triste 😭",
                 "Donne-moi une chance 💝",
                 "Tu es parfaite ✨",
                 "Mon cœur bat pour toi 💓",
                 "Tu es magnifique 🌹",
-                "Je t'adore 🥰"
+                "Je t'adore 🥰",
+                "Tu es mon rêve 🌟",
+                "Ne me laisse pas seul 😔",
+                "Tu es tout pour moi 💖",
+                "Je pense à toi toujours 💭",
+                "Tu illumines ma vie 💫",
+                "Je suis fou de toi 🤪",
+                "Tu es mon inspiration ✨",
+                "Je ne peux pas sans toi 🥺",
+                "Tu es mon bonheur 😊",
+                "Je te veux pour toujours 💞"
             ];
             
-            // Crear corazones flotantes optimizados
+            // Función para crear corazones flotantes
             function createFloatingHearts() {
                 const heartEmojis = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘', '💝'];
-                const heartCount = 25; // Reducido para mejor rendimiento
+                const heartCount = 20;
                 
                 for (let i = 0; i < heartCount; i++) {
-                    const heart = document.createElement('div');
-                    heart.className = 'floating-heart';
-                    heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                    
-                    // Tamaño variable
-                    const size = 20 + Math.random() * 30;
-                    heart.style.fontSize = `${size}px`;
-                    
-                    // Posición inicial aleatoria
-                    heart.style.left = `${Math.random() * 100}%`;
-                    
-                    // Retraso y duración variables
-                    const delay = Math.random() * 20;
-                    const duration = 15 + Math.random() * 25;
-                    heart.style.animationDelay = `${delay}s`;
-                    heart.style.animationDuration = `${duration}s`;
-                    
-                    // Opacidad variable
-                    heart.style.opacity = `${0.4 + Math.random() * 0.6}`;
-                    
-                    floatingHeartsContainer.appendChild(heart);
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.className = 'floating-heart';
+                        heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                        
+                        const size = 24 + Math.random() * 36;
+                        heart.style.fontSize = `${size}px`;
+                        
+                        heart.style.left = `${Math.random() * 100}%`;
+                        
+                        const delay = Math.random() * 25;
+                        const duration = 18 + Math.random() * 30;
+                        heart.style.animationDelay = `${delay}s`;
+                        heart.style.animationDuration = `${duration}s`;
+                        
+                        heart.style.opacity = `${0.5 + Math.random() * 0.5}`;
+                        
+                        floatingHeartsContainer.appendChild(heart);
+                    }, i * 300);
                 }
             }
             
             // Inicializar corazones
-            createFloatingHearts();
+            setTimeout(createFloatingHearts, 500);
             
-            // Función para mover el botón "No" de manera optimizada
+            // Función para mover el botón "No" sin salirse de la pantalla
             function moveNoButton(event) {
                 if (isYesClicked) return;
                 
@@ -712,56 +736,102 @@
                 
                 noButtonAttempts++;
                 
-                // Cambiar texto con límite
-                const textIndex = Math.min(noButtonAttempts - 1, noButtonTexts.length - 1);
+                const textIndex = (noButtonAttempts - 1) % noButtonTexts.length;
                 noButton.innerHTML = `<i class="fas fa-heart"></i> ${noButtonTexts[textIndex]}`;
                 
-                // Calcular nueva posición (fuera de la pantalla visible)
+                // Obtener dimensiones de la pantalla y del botón
                 const screenWidth = window.innerWidth;
                 const screenHeight = window.innerHeight;
                 const buttonWidth = noButton.offsetWidth;
                 const buttonHeight = noButton.offsetHeight;
                 
-                // Margen para que no se salga
+                // Calcular límites con márgenes
                 const margin = 30;
                 const maxX = screenWidth - buttonWidth - margin;
                 const maxY = screenHeight - buttonHeight - margin;
                 
-                // Si es demasiado grande, no mover (caso raro)
-                if (maxX <= 0 || maxY <= 0) return;
+                // Si el botón es demasiado grande para la pantalla
+                if (maxX <= margin || maxY <= margin) {
+                    noButton.style.position = 'relative';
+                    noButton.style.left = 'auto';
+                    noButton.style.top = 'auto';
+                    return;
+                }
                 
-                // Nueva posición aleatoria
-                const newX = Math.max(margin, Math.random() * maxX);
-                const newY = Math.max(margin, Math.random() * maxY);
+                // Generar nueva posición asegurando que esté dentro de los límites
+                let newX, newY;
                 
-                // Aplicar nueva posición con transición suave
+                // Después de varios intentos, usar posiciones estratégicas
+                const pattern = noButtonAttempts % 8;
+                switch(pattern) {
+                    case 0:
+                        newX = margin;
+                        newY = margin;
+                        break;
+                    case 1:
+                        newX = maxX;
+                        newY = margin;
+                        break;
+                    case 2:
+                        newX = margin;
+                        newY = maxY;
+                        break;
+                    case 3:
+                        newX = maxX;
+                        newY = maxY;
+                        break;
+                    case 4:
+                        newX = margin;
+                        newY = screenHeight / 2 - buttonHeight / 2;
+                        break;
+                    case 5:
+                        newX = maxX;
+                        newY = screenHeight / 2 - buttonHeight / 2;
+                        break;
+                    case 6:
+                        newX = screenWidth / 2 - buttonWidth / 2;
+                        newY = margin;
+                        break;
+                    case 7:
+                        newX = screenWidth / 2 - buttonWidth / 2;
+                        newY = maxY;
+                        break;
+                    default:
+                        newX = margin + Math.random() * (maxX - margin);
+                        newY = margin + Math.random() * (maxY - margin);
+                }
+                
+                // Asegurar que no se sale de los límites
+                newX = Math.max(margin, Math.min(newX, maxX));
+                newY = Math.max(margin, Math.min(newY, maxY));
+                
+                // Aplicar nueva posición
                 noButton.style.position = 'fixed';
                 noButton.style.left = `${newX}px`;
                 noButton.style.top = `${newY}px`;
-                noButton.style.zIndex = '10000'; // Muy alto para evitar superposiciones
+                noButton.style.zIndex = '10000';
                 
                 // Efecto visual
-                noButton.style.transform = 'scale(1.08)';
-                noButton.style.boxShadow = '0 15px 40px rgba(255, 55, 95, 0.4)';
+                noButton.style.transform = 'scale(1.1)';
+                noButton.style.boxShadow = '0 18px 45px rgba(255, 55, 95, 0.5)';
                 
-                // Crear partículas de corazones
+                // Crear partículas
                 createHeartParticles(event);
                 
                 // Restaurar efecto
                 setTimeout(() => {
                     noButton.style.transform = 'scale(1)';
-                    noButton.style.boxShadow = '0 8px 25px rgba(255, 55, 95, 0.2)';
-                }, 300);
+                    noButton.style.boxShadow = '0 10px 30px rgba(255, 55, 95, 0.25)';
+                }, 350);
                 
-                // Aumentar velocidad después de intentos
-                if (noButtonAttempts > 8) {
+                // Aumentar velocidad después de muchos intentos
+                if (noButtonAttempts > 12) {
                     noButton.style.transition = 'transform 0.2s, left 0.3s, top 0.3s';
                 }
             }
             
-            // Función para crear partículas de corazones
+            // Función para crear partículas
             function createHeartParticles(event) {
-                // Posición del evento
                 let x, y;
                 if (event.type.includes('touch')) {
                     x = event.touches[0].clientX;
@@ -771,7 +841,6 @@
                     y = event.clientY;
                 }
                 
-                // Crear 5-8 partículas
                 const particleCount = 5 + Math.floor(Math.random() * 4);
                 const heartEmojis = ['❤️', '💖', '💗'];
                 
@@ -780,7 +849,7 @@
                         const heart = document.createElement('div');
                         heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                         heart.style.position = 'fixed';
-                        heart.style.fontSize = `${16 + Math.random() * 20}px`;
+                        heart.style.fontSize = `${18 + Math.random() * 24}px`;
                         heart.style.color = '#FF375F';
                         heart.style.left = `${x}px`;
                         heart.style.top = `${y}px`;
@@ -790,10 +859,9 @@
                         
                         document.body.appendChild(heart);
                         
-                        // Animación
                         const angle = Math.random() * Math.PI * 2;
-                        const distance = 40 + Math.random() * 80;
-                        const size = 0.5 + Math.random();
+                        const distance = 50 + Math.random() * 100;
+                        const size = 0.6 + Math.random() * 0.8;
                         
                         const animation = heart.animate([
                             { 
@@ -805,13 +873,12 @@
                                 opacity: 0
                             }
                         ], {
-                            duration: 600 + Math.random() * 600,
+                            duration: 700 + Math.random() * 800,
                             easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
                         });
                         
-                        // Eliminar después
                         animation.onfinish = () => heart.remove();
-                    }, i * 50);
+                    }, i * 60);
                 }
             }
             
@@ -821,44 +888,35 @@
                 
                 isYesClicked = true;
                 
-                // Efecto visual en el botón Sí
-                yesButton.style.transform = 'scale(0.95)';
-                yesButton.style.boxShadow = '0 4px 20px rgba(255, 55, 95, 0.5)';
+                yesButton.style.transform = 'scale(0.96)';
+                yesButton.style.boxShadow = '0 6px 25px rgba(255, 55, 95, 0.6)';
                 
-                // Crear animación de celebración
                 createCelebration();
                 
-                // Ocultar botones y mostrar respuesta
                 setTimeout(() => {
                     buttonsContainer.style.opacity = '0';
-                    buttonsContainer.style.transform = 'translateY(30px)';
+                    buttonsContainer.style.transform = 'translateY(35px)';
                     buttonsContainer.style.pointerEvents = 'none';
                     
-                    // Mostrar respuesta
                     responseContainer.style.display = 'block';
                     
-                    // Scroll suave
                     setTimeout(() => {
                         responseContainer.scrollIntoView({ 
                             behavior: 'smooth', 
                             block: 'center' 
                         });
-                    }, 400);
-                }, 600);
+                    }, 500);
+                }, 700);
                 
-                // Restaurar botón
                 setTimeout(() => {
                     yesButton.style.transform = 'scale(1)';
-                    yesButton.style.boxShadow = '0 10px 30px rgba(255, 55, 95, 0.3)';
-                }, 300);
+                    yesButton.style.boxShadow = '0 12px 35px rgba(255, 55, 95, 0.35)';
+                }, 350);
             }
             
             // Función de celebración
             function createCelebration() {
-                // Confeti
                 createConfetti();
-                
-                // Corazones especiales
                 createSpecialHearts();
             }
             
@@ -870,25 +928,24 @@
                     setTimeout(() => {
                         const confetti = document.createElement('div');
                         confetti.style.position = 'fixed';
-                        confetti.style.width = `${8 + Math.random() * 12}px`;
-                        confetti.style.height = `${8 + Math.random() * 12}px`;
+                        confetti.style.width = `${10 + Math.random() * 15}px`;
+                        confetti.style.height = `${10 + Math.random() * 15}px`;
                         confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                        confetti.style.borderRadius = Math.random() > 0.7 ? '50%' : '2px';
+                        confetti.style.borderRadius = Math.random() > 0.7 ? '50%' : '3px';
                         confetti.style.left = `${Math.random() * 100}%`;
-                        confetti.style.top = '-20px';
+                        confetti.style.top = '-25px';
                         confetti.style.zIndex = '9998';
-                        confetti.style.opacity = '0.9';
+                        confetti.style.opacity = '0.95';
                         
                         document.body.appendChild(confetti);
                         
-                        // Animación
                         const animation = confetti.animate([
                             { 
                                 transform: 'translate(0, 0) rotate(0deg)',
                                 opacity: 1
                             },
                             { 
-                                transform: `translate(${Math.random() * 200 - 100}px, ${window.innerHeight + 100}px) rotate(${Math.random() * 720}deg)`,
+                                transform: `translate(${Math.random() * 200 - 100}px, ${window.innerHeight + 150}px) rotate(${Math.random() * 720}deg)`,
                                 opacity: 0
                             }
                         ], {
@@ -910,10 +967,10 @@
                         const heart = document.createElement('div');
                         heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
                         heart.style.position = 'fixed';
-                        heart.style.fontSize = `${28 + Math.random() * 40}px`;
+                        heart.style.fontSize = `${30 + Math.random() * 40}px`;
                         heart.style.color = '#FF375F';
                         heart.style.left = `${Math.random() * 100}%`;
-                        heart.style.top = `${100 + Math.random() * 20}%`;
+                        heart.style.top = `${100 + Math.random() * 30}%`;
                         heart.style.zIndex = '9997';
                         heart.style.pointerEvents = 'none';
                         heart.style.opacity = '0.9';
@@ -921,14 +978,13 @@
                         
                         document.body.appendChild(heart);
                         
-                        // Animación
                         const animation = heart.animate([
                             { 
                                 transform: 'scale(0) translateY(0) rotate(0deg)',
                                 opacity: 1
                             },
                             { 
-                                transform: `scale(1.8) translateY(-${250 + Math.random() * 400}px) rotate(${Math.random() * 360}deg)`,
+                                transform: `scale(1.8) translateY(-${300 + Math.random() * 400}px) rotate(${Math.random() * 360}deg)`,
                                 opacity: 0
                             }
                         ], {
@@ -941,10 +997,10 @@
                 }
             }
             
-            // Event listeners optimizados
+            // Event listeners
             yesButton.addEventListener('click', handleYesClick);
             
-            // Múltiples eventos para el botón "No"
+            // Eventos para el botón "No"
             noButton.addEventListener('mouseover', moveNoButton);
             noButton.addEventListener('touchstart', moveNoButton, { passive: false });
             noButton.addEventListener('click', function(e) {
@@ -952,30 +1008,13 @@
                 moveNoButton(e);
             });
             
-            // Ajustes para móviles
-            if ('ontouchstart' in window) {
-                // Botones más grandes en móviles
-                noButton.style.minHeight = '65px';
-                yesButton.style.minHeight = '65px';
-                
-                // Aumentar área táctil
-                noButton.style.padding = '25px 35px';
-                yesButton.style.padding = '25px 35px';
-                
-                // Prevenir zoom en toque doble
-                document.addEventListener('touchmove', function(e) {
-                    if (e.scale !== 1) e.preventDefault();
-                }, { passive: false });
-            }
-            
-            // Ajustar botón "No" al redimensionar ventana
+            // Ajustar el botón "No" cuando se redimensiona la ventana
             window.addEventListener('resize', function() {
                 if (noButton.style.position === 'fixed') {
                     const buttonRect = noButton.getBoundingClientRect();
                     const screenWidth = window.innerWidth;
                     const screenHeight = window.innerHeight;
                     
-                    // Si está fuera de la pantalla, moverlo dentro
                     if (buttonRect.right > screenWidth || buttonRect.bottom > screenHeight) {
                         const buttonWidth = noButton.offsetWidth;
                         const buttonHeight = noButton.offsetHeight;
@@ -993,10 +1032,10 @@
                 }
             });
             
-            // Forzar repaint para optimización
+            // Inicialización suave
             setTimeout(() => {
                 document.body.style.opacity = '1';
-            }, 50);
+            }, 100);
         });
     </script>
 </body>
