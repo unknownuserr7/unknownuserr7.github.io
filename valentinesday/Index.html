@@ -136,6 +136,19 @@
         .response-message p { font-size: 1.25rem; font-weight: 800; color: var(--text-soft); text-align: left; margin-bottom: 20px; }
         .signature { font-size: 1.6rem; font-weight: 900; color: var(--accent); text-align: right; margin-top: 36px; }
         .footer { margin-top: 56px; font-size: 1.05rem; font-weight: 800; color: #777; }
+
+        /* Estilos para el confeti de corazones */
+        .heart-burst {
+            position: fixed;
+            font-size: 2rem;
+            color: #ff2d55;
+            filter: drop-shadow(0 4px 6px rgba(255,45,85,0.3));
+            transform-origin: center;
+            z-index: 9999;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
         @media (max-width: 580px) {
             .card { padding: 40px 24px; margin: 30px auto; }
             h1 { font-size: 2.7rem; }
@@ -211,6 +224,48 @@
     }
     spawnHearts();
 
+    // Función para explotar corazones (confeti)
+    function burstHearts() {
+        const count = 80; // cantidad de corazones
+        const buttonRect = yesBtn.getBoundingClientRect();
+        const centerX = buttonRect.left + buttonRect.width / 2;
+        const centerY = buttonRect.top + buttonRect.height / 2;
+
+        for (let i = 0; i < count; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-burst';
+            heart.textContent = ['❤️','💗','💞','💓','💕'][Math.floor(Math.random() * 5)];
+            
+            // Estilo inicial en el centro del botón
+            heart.style.left = centerX + 'px';
+            heart.style.top = centerY + 'px';
+            heart.style.fontSize = (20 + Math.random() * 20) + 'px'; // tamaño aleatorio
+            heart.style.opacity = '1';
+            heart.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+            
+            // Dirección aleatoria
+            const angle = Math.random() * 2 * Math.PI;
+            const distance = 150 + Math.random() * 200; // distancia entre 150px y 350px
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance;
+            const rotate = (Math.random() - 0.5) * 200; // rotación entre -100° y 100°
+            
+            document.body.appendChild(heart);
+
+            // Forzar un reflow para que la transición se aplique desde el estado inicial
+            heart.getBoundingClientRect();
+
+            // Aplicar la transformación final (volar y desaparecer)
+            heart.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotate}deg) scale(0.2)`;
+            heart.style.opacity = '0';
+
+            // Eliminar el elemento después de la animación
+            heart.addEventListener('transitionend', () => {
+                heart.remove();
+            }, { once: true });
+        }
+    }
+
     function moveNoButton() {
         attempts++;
         const idx = (attempts - 1) % noTexts.length;
@@ -257,6 +312,9 @@
     });
 
     yesBtn.addEventListener('click', () => {
+        // Lanzar confeti de corazones
+        burstHearts();
+
         qSection.style.opacity = '0';
         qSection.style.transform = 'translateY(30px)';
         setTimeout(() => {
