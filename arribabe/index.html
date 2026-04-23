@@ -39,6 +39,7 @@
       --accent-light: #e1e9f5;
       --dafo-bg: #ffffff;
       --shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+      --hover-shadow: 0 15px 30px -8px rgba(42, 125, 225, 0.2);
       --projeccio-bg: #eef6ff;
       --dot-inactive: #cdd7e6;
       --btn-border: #d0dae8;
@@ -57,6 +58,7 @@
       --accent-light: #2e405b;
       --dafo-bg: #1f2a39;
       --shadow: 0 25px 40px -12px rgba(0,0,0,0.5);
+      --hover-shadow: 0 15px 30px -8px rgba(74, 158, 255, 0.3);
       --projeccio-bg: #1f3a5f;
       --dot-inactive: #3f4a5c;
       --btn-border: #3a485e;
@@ -133,12 +135,13 @@
       justify-content: center;
       cursor: pointer;
       font-size: 1.2rem;
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     .theme-toggle:hover {
       background: var(--accent);
       color: white;
       border-color: var(--accent);
+      transform: rotate(15deg) scale(1.05);
     }
 
     /* zona de slides */
@@ -192,6 +195,12 @@
       object-fit: cover;
       border-radius: 24px;
       box-shadow: var(--shadow);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    .slide-img:hover {
+      transform: scale(1.03);
+      box-shadow: var(--hover-shadow);
     }
 
     /* tipografia */
@@ -228,14 +237,24 @@
       margin-top: 8px;
     }
 
+    /* Elementos interactivos (Hover) */
+    .card, .dafo-item, .model-box, .conclusio-box {
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
     .card {
       background: var(--card-bg);
       padding: 20px 22px;
       border-radius: 24px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
       border: 1px solid var(--border-light);
-      transition: background 0.3s, border-color 0.3s;
       color: var(--text-secondary);
+    }
+
+    .card:hover, .dafo-item:hover, .model-box:hover, .conclusio-box:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--hover-shadow);
+      border-color: var(--accent);
     }
 
     .card i {
@@ -267,7 +286,6 @@
       border-radius: 20px;
       background: var(--dafo-bg);
       border: 1px solid var(--border-light);
-      transition: background 0.3s;
     }
 
     .dafo-item p {
@@ -395,13 +413,15 @@
       justify-content: center;
       cursor: pointer;
       font-size: 1.3rem;
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
     .nav-btn:hover {
       background: var(--accent);
       color: white;
       border-color: var(--accent);
+      transform: scale(1.1);
+      box-shadow: var(--hover-shadow);
     }
 
     .dot-container {
@@ -413,12 +433,16 @@
       height: 10px;
       border-radius: 10px;
       background: var(--dot-inactive);
-      transition: 0.2s;
+      transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       cursor: pointer;
     }
     .dot.active-dot {
       background: var(--accent);
       width: 28px;
+    }
+    .dot:hover:not(.active-dot) {
+      background: #a1b2cc;
+      transform: scale(1.2);
     }
 
     .slide::-webkit-scrollbar {
@@ -479,7 +503,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=800&q=80" alt="Amics tornant junts a la nit" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jove mirant el mòbil a la ciutat de nit" class="slide-img">
           </div>
         </div>
       </div>
@@ -513,7 +537,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Persones treballant en una anàlisi estratègica" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1512758117150-e75e208fa584?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Equip treballant amb estratègia i diagrames" class="slide-img">
           </div>
         </div>
       </div>
@@ -553,7 +577,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Pagament mòbil i tecnologia" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tecnologia i model de subscripció premium" class="slide-img">
           </div>
         </div>
       </div>
@@ -582,7 +606,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1601158935942-52255782d322?auto=format&fit=crop&w=800&q=80" alt="Joves creant contingut a xarxes socials" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Icones de xarxes socials i telèfon" class="slide-img">
           </div>
         </div>
       </div>
@@ -615,13 +639,13 @@
               </div>
             </div>
             
-            <div style="background: var(--projeccio-bg); border-radius: 20px; padding: 20px; text-align: center; border:1px solid var(--border-light); margin-top: 4px;">
+            <div style="background: var(--projeccio-bg); border-radius: 20px; padding: 20px; text-align: center; border:1px solid var(--border-light); margin-top: 4px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" class="dafo-item">
               <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-primary);"><i class="fas fa-mobile-screen"></i> Disponible properament</p>
               <p style="font-size: 1rem; color: var(--accent); margin-top: 4px;">La solució natural per tornar a casa.</p>
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=800&q=80" alt="Pla de creixement i finances" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gràfic de creixement i finances" class="slide-img">
           </div>
         </div>
       </div>
@@ -649,7 +673,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80" alt="Amics abraçant-se tranquils i segurs" class="slide-img" style="height: 100%;">
+            <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Grup d'amics somrient i segurs" class="slide-img" style="height: 100%;">
           </div>
         </div>
         
