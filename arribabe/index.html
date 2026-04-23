@@ -6,7 +6,11 @@
   <title>ArribaBé · Presentació</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+  <!-- Llibreries per a generar PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
+    /* ========== TOTS ELS ESTILS ES MANTENEN IGUAL ========== */
     * {
       margin: 0;
       padding: 0;
@@ -26,7 +30,6 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* Variables mode clar */
     :root {
       --bg-body: #f4f7fb;
       --card-bg: #fafcff;
@@ -45,7 +48,6 @@
       --btn-border: #d0dae8;
     }
 
-    /* Mode fosc */
     body.dark {
       --bg-body: #121826;
       --card-bg: #1e2532;
@@ -81,9 +83,21 @@
       overflow: hidden;
       border: 1px solid var(--border-light);
       transition: background 0.3s, border-color 0.3s;
+      position: relative;
     }
 
-    /* capçalera */
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.3s ease;
+      z-index: 10;
+      border-radius: 36px 0 0 0;
+    }
+
     .presentation-header {
       padding: 20px 32px 8px 32px;
       display: flex;
@@ -106,7 +120,7 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
     }
 
     .presenters {
@@ -123,7 +137,7 @@
       color: var(--accent);
     }
 
-    .theme-toggle {
+    .theme-toggle, .fullscreen-btn, .pdf-btn {
       background: transparent;
       border: 1px solid var(--btn-border);
       color: var(--text-primary);
@@ -137,14 +151,13 @@
       font-size: 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover, .fullscreen-btn:hover, .pdf-btn:hover {
       background: var(--accent);
       color: white;
       border-color: var(--accent);
-      transform: rotate(15deg) scale(1.05);
+      transform: rotate(5deg) scale(1.05);
     }
 
-    /* zona de slides */
     .slides-wrapper {
       flex: 1;
       position: relative;
@@ -160,7 +173,10 @@
       bottom: 16px;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), visibility 0.35s;
+      transform: translateX(30px);
+      transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), 
+                  visibility 0.35s,
+                  transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
       overflow-y: auto;
       padding-right: 6px;
       scrollbar-width: thin;
@@ -170,6 +186,7 @@
     .slide.active {
       opacity: 1;
       visibility: visible;
+      transform: translateX(0);
       z-index: 2;
     }
 
@@ -179,7 +196,6 @@
       flex-direction: column;
     }
 
-    /* layouts per imatges */
     .split-slide {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -196,14 +212,17 @@
       border-radius: 24px;
       box-shadow: var(--shadow);
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      z-index: 1;
     }
     
     .slide-img:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
       box-shadow: var(--hover-shadow);
+      filter: brightness(1.02);
+      backdrop-filter: blur(2px);
     }
 
-    /* tipografia */
     h2 {
       font-size: 1.8rem;
       font-weight: 600;
@@ -226,10 +245,6 @@
       font-weight: 500;
     }
 
-    p, li, span, div:not(.badge):not(.nav-btn) {
-      color: inherit;
-    }
-
     .card-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -237,7 +252,6 @@
       margin-top: 8px;
     }
 
-    /* Elementos interactivos (Hover) */
     .card, .dafo-item, .model-box, .conclusio-box {
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
@@ -288,11 +302,6 @@
       border: 1px solid var(--border-light);
     }
 
-    .dafo-item p {
-      color: var(--text-primary);
-      font-size: 0.95rem;
-    }
-
     .dafo-title {
       font-weight: 700;
       font-size: 1.1rem;
@@ -335,7 +344,6 @@
       margin-top: 16px;
       border-left: 4px solid var(--accent);
       color: var(--text-primary);
-      transition: background 0.3s;
     }
 
     .feature-list {
@@ -360,10 +368,6 @@
       width: 20px;
       margin-top: 3px;
       flex-shrink: 0;
-    }
-
-    .model-box .feature-list li {
-      margin-bottom: 12px;
     }
 
     .tagline-footer {
@@ -440,10 +444,6 @@
       background: var(--accent);
       width: 28px;
     }
-    .dot:hover:not(.active-dot) {
-      background: #a1b2cc;
-      transform: scale(1.2);
-    }
 
     .slide::-webkit-scrollbar {
       width: 5px;
@@ -466,6 +466,7 @@
 </head>
 <body>
 <div class="presentation-container">
+  <div class="progress-bar" id="progressBar"></div>
   <div class="presentation-header">
     <div class="logo-area">
       <h1><i class="fas fa-shield-alt"></i> ArribaBé</h1>
@@ -474,23 +475,22 @@
       <div class="presenters">
         <i class="fas fa-user-graduate"></i> Abel & Xavi
       </div>
-      <div class="theme-toggle" id="themeToggle" title="Canvia mode clar/fosc">
-        <i class="fas fa-moon"></i>
-      </div>
+      <button class="pdf-btn" id="pdfBtn" title="Descarregar PDF complet"><i class="fas fa-file-pdf"></i></button>
+      <button class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa"><i class="fas fa-expand"></i></button>
+      <button class="theme-toggle" id="themeToggle" title="Canvia mode clar/fosc"><i class="fas fa-moon"></i></button>
     </div>
   </div>
 
   <div class="slides-wrapper">
-    
+    <!-- SLIDE 1 -->
     <div class="slide active" id="slide1">
       <div class="slide-content">
         <h2>1. Què és ArribaBé?</h2>
         <div class="split-slide">
           <div>
             <p style="font-size:1.1rem; margin-bottom: 22px; line-height:1.5; color:var(--text-secondary);">ArribaBé és una aplicació mòbil pensada perquè els joves puguin tornar a casa de manera segura després de sortir de festa. L'app transforma l'hàbit de <em>"trucar quan arribis"</em> en una solució digital integral.</p>
-            
             <div class="card" style="margin-bottom: 16px;">
-              <h3 style="display:inline-block; margin-left:6px;"><i class="fas fa-bolt" style="display:inline; font-size:1.2rem;"></i> Funcions clau</h3>
+              <h3 style="display:inline-block; margin-left:6px;"><i class="fas fa-bolt"></i> Funcions clau</h3>
               <ul class="feature-list">
                 <li><i class="fas fa-location-dot"></i> Compartir ubicació en temps real</li>
                 <li><i class="fas fa-bell"></i> Botó d'emergència immediat</li>
@@ -498,198 +498,134 @@
               </ul>
             </div>
             <div class="card">
-              <h3 style="display:inline-block; margin-left:6px;"><i class="fas fa-users" style="display:inline; font-size:1.2rem;"></i> Públic objectiu</h3>
+              <h3 style="display:inline-block; margin-left:6px;"><i class="fas fa-users"></i> Públic objectiu</h3>
               <p style="margin-top:12px; font-size:1.1rem;"><span class="badge">16 – 30 anys</span> principalment estudiants</p>
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jove mirant el mòbil a la ciutat de nit" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jove caminant de nit consultant el mòbil amb seguretat" class="slide-img" loading="lazy" crossorigin="anonymous">
           </div>
         </div>
       </div>
     </div>
 
+    <!-- SLIDE 2 -->
     <div class="slide" id="slide2">
       <div class="slide-content">
         <h2>2. Anàlisi DAFO</h2>
         <div class="split-slide">
           <div>
             <div class="dafo-grid">
-              <div class="dafo-item fortaleses">
-                <div class="dafo-title"><i class="fas fa-plus-circle"></i> Fortaleses</div>
-                <p>Resol un problema real, té interès social i és fàcil d'utilitzar.</p>
-              </div>
-              <div class="dafo-item oportunitats">
-                <div class="dafo-title"><i class="fas fa-chart-line"></i> Oportunitats</div>
-                <p>Més consciència sobre la seguretat i col·laboracions amb ajuntaments.</p>
-              </div>
-              <div class="dafo-item debilitats">
-                <div class="dafo-title"><i class="fas fa-minus-circle"></i> Debilitats</div>
-                <p>Necessita molts usuaris i depèn totalment del mòbil.</p>
-              </div>
-              <div class="dafo-item amenaces">
-                <div class="dafo-title"><i class="fas fa-exclamation-triangle"></i> Amenaces</div>
-                <p>Aplicacions similars i possibles errors tècnics.</p>
-              </div>
+              <div class="dafo-item fortaleses"><div class="dafo-title"><i class="fas fa-plus-circle"></i> Fortaleses</div><p>Resol un problema real, té interès social i és fàcil d'utilitzar.</p></div>
+              <div class="dafo-item oportunitats"><div class="dafo-title"><i class="fas fa-chart-line"></i> Oportunitats</div><p>Més consciència sobre la seguretat i col·laboracions amb ajuntaments.</p></div>
+              <div class="dafo-item debilitats"><div class="dafo-title"><i class="fas fa-minus-circle"></i> Debilitats</div><p>Necessita molts usuaris i depèn totalment del mòbil.</p></div>
+              <div class="dafo-item amenaces"><div class="dafo-title"><i class="fas fa-exclamation-triangle"></i> Amenaces</div><p>Aplicacions similars i possibles errors tècnics.</p></div>
             </div>
-            <div style="margin-top: 16px; font-size:0.9rem; display:flex; flex-direction:column; gap:8px; color: var(--text-soft);">
-              <span><i class="far fa-circle-check" style="color:#1e7e34;"></i> L'anàlisi estratègic ens ajuda a anticipar reptes i aprofitar el nostre potencial en el mercat.</span>
+            <div style="margin-top: 16px; font-size:0.9rem; color: var(--text-soft);">
+              <span><i class="far fa-circle-check" style="color:#1e7e34;"></i> L'anàlisi estratègic ens ajuda a anticipar reptes i aprofitar el nostre potencial.</span>
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1512758117150-e75e208fa584?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Equip treballant amb estratègia i diagrames" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Equip analitzant estratègia amb mapes i notes" class="slide-img" loading="lazy" crossorigin="anonymous">
           </div>
         </div>
       </div>
     </div>
 
+    <!-- SLIDE 3 -->
     <div class="slide" id="slide3">
       <div class="slide-content">
-        <h2 style="margin-bottom:16px;">3. Model de Negoci (Monetització)</h2>
+        <h2>3. Model de Negoci (Monetització)</h2>
         <div class="split-slide">
           <div>
             <p style="margin-bottom:20px; font-size:1.1rem; color:var(--text-secondary);">Estratègia basada en un preu baix però massiu per generar ingressos constants.</p>
-            
             <div class="model-box" style="background:var(--card-bg); border-radius:24px; padding:24px; border:1px solid var(--border-light); box-shadow: var(--shadow);">
-              <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items: center;">
-                <div>
-                  <span class="badge" style="background:var(--accent-light); font-size: 1rem;">Versió Gratuïta</span>
-                </div>
-                <div>
-                  <span class="badge" style="background:var(--accent); color:white; font-size: 1rem;">Premium</span> 
-                  <span class="price-tag" style="font-size: 1.5rem;">2,99€<span class="price-small">/mes</span></span>
-                </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <span class="badge" style="background:var(--accent-light);">Versió Gratuïta</span>
+                <span class="badge" style="background:var(--accent); color:white;">Premium</span> 
+                <span class="price-tag" style="font-size: 1.5rem;">2,99€<span class="price-small">/mes</span></span>
               </div>
-              <ul class="feature-list" style="margin-bottom: 24px; font-size: 0.95rem;">
-                <li>
-                  <i class="fas fa-check-circle" style="color:#1e7e34; font-size: 1.3rem;"></i> 
-                  <span><strong>Versió Gratuïta:</strong> Compartir ubicació en trajectes curts, 1 contacte d'emergència i botó SOS. <em>Inclou anuncis.</em></span>
-                </li>
-                <li style="margin-top: 16px;">
-                  <i class="fas fa-star" style="color:#f1c40f; font-size: 1.3rem;"></i> 
-                  <span><strong>Premium:</strong> Seguiment il·limitat, avisos automàtics per desviaments, accés prioritari, sense anuncis.</span>
-                </li>
+              <ul class="feature-list">
+                <li><i class="fas fa-check-circle" style="color:#1e7e34;"></i> <span><strong>Gratuïta:</strong> Compartir ubicació en trajectes curts, 1 contacte, botó SOS. <em>Inclou anuncis.</em></span></li>
+                <li><i class="fas fa-star" style="color:#f1c40f;"></i> <span><strong>Premium:</strong> Seguiment il·limitat, avisos per desviaments, sense anuncis.</span></li>
               </ul>
-              <div class="projeccio">
-                <i class="fas fa-calculator" style="margin-right: 8px; font-size: 1.2rem;"></i> 
-                <strong>Projecció Premium:</strong> Amb 50.000 usuaris -> <strong>149.500 €/mes</strong>.
-              </div>
+              <div class="projeccio"><i class="fas fa-calculator"></i> <strong>Projecció Premium:</strong> Amb 50.000 usuaris -> <strong>149.500 €/mes</strong>.</div>
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tecnologia i model de subscripció premium" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Targeta de crèdit i mòbil, concepte de subscripció premium" class="slide-img" loading="lazy" crossorigin="anonymous">
           </div>
         </div>
       </div>
     </div>
 
+    <!-- SLIDE 4 -->
     <div class="slide" id="slide4">
       <div class="slide-content">
         <h2>4. Estratègia de Màrqueting</h2>
         <div class="split-slide">
           <div>
-            <p style="margin-bottom:20px; font-weight:500; font-size: 1.15rem;">ArribaBé no ven tecnologia, <span class="highlight">ven tranquil·litat i cura.</span></p>
-            
-            <div class="card" style="margin-bottom:16px;">
-              <h3 style="display:flex; align-items:center; margin-bottom: 4px;"><i class="fas fa-heart" style="color:#c44569; font-size:1.2rem; margin-right:10px; margin-bottom:0;"></i> Màrqueting Emocional</h3>
-              <p>Connecta amb la por i la necessitat de protecció. El nostre eslògan: <em>“Avisa quan arribis”.</em></p>
-            </div>
-            
-            <div class="card" style="margin-bottom:16px;">
-              <h3 style="display:flex; align-items:center; margin-bottom: 4px;"><i class="fas fa-hashtag" style="font-size:1.2rem; margin-right:10px; margin-bottom:0;"></i> Canals Digitals</h3>
-              <p>TikTok i Instagram amb vídeos propers, reals i campanyes de microinfluencers locals.</p>
-            </div>
-            
-            <div class="card">
-              <h3 style="display:flex; align-items:center; margin-bottom: 4px;"><i class="fas fa-location-dot" style="font-size:1.2rem; margin-right:10px; margin-bottom:0;"></i> Presència Física</h3>
-              <p>Col·laboració directa en festes majors, universitats i integració amb els Punts Liles.</p>
-            </div>
+            <p style="margin-bottom:20px; font-weight:500;">ArribaBé no ven tecnologia, <span class="highlight">ven tranquil·litat i cura.</span></p>
+            <div class="card"><h3><i class="fas fa-heart" style="color:#c44569;"></i> Màrqueting Emocional</h3><p>Connecta amb la por i la necessitat de protecció. Eslògan: <em>“Avisa quan arribis”.</em></p></div>
+            <div class="card"><h3><i class="fas fa-hashtag"></i> Canals Digitals</h3><p>TikTok i Instagram amb vídeos propers i microinfluencers locals.</p></div>
+            <div class="card"><h3><i class="fas fa-location-dot"></i> Presència Física</h3><p>Col·laboració en festes majors, universitats i Punts Liles.</p></div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Icones de xarxes socials i telèfon" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Creadora de contingut amb mòbil, màrqueting digital" class="slide-img" loading="lazy" crossorigin="anonymous">
           </div>
         </div>
       </div>
     </div>
 
+    <!-- SLIDE 5 -->
     <div class="slide" id="slide5">
       <div class="slide-content">
         <h2>5. Pla de Finançament</h2>
         <div class="split-slide">
           <div style="display:flex; flex-direction:column; gap:16px;">
-            <div class="card" style="display: flex; align-items: center; padding: 16px 20px;">
-              <i class="fas fa-seedling" style="font-size:2rem; margin-right:20px; width:40px; text-align:center;"></i>
-              <div>
-                <h3 style="margin-bottom: 4px;">1. Inversió Inicial</h3>
-                <p style="font-size: 0.95rem;">Recursos propis, inversió "Triple F" i subvencions públiques.</p>
-              </div>
-            </div>
-            <div class="card" style="display: flex; align-items: center; padding: 16px 20px;">
-              <i class="fas fa-gear" style="font-size:2rem; margin-right:20px; width:40px; text-align:center;"></i>
-              <div>
-                <h3 style="margin-bottom: 4px;">2. Costos Operatius</h3>
-                <p style="font-size: 0.95rem;">Servidors (AWS/Google Cloud) i pressupost de màrqueting constant.</p>
-              </div>
-            </div>
-            <div class="card" style="display: flex; align-items: center; padding: 16px 20px;">
-              <i class="fas fa-coins" style="font-size:2rem; margin-right:20px; width:40px; text-align:center;"></i>
-              <div>
-                <h3 style="margin-bottom: 4px;">3. Ingressos Sostenibles</h3>
-                <p style="font-size: 0.95rem;">Subscripcions Premium i publicitat segmentada geolocalitzada.</p>
-              </div>
-            </div>
-            
-            <div style="background: var(--projeccio-bg); border-radius: 20px; padding: 20px; text-align: center; border:1px solid var(--border-light); margin-top: 4px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);" class="dafo-item">
-              <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-primary);"><i class="fas fa-mobile-screen"></i> Disponible properament</p>
-              <p style="font-size: 1rem; color: var(--accent); margin-top: 4px;">La solució natural per tornar a casa.</p>
+            <div class="card" style="display:flex; align-items:center;"><i class="fas fa-seedling" style="font-size:2rem; margin-right:20px;"></i><div><h3>1. Inversió Inicial</h3><p>Recursos propis, "Triple F" i subvencions públiques.</p></div></div>
+            <div class="card" style="display:flex; align-items:center;"><i class="fas fa-gear" style="font-size:2rem; margin-right:20px;"></i><div><h3>2. Costos Operatius</h3><p>Servidors (AWS/Google Cloud) i màrqueting.</p></div></div>
+            <div class="card" style="display:flex; align-items:center;"><i class="fas fa-coins" style="font-size:2rem; margin-right:20px;"></i><div><h3>3. Ingressos Sostenibles</h3><p>Subscripcions Premium i publicitat geolocalitzada.</p></div></div>
+            <div style="background: var(--projeccio-bg); border-radius: 20px; padding: 20px; text-align: center;" class="dafo-item">
+              <p style="font-size:1.2rem; font-weight:600;"><i class="fas fa-mobile-screen"></i> Disponible properament</p>
+              <p style="color: var(--accent);">La solució natural per tornar a casa.</p>
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gràfic de creixement i finances" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Reunió de treball amb gràfics financers, pla de finançament" class="slide-img" loading="lazy" crossorigin="anonymous">
           </div>
         </div>
       </div>
     </div>
 
+    <!-- SLIDE 6 -->
     <div class="slide" id="slide6">
       <div class="slide-content">
         <h2>6. Resum i Conclusió</h2>
-        
-        <div class="split-slide" style="margin-top: 20px; align-items: stretch;">
+        <div class="split-slide" style="align-items: stretch;">
           <div style="display: flex; flex-direction: column; justify-content: space-between;">
             <div class="conclusio-box">
-              <h3 style="margin-bottom: 16px; font-size: 1.4rem;"><i class="fas fa-flag-checkered" style="color: var(--accent); margin-right: 8px;"></i> Conclusió Final</h3>
-              <p>
-                ArribaBé és una proposta sòlida, amb un model de negoci sostenible, una estratègia de màrqueting propera i un pla financer realista.
-              </p>
+              <h3><i class="fas fa-flag-checkered" style="color: var(--accent);"></i> Conclusió Final</h3>
+              <p>ArribaBé és una proposta sòlida, amb un model de negoci sostenible, una estratègia de màrqueting propera i un pla financer realista.</p>
               <br>
-              <p>
-                La combinació de tecnologia accessible i el seu profund enfocament social el posicionen com una eina imprescindible per a la seguretat i benestar juvenil.
-              </p>
+              <p>La combinació de tecnologia accessible i el seu profund enfocament social el posicionen com una eina imprescindible per a la seguretat i benestar juvenil.</p>
             </div>
-
-            <div class="tagline-footer">
-              <i class="far fa-hand-peace"></i> Presentat per Abel i Xavi · Projecte ArribaBé
-            </div>
+            <div class="tagline-footer"><i class="far fa-hand-peace"></i> Presentat per Abel i Xavi · Projecte ArribaBé</div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Grup d'amics somrient i segurs" class="slide-img" style="height: 100%;">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Grup d'amics caminant de nit amb confiança i seguretat" class="slide-img" style="height:100%;" loading="lazy" crossorigin="anonymous">
           </div>
         </div>
-        
       </div>
     </div>
-
   </div>
 
   <div class="presentation-footer">
-    <div class="page-indicator">
-      <span id="currentSlideDisplay">1</span> / <span id="totalSlidesDisplay">6</span>
-    </div>
+    <div class="page-indicator"><span id="currentSlideDisplay">1</span> / <span id="totalSlidesDisplay">6</span></div>
     <div class="nav-controls">
-      <div class="nav-btn" id="prevSlide" title="Anterior (Fletxa Esquerra)"><i class="fas fa-chevron-left"></i></div>
+      <div class="nav-btn" id="prevSlide"><i class="fas fa-chevron-left"></i></div>
       <div class="dot-container" id="dotContainer"></div>
-      <div class="nav-btn" id="nextSlide" title="Següent (Fletxa Dreta)"><i class="fas fa-chevron-right"></i></div>
+      <div class="nav-btn" id="nextSlide"><i class="fas fa-chevron-right"></i></div>
     </div>
     <div style="width:70px;"></div>
   </div>
@@ -704,44 +640,71 @@
     const currentSpan = document.getElementById('currentSlideDisplay');
     const totalSpan = document.getElementById('totalSlidesDisplay');
     const themeToggle = document.getElementById('themeToggle');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const pdfBtn = document.getElementById('pdfBtn');
+    const progressBar = document.getElementById('progressBar');
     const body = document.body;
+    const container = document.querySelector('.presentation-container');
     
     let currentIndex = 0;
     const totalSlides = slides.length;
     totalSpan.textContent = totalSlides;
 
+    // LocalStorage
+    const STORAGE_KEY = 'arribabe_presentation';
+    function loadSettings() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.theme === 'dark') body.classList.add('dark');
+          if (typeof data.slide === 'number' && data.slide >= 0 && data.slide < totalSlides) {
+            currentIndex = data.slide;
+          }
+        } catch(e) {}
+      }
+      updateThemeIcon();
+    }
+    function saveSettings() {
+      const data = {
+        theme: body.classList.contains('dark') ? 'dark' : 'light',
+        slide: currentIndex
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Dots
     function createDots() {
       dotContainer.innerHTML = '';
       for (let i = 0; i < totalSlides; i++) {
         const dot = document.createElement('span');
         dot.classList.add('dot');
         dot.dataset.index = i;
-        dot.addEventListener('click', function() {
-          goToSlide(parseInt(this.dataset.index));
-        });
+        dot.addEventListener('click', () => goToSlide(i));
         dotContainer.appendChild(dot);
       }
     }
     createDots();
 
     function updateActiveDot(index) {
-      const dots = document.querySelectorAll('.dot');
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active-dot', i === index);
-      });
+      document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active-dot', i === index));
+    }
+
+    function updateProgress() {
+      const percent = ((currentIndex + 1) / totalSlides) * 100;
+      progressBar.style.width = percent + '%';
     }
 
     function goToSlide(index) {
       if (index < 0) index = 0;
       if (index >= totalSlides) index = totalSlides - 1;
       
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
-      
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
       currentIndex = index;
       currentSpan.textContent = currentIndex + 1;
       updateActiveDot(currentIndex);
+      updateProgress();
+      saveSettings();
     }
 
     function next() { goToSlide(currentIndex + 1); }
@@ -750,47 +713,130 @@
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
 
+    // Teclat
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prev();
-      } else if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        next();
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+      else if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+      else if (e.key >= '1' && e.key <= '9') {
+        const num = parseInt(e.key) - 1;
+        if (num < totalSlides) { e.preventDefault(); goToSlide(num); }
       }
     });
 
+    // Tema
     function updateThemeIcon() {
       const icon = themeToggle.querySelector('i');
       if (body.classList.contains('dark')) {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
+        icon.classList.remove('fa-moon'); icon.classList.add('fa-sun');
       } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
+        icon.classList.remove('fa-sun'); icon.classList.add('fa-moon');
       }
     }
-
     themeToggle.addEventListener('click', () => {
       body.classList.toggle('dark');
       updateThemeIcon();
+      saveSettings();
     });
 
-    goToSlide(0);
-    updateThemeIcon();
-
-    let touchStartX = 0;
-    const wrapper = document.querySelector('.slides-wrapper');
-    wrapper.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-    wrapper.addEventListener('touchend', (e) => {
-      const diff = e.changedTouches[0].screenX - touchStartX;
-      if (Math.abs(diff) > 50) {
-        if (diff < 0) next();
-        else prev();
+    // Pantalla completa
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        container.requestFullscreen();
+        fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+      } else {
+        document.exitFullscreen();
+        fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
       }
     });
+    document.addEventListener('fullscreenchange', () => {
+      fullscreenBtn.innerHTML = document.fullscreenElement ? '<i class="fas fa-compress"></i>' : '<i class="fas fa-expand"></i>';
+    });
+
+    // Swipe tàctil
+    let touchStartX = 0;
+    const wrapper = document.querySelector('.slides-wrapper');
+    wrapper.addEventListener('touchstart', (e) => touchStartX = e.changedTouches[0].screenX, {passive: true});
+    wrapper.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 50) diff < 0 ? next() : prev();
+    });
+
+    // ========== GENERACIÓ DE PDF COMPLET ==========
+    async function generateFullPDF() {
+      // Guardar estat actual
+      const originalIndex = currentIndex;
+      const originalTheme = body.classList.contains('dark');
+      const originalFullscreen = !!document.fullscreenElement;
+      if (originalFullscreen) await document.exitFullscreen();
+      
+      // Mostrar indicador de càrrega (senzill)
+      pdfBtn.disabled = true;
+      pdfBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+      
+      try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'px',
+          format: [container.offsetWidth, container.offsetHeight]
+        });
+        
+        const width = container.offsetWidth;
+        const height = container.offsetHeight;
+        
+        // Per a cada diapositiva
+        for (let i = 0; i < totalSlides; i++) {
+          // Activar temporalment la diapositiva actual per capturar-la
+          slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+          
+          // Esperar que s'apliquin els estils i transicions
+          await new Promise(resolve => setTimeout(resolve, 300));
+          
+          const slideElement = slides[i];
+          
+          // Capturar amb html2canvas
+          const canvas = await html2canvas(slideElement, {
+            scale: 2,
+            backgroundColor: getComputedStyle(body).getPropertyValue('--container-bg').trim() || '#ffffff',
+            allowTaint: false,
+            useCORS: true,
+            logging: false
+          });
+          
+          const imgData = canvas.toDataURL('image/png');
+          
+          if (i > 0) pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        }
+        
+        // Restaurar la diapositiva original
+        slides.forEach((s, idx) => s.classList.toggle('active', idx === originalIndex));
+        
+        // Descarregar PDF
+        pdf.save('ArribaBe_Presentacio.pdf');
+        
+      } catch (error) {
+        console.error('Error generant PDF:', error);
+        alert('No s\'ha pogut generar el PDF. Revisa la consola.');
+      } finally {
+        // Restaurar mode clar/fosc si cal
+        if (originalTheme !== body.classList.contains('dark')) {
+          body.classList.toggle('dark');
+          updateThemeIcon();
+        }
+        pdfBtn.disabled = false;
+        pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i>';
+        // Assegurar que la diapositiva activa és la correcta
+        goToSlide(originalIndex);
+      }
+    }
+
+    pdfBtn.addEventListener('click', generateFullPDF);
+
+    // Carregar configuració inicial
+    loadSettings();
+    goToSlide(currentIndex);
+    updateThemeIcon();
   })();
 </script>
 </body>
