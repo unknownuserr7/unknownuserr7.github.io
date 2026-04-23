@@ -182,12 +182,13 @@
       grid-template-columns: 1fr 1fr;
       gap: 32px;
       align-items: center;
+      height: 100%;
     }
 
     .slide-img {
       width: 100%;
       height: 100%;
-      max-height: 400px;
+      max-height: 480px;
       object-fit: cover;
       border-radius: 24px;
       box-shadow: var(--shadow);
@@ -258,11 +259,11 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
-      margin: 20px 0;
+      margin: 10px 0;
     }
 
     .dafo-item {
-      padding: 18px;
+      padding: 16px;
       border-radius: 20px;
       background: var(--dafo-bg);
       border: 1px solid var(--border-light);
@@ -271,19 +272,20 @@
 
     .dafo-item p {
       color: var(--text-primary);
+      font-size: 0.95rem;
     }
 
     .dafo-title {
       font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 12px;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
     }
 
     .dafo-title i {
-      margin-right: 10px;
-      width: 24px;
+      margin-right: 8px;
+      width: 20px;
       color: var(--accent);
     }
 
@@ -318,13 +320,12 @@
       transition: background 0.3s;
     }
 
-    /* ===== MILLORA: feature-list amb més espai i alineació ===== */
     .feature-list {
       list-style: none;
       margin-top: 8px;
     }
     .feature-list li {
-      margin-bottom: 14px;        /* més espai entre ítems */
+      margin-bottom: 14px;        
       display: flex;
       align-items: flex-start;
       color: var(--text-secondary);
@@ -343,15 +344,8 @@
       flex-shrink: 0;
     }
 
-    /* Per a llistes dins de caixes de model */
     .model-box .feature-list li {
       margin-bottom: 12px;
-    }
-
-    .two-column-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
     }
 
     .tagline-footer {
@@ -363,20 +357,17 @@
       padding-top: 18px;
     }
 
-    /* Conclusió */
     .conclusio-box {
       background: var(--card-bg);
       border-radius: 24px;
-      padding: 20px 24px;
-      margin-top: 24px;
+      padding: 24px;
       border: 1px solid var(--border-light);
       border-left: 6px solid var(--accent);
       color: var(--text-primary);
       font-size: 1.05rem;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
-    /* peu */
     .presentation-footer {
       padding: 12px 32px 22px 32px;
       display: flex;
@@ -443,7 +434,7 @@
     }
 
     @media (max-width: 850px) {
-      .split-slide, .two-column-layout, .card-grid, .dafo-grid { grid-template-columns: 1fr; }
+      .split-slide, .card-grid, .dafo-grid { grid-template-columns: 1fr; }
       .presentation-container { height: 85vh; }
       .slide-img { max-height: 250px; }
     }
@@ -488,7 +479,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?auto=format&fit=crop&w=800&q=80" alt="Joves caminant de nit" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=800&q=80" alt="Amics tornant junts a la nit" class="slide-img">
           </div>
         </div>
       </div>
@@ -497,60 +488,72 @@
     <div class="slide" id="slide2">
       <div class="slide-content">
         <h2>2. Anàlisi DAFO</h2>
-        <div class="dafo-grid">
-          <div class="dafo-item fortaleses">
-            <div class="dafo-title"><i class="fas fa-plus-circle"></i> Fortaleses</div>
-            <p>Resol un problema real, té interès social i és fàcil d'utilitzar.</p>
+        <div class="split-slide">
+          <div>
+            <div class="dafo-grid">
+              <div class="dafo-item fortaleses">
+                <div class="dafo-title"><i class="fas fa-plus-circle"></i> Fortaleses</div>
+                <p>Resol un problema real, té interès social i és fàcil d'utilitzar.</p>
+              </div>
+              <div class="dafo-item oportunitats">
+                <div class="dafo-title"><i class="fas fa-chart-line"></i> Oportunitats</div>
+                <p>Més consciència sobre la seguretat i col·laboracions amb ajuntaments.</p>
+              </div>
+              <div class="dafo-item debilitats">
+                <div class="dafo-title"><i class="fas fa-minus-circle"></i> Debilitats</div>
+                <p>Necessita molts usuaris i depèn totalment del mòbil.</p>
+              </div>
+              <div class="dafo-item amenaces">
+                <div class="dafo-title"><i class="fas fa-exclamation-triangle"></i> Amenaces</div>
+                <p>Aplicacions similars i possibles errors tècnics.</p>
+              </div>
+            </div>
+            <div style="margin-top: 16px; font-size:0.9rem; display:flex; flex-direction:column; gap:8px; color: var(--text-soft);">
+              <span><i class="far fa-circle-check" style="color:#1e7e34;"></i> L'anàlisi estratègic ens ajuda a anticipar reptes i aprofitar el nostre potencial en el mercat.</span>
+            </div>
           </div>
-          <div class="dafo-item oportunitats">
-            <div class="dafo-title"><i class="fas fa-chart-line"></i> Oportunitats</div>
-            <p>Més consciència sobre la seguretat i col·laboracions amb ajuntaments.</p>
+          <div>
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Persones treballant en una anàlisi estratègica" class="slide-img">
           </div>
-          <div class="dafo-item debilitats">
-            <div class="dafo-title"><i class="fas fa-minus-circle"></i> Debilitats</div>
-            <p>Necessita molts usuaris i depèn totalment del mòbil.</p>
-          </div>
-          <div class="dafo-item amenaces">
-            <div class="dafo-title"><i class="fas fa-exclamation-triangle"></i> Amenaces</div>
-            <p>Aplicacions similars i possibles errors tècnics.</p>
-          </div>
-        </div>
-        <div style="margin-top: 12px; font-size:0.9rem; display:flex; gap:24px; color: var(--text-soft);">
-          <span><i class="far fa-circle-check" style="color:#1e7e34;"></i> Fortaleses internes</span>
-          <span><i class="far fa-circle-check" style="color:#0d6e9e;"></i> Oportunitats externes</span>
         </div>
       </div>
     </div>
 
     <div class="slide" id="slide3">
       <div class="slide-content">
-        <h2 style="margin-bottom:24px;">3. Model de Negoci (Monetització)</h2>
-        <p style="margin-bottom:20px; font-size:1.1rem; color:var(--text-secondary);">Estratègia basada en un preu baix però massiu per generar ingressos constants.</p>
-        
-        <div class="model-box" style="background:var(--card-bg); border-radius:24px; padding:30px; border:1px solid var(--border-light); box-shadow: var(--shadow);">
-          <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items: center;">
-            <div>
-              <span class="badge" style="background:var(--accent-light); font-size: 1.1rem;">Versió Gratuïta</span>
-              <span style="font-size: 0.9rem; color: var(--text-soft); margin-left: 8px;"><i class="fas fa-ad"></i> Inclou Anuncis</span>
-            </div>
-            <div>
-              <span class="badge" style="background:var(--accent); color:white; font-size: 1.1rem;">Premium</span> 
-              <span class="price-tag">2,99€<span class="price-small">/mes</span></span>
+        <h2 style="margin-bottom:16px;">3. Model de Negoci (Monetització)</h2>
+        <div class="split-slide">
+          <div>
+            <p style="margin-bottom:20px; font-size:1.1rem; color:var(--text-secondary);">Estratègia basada en un preu baix però massiu per generar ingressos constants.</p>
+            
+            <div class="model-box" style="background:var(--card-bg); border-radius:24px; padding:24px; border:1px solid var(--border-light); box-shadow: var(--shadow);">
+              <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items: center;">
+                <div>
+                  <span class="badge" style="background:var(--accent-light); font-size: 1rem;">Versió Gratuïta</span>
+                </div>
+                <div>
+                  <span class="badge" style="background:var(--accent); color:white; font-size: 1rem;">Premium</span> 
+                  <span class="price-tag" style="font-size: 1.5rem;">2,99€<span class="price-small">/mes</span></span>
+                </div>
+              </div>
+              <ul class="feature-list" style="margin-bottom: 24px; font-size: 0.95rem;">
+                <li>
+                  <i class="fas fa-check-circle" style="color:#1e7e34; font-size: 1.3rem;"></i> 
+                  <span><strong>Versió Gratuïta:</strong> Compartir ubicació en trajectes curts, 1 contacte d'emergència i botó SOS. <em>Inclou anuncis.</em></span>
+                </li>
+                <li style="margin-top: 16px;">
+                  <i class="fas fa-star" style="color:#f1c40f; font-size: 1.3rem;"></i> 
+                  <span><strong>Premium:</strong> Seguiment il·limitat, avisos automàtics per desviaments, accés prioritari, sense anuncis.</span>
+                </li>
+              </ul>
+              <div class="projeccio">
+                <i class="fas fa-calculator" style="margin-right: 8px; font-size: 1.2rem;"></i> 
+                <strong>Projecció Premium:</strong> Amb 50.000 usuaris -> <strong>149.500 €/mes</strong>.
+              </div>
             </div>
           </div>
-          <ul class="feature-list" style="margin-bottom: 24px;">
-            <li>
-              <i class="fas fa-check-circle" style="color:#1e7e34; font-size: 1.3rem;"></i> 
-              <span><strong>Versió Gratuïta:</strong> Compartir ubicació en trajectes curts, 1 contacte d'emergència i botó SOS bàsic. <em>Aquesta versió inclou anuncis per sostenir-ne el cost.</em></span>
-            </li>
-            <li style="margin-top: 16px;">
-              <i class="fas fa-star" style="color:#f1c40f; font-size: 1.3rem;"></i> 
-              <span><strong>Premium:</strong> Seguiment il·limitat, avisos automàtics per desviaments, accés prioritari i experiència lliure d'anuncis.</span>
-            </li>
-          </ul>
-          <div class="projeccio">
-            <i class="fas fa-calculator" style="margin-right: 8px; font-size: 1.2rem;"></i> 
-            <strong>Projecció Premium:</strong> Amb 50.000 usuaris s'arribaria als <strong>149.500 € mensuals</strong>.
+          <div>
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Pagament mòbil i tecnologia" class="slide-img">
           </div>
         </div>
       </div>
@@ -565,7 +568,7 @@
             
             <div class="card" style="margin-bottom:16px;">
               <h3 style="display:flex; align-items:center; margin-bottom: 4px;"><i class="fas fa-heart" style="color:#c44569; font-size:1.2rem; margin-right:10px; margin-bottom:0;"></i> Màrqueting Emocional</h3>
-              <p>Connecta amb la por i la necessitat de protecció. Nuestro eslogan: <em>“Avisa quan arribis”.</em></p>
+              <p>Connecta amb la por i la necessitat de protecció. El nostre eslògan: <em>“Avisa quan arribis”.</em></p>
             </div>
             
             <div class="card" style="margin-bottom:16px;">
@@ -579,7 +582,7 @@
             </div>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" alt="Estratègia de xarxes" class="slide-img">
+            <img src="https://images.unsplash.com/photo-1601158935942-52255782d322?auto=format&fit=crop&w=800&q=80" alt="Joves creant contingut a xarxes socials" class="slide-img">
           </div>
         </div>
       </div>
@@ -588,29 +591,37 @@
     <div class="slide" id="slide5">
       <div class="slide-content">
         <h2>5. Pla de Finançament</h2>
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:20px 0 16px;">
-          <div class="card" style="text-align: center;">
-            <i class="fas fa-seedling" style="font-size:2rem; margin-bottom:12px;"></i>
-            <h3>1. Inversió Inicial</h3>
-            <p>Recursos propis, inversió de "Triple F" (família i amics) i subvencions públiques.</p>
+        <div class="split-slide">
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card" style="display: flex; align-items: center; padding: 16px 20px;">
+              <i class="fas fa-seedling" style="font-size:2rem; margin-right:20px; width:40px; text-align:center;"></i>
+              <div>
+                <h3 style="margin-bottom: 4px;">1. Inversió Inicial</h3>
+                <p style="font-size: 0.95rem;">Recursos propis, inversió "Triple F" i subvencions públiques.</p>
+              </div>
+            </div>
+            <div class="card" style="display: flex; align-items: center; padding: 16px 20px;">
+              <i class="fas fa-gear" style="font-size:2rem; margin-right:20px; width:40px; text-align:center;"></i>
+              <div>
+                <h3 style="margin-bottom: 4px;">2. Costos Operatius</h3>
+                <p style="font-size: 0.95rem;">Servidors (AWS/Google Cloud) i pressupost de màrqueting constant.</p>
+              </div>
+            </div>
+            <div class="card" style="display: flex; align-items: center; padding: 16px 20px;">
+              <i class="fas fa-coins" style="font-size:2rem; margin-right:20px; width:40px; text-align:center;"></i>
+              <div>
+                <h3 style="margin-bottom: 4px;">3. Ingressos Sostenibles</h3>
+                <p style="font-size: 0.95rem;">Subscripcions Premium i publicitat segmentada geolocalitzada.</p>
+              </div>
+            </div>
+            
+            <div style="background: var(--projeccio-bg); border-radius: 20px; padding: 20px; text-align: center; border:1px solid var(--border-light); margin-top: 4px;">
+              <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-primary);"><i class="fas fa-mobile-screen"></i> Disponible properament</p>
+              <p style="font-size: 1rem; color: var(--accent); margin-top: 4px;">La solució natural per tornar a casa.</p>
+            </div>
           </div>
-          <div class="card" style="text-align: center;">
-            <i class="fas fa-gear" style="font-size:2rem; margin-bottom:12px;"></i>
-            <h3>2. Costos Operatius</h3>
-            <p>Manteniment tecnològic de servidors (AWS/Google Cloud) i pressupost per màrqueting.</p>
-          </div>
-          <div class="card" style="text-align: center;">
-            <i class="fas fa-coins" style="font-size:2rem; margin-bottom:12px;"></i>
-            <h3>3. Ingressos Sostenibles</h3>
-            <p>Subscripcions Premium i publicitat d'oci/transports (versió gratuïta).</p>
-          </div>
-        </div>
-        
-        <div style="background: var(--projeccio-bg); border-radius: 28px; padding: 30px; margin-top: 20px; text-align: center; border:1px solid var(--border-light); box-shadow: var(--shadow);">
-          <p style="font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary);">ArribaBé</p>
-          <p style="font-size: 1.4rem; font-weight: 400; color: var(--accent);">La solució natural per tornar a casa sense por.</p>
-          <div style="margin-top:20px; font-size: 1rem; color: var(--text-soft);">
-            <i class="fas fa-mobile-screen"></i> Disponible properament · <span class="highlight">#ArribaSegur</span>
+          <div>
+            <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=800&q=80" alt="Pla de creixement i finances" class="slide-img">
           </div>
         </div>
       </div>
@@ -620,16 +631,28 @@
       <div class="slide-content">
         <h2>6. Resum i Conclusió</h2>
         
-        <div class="conclusio-box">
-          <h3 style="margin-bottom: 10px;"><i class="fas fa-flag-checkered" style="color: var(--accent); margin-right: 8px;"></i> Conclusió Final</h3>
-          <p>
-            ArribaBé és una proposta sòlida, amb un model de negoci sostenible, una estratègia de màrqueting propera i un pla financer realista. La combinació de tecnologia accessible i el seu profund enfocament social el posicionen com una eina imprescindible per a la seguretat juvenil.
-          </p>
-        </div>
+        <div class="split-slide" style="margin-top: 20px; align-items: stretch;">
+          <div style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="conclusio-box">
+              <h3 style="margin-bottom: 16px; font-size: 1.4rem;"><i class="fas fa-flag-checkered" style="color: var(--accent); margin-right: 8px;"></i> Conclusió Final</h3>
+              <p>
+                ArribaBé és una proposta sòlida, amb un model de negoci sostenible, una estratègia de màrqueting propera i un pla financer realista.
+              </p>
+              <br>
+              <p>
+                La combinació de tecnologia accessible i el seu profund enfocament social el posicionen com una eina imprescindible per a la seguretat i benestar juvenil.
+              </p>
+            </div>
 
-        <div class="tagline-footer">
-          <i class="far fa-hand-peace"></i> Presentat per Abel i Xavi · Projecte ArribaBé
+            <div class="tagline-footer">
+              <i class="far fa-hand-peace"></i> Presentat per Abel i Xavi · Projecte ArribaBé
+            </div>
+          </div>
+          <div>
+            <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80" alt="Amics abraçant-se tranquils i segurs" class="slide-img" style="height: 100%;">
+          </div>
         </div>
+        
       </div>
     </div>
 
