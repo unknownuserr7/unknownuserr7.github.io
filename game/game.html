@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Cube Rush</title>
+    <style>
+        :root {
+            --bg: #0b0c10;
+            --surface: #1f2833;
+            --primary: #66fcf1;
+            --primary-dark: #45a29e;
+            --danger: #ff003c;
+            --text: #c5c6c7;
+            --gold: #ffd700;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { background-color: var(--bg); color: var(--text); overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; user-select: none; }
+
+        /* Contenedor Principal */
+        #app { width: 100vw; height: 100vh; position: relative; max-width: 800px; background: var(--bg); overflow: hidden; box-shadow: 0 0 50px rgba(102, 252, 241, 0.1); }
+
+        /* Transiciones de Pantalla */
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.4s ease-in-out; padding: 20px; text-align: center; }
+        .screen.active { display: flex; opacity: 1; z-index: 10; }
+
+        h1 { font-size: 3rem; color: var(--primary); text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary); margin-bottom: 20px; letter-spacing: 2px; }
+        h2 { color: white; margin-bottom: 15px; }
+
+        /* Botones e Inputs */
+        input { padding: 15px; font-size: 1.2rem; border: 2px solid var(--primary-dark); background: transparent; color: white; border-radius: 8px; outline: none; transition: 0.3s; margin-bottom: 20px; text-align: center; width: 80%; max-width: 300px; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+
+        button { padding: 15px 30px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border: none; border-radius: 8px; background: var(--primary); color: var(--bg); transition: 0.3s; text-transform: uppercase; margin: 10px; width: 80%; max-width: 300px; }
+        button:hover { background: white; box-shadow: 0 0 20px var(--primary); transform: translateY(-2px); }
+        button.btn-danger { background: var(--danger); color: white; }
+        button.btn-danger:hover { box-shadow: 0 0 20px var(--danger); }
+        button:disabled { background: #555; cursor: not-allowed; box-shadow: none; color: #888; }
+
+        /* HUD */
+        #hud { position: absolute; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; z-index: 20; pointer-events: none; }
+        .hud-item { font-size: 1.5rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 8px; border: 1px solid var(--primary-dark); }
+        #coins-display { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
+
+        /* Layouts de Tienda y Escenarios */
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px; width: 100%; }
+        .card { background: var(--surface); border: 2px solid var(--primary-dark); padding: 20px; border-radius: 10px; width: 150px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .card:hover { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); transform: translateY(-5px); }
+        .card.locked { opacity: 0.7; border-color: #555; }
+        .card.active-item { border-color: #fff; box-shadow: 0 0 20px #fff; }
+        .card-title { font-weight: bold; margin-bottom: 10px; color: white; }
+        .card-price { color: var(--gold); font-weight: bold; }
+
+        /* Canvas de Juego */
+        canvas { display: block; width: 100%; height: 100%; background: #000; }
+
+        /* Popups de Logros */
+        #toast-container { position: absolute; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--surface); border-left: 5px solid var(--primary); padding: 15px 20px; border-radius: 5px; color: white; font-weight: bold; animation: slideIn 0.5s forwards, fadeOut 0.5s 3s forwards; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(100%); } }
+
+        .back-btn { position: absolute; top: 20px; left: 20px; width: auto; padding: 10px 20px; font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="hud" style="display: none;">
+        <div class="hud-item" id="user-display">User</div>
+        <div class="hud-item" id="coins-display">🪙 0</div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <div id="screen-login" class="screen active">
+        <h1>NEON RUSH</h1>
+        <p style="margin-bottom: 20px;">Ingresa un nombre para guardar tu progreso</p>
+        <input type="text" id="username" placeholder="Tu Nombre de Jugador" maxlength="12" autocomplete="off">
+        <button onclick="login()">Entrar</button>
+    </div>
+
+    <div id="screen-menu" class="screen">
+        <h1>MENÚ</h1>
+        <button onclick="nav('screen-levels')">Jugar Solo</button>
+        <button onclick="start1v1()">Modo 1v1 Local</button>
+        <button onclick="nav('screen-shop')">Tienda</button>
+        <button class="btn-danger" onclick="logout()">Cerrar Sesión</button>
+    </div>
+
+    <div id="screen-levels" class="screen">
+        <button class="back-btn" onclick="nav('screen-menu')">Volver</button>
+        <h2>Selecciona Escenario</h2>
+        <div class="grid">
+            <div class="card" onclick="startGame('cyber')">
+                <div class="card-title">Cyber City</div>
+                <div style="font-size: 0.8rem; color: #aaa;">Velocidad Normal</div>
+            </div>
+            <div class="card" onclick="startGame('crimson')">
+                <div class="card-title" style="color: var(--danger);">Crimson Hell</div>
+                <div style="font-size: 0.8rem; color: #aaa;">Alta Velocidad<br>x1.5 Monedas</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-shop" class="screen">
+        <button class="back-btn" onclick="nav('screen-menu')">Volver</button>
+        <h2>TIENDA DE SKINS</h2>
+        <div class="grid" id="shop-skins"></div>
+        <h2>MEJORAS</h2>
+        <div class="grid" id="shop-upgrades"></div>
+    </div>
+
+    <div id="screen-game" class="screen" style="padding: 0;">
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <div id="screen-gameover" class="screen" style="background: rgba(0,0,0,0.85);">
+        <h1 id="go-title">¡TE ESTRELLASTE!</h1>
+        <h2 id="go-score">Puntuación: 0</h2>
+        <h2 id="go-coins" style="color: var(--gold);">Monedas ganadas: 0</h2>
+        <button onclick="nav('screen-menu')">Volver al Menú</button>
+    </div>
+</div>
+
+<script>
+    // --- SISTEMA DE DATOS Y ESTADO ---
+    let currentUser = "";
+    let pData = {
+        coins: 0,
+        skins: ['#66fcf1'], // Skin por defecto
+        activeSkin: '#66fcf1',
+        multiplier: 1,
+        achievements: []
+    };
+
+    // Objetos de Tienda
+    const STORE = {
+        skins: [
+            { id: '#66fcf1', name: 'Neón Clásico', price: 0 },
+            { id: '#ff003c', name: 'Rojo Carmesí', price: 50 },
+            { id: '#a200ff', name: 'Ultra Violeta', price: 100 },
+            { id: '#ffd700', name: 'Oro Puro', price: 500 }
+        ],
+        upgrades: [
+            { id: 'mult2', name: 'Doble Moneda (x2)', price: 200, mult: 2 },
+            { id: 'mult3', name: 'Triple Moneda (x3)', price: 500, mult: 3 }
+        ]
+    };
+
+    // --- FUNCIONES DE NAVEGACIÓN Y UI ---
+    function nav(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+        updateHUD();
+        if(screenId === 'screen-shop') renderShop();
+        if(screenId !== 'screen-game') stopGame();
+    }
+
+    function updateHUD() {
+        if(currentUser) {
+            document.getElementById('hud').style.display = 'flex';
+            document.getElementById('user-display').innerText = currentUser;
+            document.getElementById('coins-display').innerText = `🪙 ${pData.coins}`;
+        } else {
+            document.getElementById('hud').style.display = 'none';
+        }
+    }
+
+    function showToast(text) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `🏆 Logro Desbloqueado:<br>${text}`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3500);
+    }
+
+    function checkAchievement(id, text) {
+        if(!pData.achievements.includes(id)) {
+            pData.achievements.push(id);
+            showToast(text);
+            saveData();
+        }
+    }
+
+    // --- SISTEMA DE LOGIN Y GUARDADO ---
+    function login() {
+        const input = document.getElementById('username').value.trim();
+        if(!input) return;
+        currentUser = input;
+        loadData();
+        nav('screen-menu');
+    }
+
+    function logout() {
+        currentUser = "";
+        nav('screen-login');
+    }
+
+    function loadData() {
+        const saved = localStorage.getItem('neonDash_' + currentUser);
+        if(saved) {
+            pData = JSON.parse(saved);
+        } else {
+            // Valores por defecto para usuario nuevo
+            pData = { coins: 0, skins: ['#66fcf1'], activeSkin: '#66fcf1', multiplier: 1, achievements: [] };
+        }
+        updateHUD();
+    }
+
+    function saveData() {
+        localStorage.setItem('neonDash_' + currentUser, JSON.stringify(pData));
+        updateHUD();
+    }
+
+    // --- SISTEMA DE TIENDA ---
+    function renderShop() {
+        const sContainer = document.getElementById('shop-skins');
+        const uContainer = document.getElementById('shop-upgrades');
+        sContainer.innerHTML = ''; uContainer.innerHTML = '';
+
+        STORE.skins.forEach(skin => {
+            const isOwned = pData.skins.includes(skin.id);
+            const isActive = pData.activeSkin === skin.id;
+            sContainer.innerHTML += `
+                <div class="card ${isActive ? 'active-item' : ''} ${!isOwned ? 'locked' : ''}" onclick="buyOrEquipSkin('${skin.id}', ${skin.price})">
+                    <div class="card-title" style="color:${skin.id}">${skin.name}</div>
+                    <div class="card-price">${isOwned ? (isActive ? 'EQUIPADO' : 'USAR') : `🪙 ${skin.price}`}</div>
+                </div>`;
+        });
+
+        STORE.upgrades.forEach(upg => {
+            const isOwned = pData.multiplier >= upg.mult;
+            uContainer.innerHTML += `
+                <div class="card ${isOwned ? 'active-item' : 'locked'}" onclick="buyUpgrade('${upg.id}', ${upg.price}, ${upg.mult})">
+                    <div class="card-title">${upg.name}</div>
+                    <div class="card-price">${isOwned ? 'COMPRADO' : `🪙 ${upg.price}`}</div>
+                </div>`;
+        });
+    }
+
+    function buyOrEquipSkin(id, price) {
+        if(pData.skins.includes(id)) {
+            pData.activeSkin = id;
+            renderShop();
+            saveData();
+        } else if(pData.coins >= price) {
+            pData.coins -= price;
+            pData.skins.push(id);
+            pData.activeSkin = id;
+            checkAchievement('first_skin', 'Compraste tu primer aspecto');
+            renderShop();
+            saveData();
+        }
+    }
+
+    function buyUpgrade(id, price, mult) {
+        if(pData.multiplier >= mult) return;
+        if(pData.coins >= price) {
+            pData.coins -= price;
+            pData.multiplier = mult;
+            checkAchievement('upgrade_bought', 'Poder de Magnate: Multiplicador comprado');
+            renderShop();
+            saveData();
+        }
+    }
+
+    // --- MOTOR DEL JUEGO (CANVAS) ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let gameLoopId;
+    let isPlaying = false;
+    let is1v1 = false;
+    
+    // Variables de Juego
+    let score = 0;
+    let sessionCoins = 0;
+    let gameSpeed = 5;
+    let frameCount = 0;
+    let theme = 'cyber';
+
+    let players = [];
+    let obstacles = [];
+    let coinsArr = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    // Controles
+    const keys = {};
+    window.addEventListener('keydown', e => keys[e.code] = true);
+    window.addEventListener('keyup', e => keys[e.code] = false);
+
+    // Clases
+    class Player {
+        constructor(x, color, isP2 = false) {
+            this.w = 30; this.h = 30;
+            this.x = x;
+            this.y = canvas.height - 80;
+            this.color = color;
+            this.speed = 8;
+            this.isP2 = isP2;
+            this.alive = true;
+        }
+        update() {
+            if(!this.alive) return;
+            // Controles P1 (A/D) o Móvil (flechas tmb para P1 si juega solo)
+            if(!this.isP2) {
+                if((keys['KeyA'] || keys['ArrowLeft']) && this.x > 0) this.x -= this.speed;
+                if((keys['KeyD'] || keys['ArrowRight']) && this.x < canvas.width - this.w) this.x += this.speed;
+            } else {
+                // Controles P2 (Flechas Izq/Der) en modo 1v1
+                if(keys['ArrowLeft'] && this.x > 0) this.x -= this.speed;
+                if(keys['ArrowRight'] && this.x < canvas.width - this.w) this.x += this.speed;
+            }
+        }
+        draw() {
+            if(!this.alive) return;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = this.color;
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.w, this.h);
+            ctx.shadowBlur = 0; // reset
+        }
+    }
+
+    class GameObject {
+        constructor(x, y, w, h, speedY, color, type) {
+            this.x = x; this.y = y; this.w = w; this.h = h;
+            this.speedY = speedY; this.color = color; this.type = type;
+        }
+        update() { this.y += this.speedY; }
+        draw() {
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.w, this.h);
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    function startGame(selectedTheme) {
+        theme = selectedTheme;
+        is1v1 = false;
+        initGame();
+    }
+
+    function start1v1() {
+        theme = 'cyber';
+        is1v1 = true;
+        checkAchievement('1v1_mode', 'Rivalidad de Neón: Jugaste Modo 1v1');
+        initGame();
+    }
+
+    function initGame() {
+        resizeCanvas();
+        nav('screen-game');
+        document.getElementById('hud').style.display = 'none'; // Ocultar hud general en el juego
+        
+        score = 0;
+        sessionCoins = 0;
+        frameCount = 0;
+        gameSpeed = theme === 'crimson' ? 8 : 5;
+        obstacles = [];
+        coinsArr = [];
+        
+        if(!is1v1) {
+            players = [new Player(canvas.width/2 - 15, pData.activeSkin, false)];
+        } else {
+            players = [
+                new Player(canvas.width/3, pData.activeSkin, false), // P1 (A/D)
+                new Player(canvas.width/3 * 2, '#ff003c', true) // P2 (Flechas)
+            ];
+            showToast("P1 usa A/D. P2 usa Flechas Izq/Der");
+        }
+
+        isPlaying = true;
+        gameLoop();
+    }
+
+    function stopGame() {
+        isPlaying = false;
+        cancelAnimationFrame(gameLoopId);
+    }
+
+    function gameOver() {
+        stopGame();
+        
+        let coinGain = sessionCoins * pData.multiplier;
+        if(theme === 'crimson') coinGain = Math.floor(coinGain * 1.5); // Bono de escenario
+        
+        if(!is1v1) {
+            pData.coins += coinGain;
+            saveData();
+            if(score > 1000) checkAchievement('pro_runner', 'Sobreviviste a 1000 puntos de distancia');
+            if(pData.coins >= 1000) checkAchievement('rich', 'Acumulaste 1000 monedas');
+        }
+
+        document.getElementById('go-title').innerText = is1v1 ? "¡FIN DEL PARTIDO!" : "¡TE ESTRELLASTE!";
+        document.getElementById('go-score').innerText = is1v1 ? `El jugador que sobrevivió GANA` : `Puntuación: ${Math.floor(score)}`;
+        document.getElementById('go-coins').innerText = is1v1 ? `Modo local, no se ganan monedas` : `Monedas ganadas: ${coinGain}`;
+        
+        document.getElementById('screen-game').classList.remove('active');
+        document.getElementById('screen-gameover').classList.add('active');
+    }
+
+    // Colisión AABB
+    function checkCollision(r1, r2) {
+        return r1.x < r2.x + r2.w && r1.x + r1.w > r2.x && r1.y < r2.y + r2.h && r1.y + r1.h > r2.y;
+    }
+
+    function gameLoop() {
+        if(!isPlaying) return;
+        
+        // Limpiar pantalla
+        ctx.fillStyle = theme === 'crimson' ? 'rgba(20, 0, 0, 0.4)' : 'rgba(11, 12, 16, 0.4)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        frameCount++;
+        if(!is1v1) score += (gameSpeed / 10); // Aumentar puntuación
+        
+        // Dificultad progresiva
+        if(frameCount % 600 === 0) gameSpeed += 0.5;
+
+        // Generar Obstáculos
+        if(frameCount % Math.max(20, Math.floor(80 - gameSpeed*2)) === 0) {
+            let w = Math.random() * 80 + 30;
+            let x = Math.random() * (canvas.width - w);
+            let obsColor = theme === 'crimson' ? '#ff3300' : '#888';
+            obstacles.push(new GameObject(x, -50, w, 20, gameSpeed, obsColor, 'obstacle'));
+        }
+
+        // Generar Monedas
+        if(frameCount % 100 === 0 && !is1v1) {
+            let x = Math.random() * (canvas.width - 20);
+            coinsArr.push(new GameObject(x, -30, 20, 20, gameSpeed * 0.8, '#ffd700', 'coin'));
+        }
+
+        // Actualizar Jugadores
+        let aliveCount = 0;
+        players.forEach(p => {
+            p.update();
+            p.draw();
+            if(p.alive) aliveCount++;
+        });
+
+        if(aliveCount === 0) { gameOver(); return; }
+        if(is1v1 && aliveCount === 1) { gameOver(); return; }
+
+        // Actualizar Obstáculos y colisiones
+        for(let i = obstacles.length - 1; i >= 0; i--) {
+            let obs = obstacles[i];
+            obs.update();
+            obs.draw();
+
+            players.forEach(p => {
+                if(p.alive && checkCollision(p, obs)) {
+                    p.alive = false;
+                }
+            });
+
+            if(obs.y > canvas.height) obstacles.splice(i, 1);
+        }
+
+        // Actualizar Monedas y recolección
+        for(let i = coinsArr.length - 1; i >= 0; i--) {
+            let c = coinsArr[i];
+            c.update();
+            c.draw();
+
+            players.forEach(p => {
+                if(p.alive && checkCollision(p, c)) {
+                    sessionCoins++;
+                    coinsArr.splice(i, 1);
+                }
+            });
+
+            if(c && c.y > canvas.height) coinsArr.splice(i, 1);
+        }
+
+        // Dibujar UI ingame
+        ctx.fillStyle = "white";
+        ctx.font = "20px Arial";
+        if(!is1v1) {
+            ctx.fillText(`Puntos: ${Math.floor(score)}`, 20, 40);
+            ctx.fillStyle = "#ffd700";
+            ctx.fillText(`Monedas: ${sessionCoins}`, 20, 70);
+        }
+
+        gameLoopId = requestAnimationFrame(gameLoop);
+    }
+</script>
+
+</body>
+</html>
