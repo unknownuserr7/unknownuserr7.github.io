@@ -6,9 +6,6 @@
   <title>ArribaBé · Presentació</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
-  <!-- Llibreries per generar PDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -149,12 +146,34 @@
       cursor: pointer;
       font-size: 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
     }
     .theme-toggle:hover, .fullscreen-btn:hover, .pdf-btn:hover {
       background: var(--accent);
       color: white;
       border-color: var(--accent);
       transform: rotate(5deg) scale(1.05);
+    }
+
+    .pdf-btn::after {
+      content: "Descarregar PDF";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-primary);
+      color: var(--container-bg);
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      margin-bottom: 8px;
+    }
+    .pdf-btn:hover::after {
+      opacity: 1;
     }
 
     .slides-wrapper {
@@ -456,24 +475,9 @@
       border-radius: 10px;
     }
 
-    /* Indicador de càrrega del PDF */
-    .pdf-loading-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      color: white;
-      font-size: 1.5rem;
-      backdrop-filter: blur(4px);
-    }
-    .pdf-loading-overlay .progress-text {
-      background: var(--accent);
-      padding: 16px 32px;
-      border-radius: 60px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    /* Estils per al mode impressió dins de l'iframe */
+    .print-styles {
+      display: none;
     }
 
     @media (max-width: 850px) {
@@ -494,7 +498,7 @@
       <div class="presenters">
         <i class="fas fa-user-graduate"></i> Abel & Xavi
       </div>
-      <button class="pdf-btn" id="pdfBtn" title="Descarregar PDF complet (1920x1080)"><i class="fas fa-file-pdf"></i></button>
+      <button class="pdf-btn" id="pdfBtn" title="Descarregar PDF"><i class="fas fa-file-pdf"></i></button>
       <button class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa"><i class="fas fa-expand"></i></button>
       <button class="theme-toggle" id="themeToggle" title="Canvia mode clar/fosc"><i class="fas fa-moon"></i></button>
     </div>
@@ -596,7 +600,7 @@
       </div>
     </div>
 
-    <!-- SLIDE 5 (IMATGE NOVA QUE FUNCIONA) -->
+    <!-- SLIDE 5 -->
     <div class="slide" id="slide5">
       <div class="slide-content">
         <h2>5. Pla de Finançament</h2>
@@ -611,7 +615,6 @@
             </div>
           </div>
           <div>
-            <!-- Nova imatge: gràfics financers / reunió d'inversió -->
             <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gràfics financers i càlculs, pla de finançament" class="slide-img" loading="lazy" crossorigin="anonymous">
           </div>
         </div>
@@ -781,126 +784,145 @@
       if (Math.abs(diff) > 50) diff < 0 ? next() : prev();
     });
 
-    // ========== GENERACIÓ DE PDF ROBUSTA ==========
-    function showLoadingOverlay(progress) {
-      let overlay = document.querySelector('.pdf-loading-overlay');
-      if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'pdf-loading-overlay';
-        overlay.innerHTML = '<div class="progress-text">Generant PDF... 0%</div>';
-        document.body.appendChild(overlay);
-      }
-      overlay.querySelector('.progress-text').textContent = `Generant PDF... ${progress}%`;
-    }
-
-    function hideLoadingOverlay() {
-      const overlay = document.querySelector('.pdf-loading-overlay');
-      if (overlay) overlay.remove();
-    }
-
-    async function generateFullPDF() {
-      pdfBtn.disabled = true;
-      pdfBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+    // ========== GENERAR PDF MITJANÇANT IFRAME ==========
+    function generarPDF() {
+      // Clonar el contenidor principal
+      const cloneContainer = container.cloneNode(true);
       
-      try {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({
-          orientation: 'landscape',
-          unit: 'px',
-          format: [1920, 1080]
-        });
-
-        // Crear un clon temporal per a cada captura (evita interferències)
-        const cloneContainer = document.createElement('div');
-        cloneContainer.style.position = 'fixed';
-        cloneContainer.style.left = '-9999px';
-        cloneContainer.style.top = '0';
-        cloneContainer.style.width = '1920px';
-        cloneContainer.style.height = '1080px';
-        cloneContainer.style.overflow = 'hidden';
-        cloneContainer.style.backgroundColor = getComputedStyle(body).getPropertyValue('--container-bg').trim() || '#ffffff';
-        document.body.appendChild(cloneContainer);
-
-        // Funció per esperar que totes les imatges d'un element es carreguin
-        async function waitForImages(element) {
-          const images = Array.from(element.querySelectorAll('img'));
-          await Promise.all(images.map(img => {
-            if (img.complete) return Promise.resolve();
-            return new Promise(resolve => {
-              img.onload = resolve;
-              img.onerror = resolve;
-            });
-          }));
+      // Eliminar possibles ids duplicats
+      cloneContainer.id = 'printClone';
+      
+      // Aplicar estils específics per a impressió al clon
+      const style = document.createElement('style');
+      style.textContent = `
+        /* Forçar que tots els slides siguin visibles i en bloc */
+        .slides-wrapper {
+          position: static !important;
+          overflow: visible !important;
+          padding: 0 !important;
+          height: auto !important;
         }
-
-        for (let i = 0; i < totalSlides; i++) {
-          showLoadingOverlay(Math.round((i / totalSlides) * 100));
-          
-          // Clonar el slide actual
-          const originalSlide = slides[i];
-          const slideClone = originalSlide.cloneNode(true);
-          
-          // Netejar el contenidor clonat i afegir el slide
-          cloneContainer.innerHTML = '';
-          cloneContainer.appendChild(slideClone);
-          
-          // Assegurar que el clon es mostri complet
-          slideClone.style.position = 'relative';
-          slideClone.style.top = '0';
-          slideClone.style.left = '0';
-          slideClone.style.right = 'auto';
-          slideClone.style.bottom = 'auto';
-          slideClone.style.width = '100%';
-          slideClone.style.height = '100%';
-          slideClone.style.opacity = '1';
-          slideClone.style.visibility = 'visible';
-          slideClone.style.transform = 'none';
-          slideClone.style.overflow = 'auto';
-          
-          // Aplicar el tema actual
-          if (body.classList.contains('dark')) {
-            slideClone.classList.add('dark');
-          }
-          
-          // Esperar que les imatges carreguin
-          await waitForImages(slideClone);
-          await new Promise(resolve => setTimeout(resolve, 100));
-          
-          // Capturar el contenidor clonat
-          const canvas = await html2canvas(cloneContainer, {
-            scale: 2,
-            backgroundColor: getComputedStyle(body).getPropertyValue('--container-bg').trim() || '#ffffff',
-            allowTaint: false,
-            useCORS: true,
-            logging: false,
-            width: 1920,
-            height: 1080
-          });
-          
-          const imgData = canvas.toDataURL('image/png');
-          
-          if (i > 0) pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, 0, 1920, 1080);
+        .slide {
+          position: relative !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: none !important;
+          display: block !important;
+          page-break-after: always;
+          page-break-inside: avoid;
+          height: 100vh !important;
+          width: 100vw !important;
+          max-height: none !important;
+          overflow: visible !important;
+          padding: 2cm !important;
+          margin: 0 !important;
+          background: var(--container-bg) !important;
+          color: var(--text-primary) !important;
         }
-        
-        // Eliminar clon i overlay
-        document.body.removeChild(cloneContainer);
-        hideLoadingOverlay();
-        
-        // Descarregar PDF
-        pdf.save('ArribaBe_Presentacio_1920x1080.pdf');
-        
-      } catch (error) {
-        console.error('Error generant PDF:', error);
-        alert('No s\'ha pogut generar el PDF. Si us plau, revisa la consola.');
-        hideLoadingOverlay();
-      } finally {
-        pdfBtn.disabled = false;
-        pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i>';
+        .slide:last-child {
+          page-break-after: auto;
+        }
+        .presentation-container {
+          width: 100% !important;
+          max-width: none !important;
+          height: auto !important;
+          max-height: none !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
+        /* Amagar elements de navegació */
+        .progress-bar,
+        .presentation-header,
+        .presentation-footer,
+        .nav-controls,
+        .dot-container,
+        .theme-toggle,
+        .fullscreen-btn,
+        .pdf-btn,
+        .presenters,
+        .pdf-btn::after {
+          display: none !important;
+        }
+        /* Mantenir el tema actual (les variables CSS ja estan definides al clon) */
+        body {
+          background: var(--bg-body) !important;
+        }
+        @page {
+          size: landscape;
+          margin: 0;
+        }
+      `;
+      cloneContainer.appendChild(style);
+      
+      // Assegurar que el clon té la classe 'dark' si el tema actual és fosc
+      if (body.classList.contains('dark')) {
+        cloneContainer.classList.add('dark');
+      } else {
+        cloneContainer.classList.remove('dark');
       }
+      
+      // Crear un iframe ocult
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.left = '0';
+      iframe.style.top = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      iframe.style.zIndex = '9999';
+      iframe.style.backgroundColor = getComputedStyle(body).getPropertyValue('--bg-body');
+      
+      document.body.appendChild(iframe);
+      
+      // Escriure el contingut a l'iframe
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>ArribaBé - Presentació PDF</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+            <style>
+              /* Copiar els estils originals */
+              ${Array.from(document.styleSheets)
+                .map(sheet => {
+                  try {
+                    return Array.from(sheet.cssRules || []).map(rule => rule.cssText).join('\n');
+                  } catch(e) { return ''; }
+                }).join('\n')}
+            </style>
+          </head>
+          <body style="margin:0; padding:0; display:block; background: var(--bg-body);">
+            ${cloneContainer.outerHTML}
+          </body>
+        </html>
+      `);
+      iframeDoc.close();
+      
+      // Esperar que l'iframe carregui completament
+      iframe.onload = function() {
+        setTimeout(() => {
+          // Imprimir l'iframe
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+          
+          // Eliminar l'iframe després d'imprimir
+          setTimeout(() => {
+            document.body.removeChild(iframe);
+          }, 1000);
+        }, 500);
+      };
     }
 
-    pdfBtn.addEventListener('click', generateFullPDF);
+    pdfBtn.addEventListener('click', generarPDF);
 
     // Carregar configuració inicial
     loadSettings();
