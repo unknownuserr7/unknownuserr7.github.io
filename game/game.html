@@ -3,114 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Cube Rush</title>
+    <title>Neon Galaxy Survival</title>
     <style>
         :root {
-            --bg: #0b0c10;
-            --surface: #1f2833;
-            --primary: #66fcf1;
-            --primary-dark: #45a29e;
-            --danger: #ff003c;
-            --text: #c5c6c7;
+            --bg: #050510;
+            --surface: #121225;
+            --primary: #00f0ff;
+            --primary-dark: #008c99;
+            --danger: #ff0055;
+            --text: #e0e0ff;
             --gold: #ffd700;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         
         body { background-color: var(--bg); color: var(--text); overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; user-select: none; }
 
-        /* Contenedor Principal */
-        #app { width: 100vw; height: 100vh; position: relative; max-width: 800px; background: var(--bg); overflow: hidden; box-shadow: 0 0 50px rgba(102, 252, 241, 0.1); }
+        #app { width: 100vw; height: 100vh; position: relative; background: var(--bg); overflow: hidden; box-shadow: inset 0 0 100px rgba(0, 240, 255, 0.05); }
 
-        /* Transiciones de Pantalla */
-        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.4s ease-in-out; padding: 20px; text-align: center; }
+        /* Transiciones */
+        .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; text-align: center; }
         .screen.active { display: flex; opacity: 1; z-index: 10; }
 
-        h1 { font-size: 3rem; color: var(--primary); text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary); margin-bottom: 20px; letter-spacing: 2px; }
-        h2 { color: white; margin-bottom: 15px; }
+        h1 { font-size: 3.5rem; color: var(--primary); text-shadow: 0 0 15px var(--primary); margin-bottom: 20px; text-transform: uppercase; font-weight: 900; letter-spacing: 3px; }
+        h2 { color: white; margin-bottom: 20px; letter-spacing: 1px; }
 
-        /* Botones e Inputs */
-        input { padding: 15px; font-size: 1.2rem; border: 2px solid var(--primary-dark); background: transparent; color: white; border-radius: 8px; outline: none; transition: 0.3s; margin-bottom: 20px; text-align: center; width: 80%; max-width: 300px; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
+        /* Controles UI */
+        input { padding: 15px; font-size: 1.2rem; border: 2px solid var(--primary-dark); background: rgba(0,0,0,0.5); color: white; border-radius: 10px; outline: none; transition: 0.3s; margin-bottom: 20px; text-align: center; width: 80%; max-width: 350px; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
 
-        button { padding: 15px 30px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border: none; border-radius: 8px; background: var(--primary); color: var(--bg); transition: 0.3s; text-transform: uppercase; margin: 10px; width: 80%; max-width: 300px; }
-        button:hover { background: white; box-shadow: 0 0 20px var(--primary); transform: translateY(-2px); }
-        button.btn-danger { background: var(--danger); color: white; }
-        button.btn-danger:hover { box-shadow: 0 0 20px var(--danger); }
-        button:disabled { background: #555; cursor: not-allowed; box-shadow: none; color: #888; }
+        button { padding: 15px 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; border: none; border-radius: 10px; background: linear-gradient(45deg, var(--primary-dark), var(--primary)); color: #000; transition: 0.3s; text-transform: uppercase; margin: 10px; width: 80%; max-width: 300px; box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3); }
+        button:hover { transform: translateY(-3px); box-shadow: 0 6px 25px rgba(0, 240, 255, 0.6); filter: brightness(1.2); }
+        button.btn-danger { background: linear-gradient(45deg, #990033, var(--danger)); color: white; box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3); }
+        button.btn-danger:hover { box-shadow: 0 6px 25px rgba(255, 0, 85, 0.6); }
+
+        /* Menú y Botones Especiales */
+        .menu-row { display: flex; justify-content: center; gap: 15px; width: 100%; max-width: 400px; }
+        .icon-btn { font-size: 2rem; padding: 10px; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--surface); border: 2px solid var(--primary); color: white; cursor: pointer; transition: 0.3s; }
+        .icon-btn:hover { background: var(--primary); transform: scale(1.1); box-shadow: 0 0 20px var(--primary); }
 
         /* HUD */
         #hud { position: absolute; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; z-index: 20; pointer-events: none; }
-        .hud-item { font-size: 1.5rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 8px; border: 1px solid var(--primary-dark); }
+        .hud-item { font-size: 1.2rem; font-weight: bold; background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 10px; border: 1px solid var(--primary-dark); backdrop-filter: blur(5px); }
         #coins-display { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
 
-        /* Layouts de Tienda y Escenarios */
-        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px; width: 100%; }
-        .card { background: var(--surface); border: 2px solid var(--primary-dark); padding: 20px; border-radius: 10px; width: 150px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .card:hover { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); transform: translateY(-5px); }
-        .card.locked { opacity: 0.7; border-color: #555; }
-        .card.active-item { border-color: #fff; box-shadow: 0 0 20px #fff; }
-        .card-title { font-weight: bold; margin-bottom: 10px; color: white; }
+        /* Grillas (Tienda y Niveles) */
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px; width: 100%; max-width: 800px; }
+        .card { background: rgba(18, 18, 37, 0.8); border: 2px solid var(--primary-dark); padding: 20px; border-radius: 12px; width: 160px; text-align: center; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
+        .card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); transform: translateY(-5px); }
+        .card.locked { opacity: 0.6; border-color: #444; filter: grayscale(1); }
+        .card.active-item { border-color: #fff; box-shadow: 0 0 25px #fff; }
+        .card-title { font-weight: bold; margin-bottom: 10px; color: white; font-size: 1.1rem; }
         .card-price { color: var(--gold); font-weight: bold; }
 
-        /* Canvas de Juego */
-        canvas { display: block; width: 100%; height: 100%; background: #000; }
-
-        /* Popups de Logros */
-        #toast-container { position: absolute; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: var(--surface); border-left: 5px solid var(--primary); padding: 15px 20px; border-radius: 5px; color: white; font-weight: bold; animation: slideIn 0.5s forwards, fadeOut 0.5s 3s forwards; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        /* Pantalla de Logros */
+        .achievements-container { width: 100%; max-width: 600px; height: 60vh; overflow-y: auto; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 15px; border: 1px solid var(--primary-dark); }
+        .achievements-container::-webkit-scrollbar { width: 8px; }
+        .achievements-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
         
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(100%); } }
+        .ach-item { display: flex; align-items: center; justify-content: space-between; background: var(--surface); margin-bottom: 10px; padding: 15px; border-radius: 8px; border-left: 5px solid #444; transition: 0.3s; }
+        .ach-item.unlocked { border-left-color: var(--primary); box-shadow: 0 0 10px rgba(0, 240, 255, 0.1); }
+        .ach-info { text-align: left; flex-grow: 1; margin: 0 15px; }
+        .ach-title { font-weight: bold; color: white; font-size: 1.1rem; }
+        .ach-desc { font-size: 0.85rem; color: #aaa; margin-top: 4px; }
+        .ach-status { font-size: 1.5rem; }
+        
+        .diff { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; margin-left: 10px; }
+        .diff.FÁCIL { background: #28a745; color: white; }
+        .diff.NORMAL { background: #17a2b8; color: white; }
+        .diff.DIFÍCIL { background: #ffc107; color: black; }
+        .diff.EXTREMA { background: var(--danger); color: white; }
 
-        .back-btn { position: absolute; top: 20px; left: 20px; width: auto; padding: 10px 20px; font-size: 1rem; }
+        canvas { display: block; width: 100%; height: 100%; }
+
+        /* Popups Dinámicos */
+        #toast-container { position: absolute; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast { background: rgba(18, 18, 37, 0.95); border: 1px solid var(--primary); border-left: 5px solid var(--primary); padding: 15px 20px; border-radius: 8px; color: white; font-weight: bold; animation: slideIn 0.5s forwards, fadeOut 0.5s 4s forwards; box-shadow: 0 5px 20px rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: flex; align-items: center; gap: 10px; }
+        
+        @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(120%); } }
+
+        .back-btn { position: absolute; top: 20px; left: 20px; width: auto; padding: 10px 20px; font-size: 1rem; z-index: 50; }
     </style>
 </head>
 <body>
 
 <div id="app">
     <div id="hud" style="display: none;">
-        <div class="hud-item" id="user-display">User</div>
+        <div class="hud-item" id="user-display">👤 Jugador</div>
         <div class="hud-item" id="coins-display">🪙 0</div>
     </div>
 
     <div id="toast-container"></div>
 
     <div id="screen-login" class="screen active">
-        <h1>NEON RUSH</h1>
-        <p style="margin-bottom: 20px;">Ingresa un nombre para guardar tu progreso</p>
-        <input type="text" id="username" placeholder="Tu Nombre de Jugador" maxlength="12" autocomplete="off">
-        <button onclick="login()">Entrar</button>
+        <h1>NEON GALAXY</h1>
+        <p style="margin-bottom: 25px; color: #aaa;">Supervivencia extrema. Gráficos de partículas.</p>
+        <input type="text" id="username" placeholder="Introduce tu Nickname" maxlength="15" autocomplete="off">
+        <button onclick="login()">Entrar al Nexo</button>
     </div>
 
     <div id="screen-menu" class="screen">
-        <h1>MENÚ</h1>
-        <button onclick="nav('screen-levels')">Jugar Solo</button>
-        <button onclick="start1v1()">Modo 1v1 Local</button>
-        <button onclick="nav('screen-shop')">Tienda</button>
-        <button class="btn-danger" onclick="logout()">Cerrar Sesión</button>
+        <h1>NEON GALAXY</h1>
+        <button onclick="nav('screen-levels')">🚀 Jugar Supervivencia</button>
+        <button onclick="start1v1()">⚔️ Modo 1v1 Local</button>
+        <button onclick="nav('screen-shop')">🛒 Tienda (Mejoras/Naves)</button>
+        
+        <div class="menu-row" style="margin-top: 10px;">
+            <div class="icon-btn" onclick="nav('screen-achievements')" title="Ver Logros">🏆</div>
+            <div class="icon-btn" onclick="logout()" style="border-color: var(--danger); color: var(--danger);" title="Cerrar Sesión">🚪</div>
+        </div>
+    </div>
+
+    <div id="screen-achievements" class="screen">
+        <button class="back-btn" onclick="nav('screen-menu')">Volver</button>
+        <h2>🏆 TUS LOGROS</h2>
+        <div class="achievements-container" id="ach-list"></div>
     </div>
 
     <div id="screen-levels" class="screen">
         <button class="back-btn" onclick="nav('screen-menu')">Volver</button>
-        <h2>Selecciona Escenario</h2>
+        <h2>SELECCIONA SECTOR</h2>
         <div class="grid">
             <div class="card" onclick="startGame('cyber')">
-                <div class="card-title">Cyber City</div>
-                <div style="font-size: 0.8rem; color: #aaa;">Velocidad Normal</div>
+                <div class="card-title">Cyber Space</div>
+                <div style="font-size: 0.8rem; color: #aaa;">Dificultad Normal<br>Enemigos Estándar</div>
             </div>
             <div class="card" onclick="startGame('crimson')">
-                <div class="card-title" style="color: var(--danger);">Crimson Hell</div>
-                <div style="font-size: 0.8rem; color: #aaa;">Alta Velocidad<br>x1.5 Monedas</div>
+                <div class="card-title" style="color: var(--danger);">Crimson Nebula</div>
+                <div style="font-size: 0.8rem; color: #aaa;">Dificultad Difícil<br>+50% Monedas</div>
             </div>
         </div>
     </div>
 
     <div id="screen-shop" class="screen">
         <button class="back-btn" onclick="nav('screen-menu')">Volver</button>
-        <h2>TIENDA DE SKINS</h2>
+        <h2>HANGAR & MEJORAS</h2>
+        <h3 style="margin-top:10px;">Modelos de Nave (Skins)</h3>
         <div class="grid" id="shop-skins"></div>
-        <h2>MEJORAS</h2>
+        <h3 style="margin-top:10px;">Tecnología</h3>
         <div class="grid" id="shop-upgrades"></div>
     </div>
 
@@ -118,106 +149,135 @@
         <canvas id="gameCanvas"></canvas>
     </div>
 
-    <div id="screen-gameover" class="screen" style="background: rgba(0,0,0,0.85);">
-        <h1 id="go-title">¡TE ESTRELLASTE!</h1>
-        <h2 id="go-score">Puntuación: 0</h2>
-        <h2 id="go-coins" style="color: var(--gold);">Monedas ganadas: 0</h2>
-        <button onclick="nav('screen-menu')">Volver al Menú</button>
+    <div id="screen-gameover" class="screen" style="background: rgba(0,0,0,0.9);">
+        <h1 id="go-title" style="color: var(--danger);">¡NAVE DESTRUIDA!</h1>
+        <h2 id="go-score">Tiempo Sobrevivido: 0s</h2>
+        <h2 id="go-coins" style="color: var(--gold);">Monedas recolectadas: 0</h2>
+        <button onclick="nav('screen-menu')">Volver a la Base</button>
     </div>
 </div>
 
 <script>
-    // --- SISTEMA DE DATOS Y ESTADO ---
+    /* =========================================
+       SISTEMA DE DATOS Y LOGROS
+    ========================================= */
     let currentUser = "";
     let pData = {
         coins: 0,
-        skins: ['#66fcf1'], // Skin por defecto
-        activeSkin: '#66fcf1',
-        multiplier: 1,
-        achievements: []
+        skins: ['#00f0ff'],
+        activeSkin: '#00f0ff',
+        fireRateLvl: 1,
+        achievements: [],
+        totalKills: 0,
+        totalTime: 0
     };
 
-    // Objetos de Tienda
+    const ACH_DB = [
+        { id: 'first_blood', name: 'Primera Sangre', desc: 'Destruye tu primer enemigo.', diff: 'FÁCIL' },
+        { id: 'survivor_30', name: 'Recluta', desc: 'Sobrevive 30 segundos en una partida.', diff: 'FÁCIL' },
+        { id: 'survivor_60', name: 'Veterano', desc: 'Sobrevive 60 segundos en una partida.', diff: 'NORMAL' },
+        { id: 'survivor_120', name: 'Maestro del Caos', desc: 'Sobrevive 120 segundos.', diff: 'DIFÍCIL' },
+        { id: 'killer_100', name: 'Exterminador', desc: 'Acumula 100 enemigos destruidos.', diff: 'NORMAL' },
+        { id: 'killer_500', name: 'Genocida Espacial', desc: 'Acumula 500 enemigos destruidos.', diff: 'EXTREMA' },
+        { id: 'first_buy', name: 'Consumista', desc: 'Compra tu primer artículo en la tienda.', diff: 'FÁCIL' },
+        { id: 'rich', name: 'Capitalista', desc: 'Acumula 1,000 monedas.', diff: 'NORMAL' },
+        { id: 'max_fire', name: 'Ametralladora', desc: 'Compra la mejora máxima de disparo.', diff: 'DIFÍCIL' },
+        { id: 'play_crimson', name: 'Al Rojo Vivo', desc: 'Juega en el sector Crimson Nebula.', diff: 'FÁCIL' },
+        { id: 'play_1v1', name: 'Rivalidad', desc: 'Juega una partida en modo 1v1 Local.', diff: 'FÁCIL' }
+    ];
+
     const STORE = {
         skins: [
-            { id: '#66fcf1', name: 'Neón Clásico', price: 0 },
-            { id: '#ff003c', name: 'Rojo Carmesí', price: 50 },
-            { id: '#a200ff', name: 'Ultra Violeta', price: 100 },
-            { id: '#ffd700', name: 'Oro Puro', price: 500 }
+            { id: '#00f0ff', name: 'Phantom (Cyan)', price: 0 },
+            { id: '#ff0055', name: 'Reaper (Rojo)', price: 150 },
+            { id: '#a200ff', name: 'Void (Morado)', price: 300 },
+            { id: '#ffd700', name: 'Apollo (Oro)', price: 1000 }
         ],
         upgrades: [
-            { id: 'mult2', name: 'Doble Moneda (x2)', price: 200, mult: 2 },
-            { id: 'mult3', name: 'Triple Moneda (x3)', price: 500, mult: 3 }
+            { id: 'fire_2', name: 'Disparo Rápido', price: 200, lvl: 2 },
+            { id: 'fire_3', name: 'Cañón Láser', price: 600, lvl: 3 }
         ]
     };
 
-    // --- FUNCIONES DE NAVEGACIÓN Y UI ---
+    /* =========================================
+       NAVEGACIÓN Y UI
+    ========================================= */
     function nav(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
         updateHUD();
         if(screenId === 'screen-shop') renderShop();
+        if(screenId === 'screen-achievements') renderAchievements();
         if(screenId !== 'screen-game') stopGame();
     }
 
     function updateHUD() {
         if(currentUser) {
             document.getElementById('hud').style.display = 'flex';
-            document.getElementById('user-display').innerText = currentUser;
+            document.getElementById('user-display').innerText = `👤 ${currentUser}`;
             document.getElementById('coins-display').innerText = `🪙 ${pData.coins}`;
         } else {
             document.getElementById('hud').style.display = 'none';
         }
     }
 
-    function showToast(text) {
+    function showToast(title, desc) {
         const container = document.getElementById('toast-container');
         const toast = document.createElement('div');
         toast.className = 'toast';
-        toast.innerHTML = `🏆 Logro Desbloqueado:<br>${text}`;
+        toast.innerHTML = `<span style="font-size:2rem">🏆</span> <div><div style="color:var(--primary);font-size:0.9rem">Logro Desbloqueado</div>${title}</div>`;
         container.appendChild(toast);
-        setTimeout(() => toast.remove(), 3500);
+        setTimeout(() => toast.remove(), 4500);
     }
 
-    function checkAchievement(id, text) {
+    function unlockAchievement(id) {
         if(!pData.achievements.includes(id)) {
             pData.achievements.push(id);
-            showToast(text);
+            const ach = ACH_DB.find(a => a.id === id);
+            if(ach) showToast(ach.name, ach.desc);
             saveData();
         }
     }
 
-    // --- SISTEMA DE LOGIN Y GUARDADO ---
+    function renderAchievements() {
+        const container = document.getElementById('ach-list');
+        container.innerHTML = '';
+        ACH_DB.forEach(ach => {
+            const unlocked = pData.achievements.includes(ach.id);
+            container.innerHTML += `
+                <div class="ach-item ${unlocked ? 'unlocked' : ''}">
+                    <div class="ach-status">${unlocked ? '✅' : '🔒'}</div>
+                    <div class="ach-info">
+                        <div class="ach-title">${ach.name} <span class="diff ${ach.diff}">${ach.diff}</span></div>
+                        <div class="ach-desc">${ach.desc}</div>
+                    </div>
+                </div>`;
+        });
+    }
+
+    /* =========================================
+       LOGIN Y GUARDADO
+    ========================================= */
     function login() {
         const input = document.getElementById('username').value.trim();
         if(!input) return;
         currentUser = input;
-        loadData();
+        
+        const saved = localStorage.getItem('neonGalaxy_' + currentUser);
+        if(saved) {
+            pData = { ...pData, ...JSON.parse(saved) }; // Merge para evitar perder campos nuevos
+        } else {
+            pData = { coins: 0, skins: ['#00f0ff'], activeSkin: '#00f0ff', fireRateLvl: 1, achievements: [], totalKills: 0, totalTime: 0 };
+        }
         nav('screen-menu');
     }
 
-    function logout() {
-        currentUser = "";
-        nav('screen-login');
-    }
+    function logout() { currentUser = ""; nav('screen-login'); }
+    function saveData() { localStorage.setItem('neonGalaxy_' + currentUser, JSON.stringify(pData)); updateHUD(); }
 
-    function loadData() {
-        const saved = localStorage.getItem('neonDash_' + currentUser);
-        if(saved) {
-            pData = JSON.parse(saved);
-        } else {
-            // Valores por defecto para usuario nuevo
-            pData = { coins: 0, skins: ['#66fcf1'], activeSkin: '#66fcf1', multiplier: 1, achievements: [] };
-        }
-        updateHUD();
-    }
-
-    function saveData() {
-        localStorage.setItem('neonDash_' + currentUser, JSON.stringify(pData));
-        updateHUD();
-    }
-
-    // --- SISTEMA DE TIENDA ---
+    /* =========================================
+       TIENDA
+    ========================================= */
     function renderShop() {
         const sContainer = document.getElementById('shop-skins');
         const uContainer = document.getElementById('shop-upgrades');
@@ -227,70 +287,56 @@
             const isOwned = pData.skins.includes(skin.id);
             const isActive = pData.activeSkin === skin.id;
             sContainer.innerHTML += `
-                <div class="card ${isActive ? 'active-item' : ''} ${!isOwned ? 'locked' : ''}" onclick="buyOrEquipSkin('${skin.id}', ${skin.price})">
+                <div class="card ${isActive ? 'active-item' : ''} ${!isOwned ? 'locked' : ''}" onclick="buySkin('${skin.id}', ${skin.price})">
                     <div class="card-title" style="color:${skin.id}">${skin.name}</div>
                     <div class="card-price">${isOwned ? (isActive ? 'EQUIPADO' : 'USAR') : `🪙 ${skin.price}`}</div>
                 </div>`;
         });
 
         STORE.upgrades.forEach(upg => {
-            const isOwned = pData.multiplier >= upg.mult;
+            const isOwned = pData.fireRateLvl >= upg.lvl;
             uContainer.innerHTML += `
-                <div class="card ${isOwned ? 'active-item' : 'locked'}" onclick="buyUpgrade('${upg.id}', ${upg.price}, ${upg.mult})">
+                <div class="card ${isOwned ? 'active-item' : 'locked'}" onclick="buyUpgrade('${upg.id}', ${upg.price}, ${upg.lvl})">
                     <div class="card-title">${upg.name}</div>
-                    <div class="card-price">${isOwned ? 'COMPRADO' : `🪙 ${upg.price}`}</div>
+                    <div class="card-price">${isOwned ? 'INSTALADO' : `🪙 ${upg.price}`}</div>
                 </div>`;
         });
     }
 
-    function buyOrEquipSkin(id, price) {
+    function buySkin(id, price) {
         if(pData.skins.includes(id)) {
-            pData.activeSkin = id;
-            renderShop();
-            saveData();
+            pData.activeSkin = id; renderShop(); saveData();
         } else if(pData.coins >= price) {
-            pData.coins -= price;
-            pData.skins.push(id);
-            pData.activeSkin = id;
-            checkAchievement('first_skin', 'Compraste tu primer aspecto');
-            renderShop();
-            saveData();
+            pData.coins -= price; pData.skins.push(id); pData.activeSkin = id;
+            unlockAchievement('first_buy'); renderShop(); saveData();
         }
     }
 
-    function buyUpgrade(id, price, mult) {
-        if(pData.multiplier >= mult) return;
+    function buyUpgrade(id, price, lvl) {
+        if(pData.fireRateLvl >= lvl) return;
         if(pData.coins >= price) {
-            pData.coins -= price;
-            pData.multiplier = mult;
-            checkAchievement('upgrade_bought', 'Poder de Magnate: Multiplicador comprado');
-            renderShop();
-            saveData();
+            pData.coins -= price; pData.fireRateLvl = lvl;
+            unlockAchievement('first_buy');
+            if(lvl === 3) unlockAchievement('max_fire');
+            renderShop(); saveData();
         }
     }
 
-    // --- MOTOR DEL JUEGO (CANVAS) ---
+    /* =========================================
+       MOTOR DEL JUEGO (CANVAS - MEJORES GRÁFICOS)
+    ========================================= */
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     let gameLoopId;
-    let isPlaying = false;
-    let is1v1 = false;
+    let isPlaying = false, is1v1 = false, theme = 'cyber';
     
-    // Variables de Juego
-    let score = 0;
+    // Variables de Partida
+    let timeSurvived = 0;
     let sessionCoins = 0;
-    let gameSpeed = 5;
     let frameCount = 0;
-    let theme = 'cyber';
-
-    let players = [];
-    let obstacles = [];
-    let coinsArr = [];
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
+    let players = [], enemies = [], bullets = [], particles = [], coinsArr = [];
+    
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
 
     // Controles
@@ -298,205 +344,280 @@
     window.addEventListener('keydown', e => keys[e.code] = true);
     window.addEventListener('keyup', e => keys[e.code] = false);
 
-    // Clases
+    /* --- CLASES DEL JUEGO --- */
     class Player {
-        constructor(x, color, isP2 = false) {
-            this.w = 30; this.h = 30;
-            this.x = x;
-            this.y = canvas.height - 80;
-            this.color = color;
-            this.speed = 8;
-            this.isP2 = isP2;
+        constructor(x, y, color, controls) {
+            this.x = x; this.y = y; this.radius = 15;
+            this.color = color; this.speed = 5;
+            this.controls = controls; // {up, down, left, right}
             this.alive = true;
+            this.fireCooldown = 0;
+            this.angle = 0;
         }
         update() {
             if(!this.alive) return;
-            // Controles P1 (A/D) o Móvil (flechas tmb para P1 si juega solo)
-            if(!this.isP2) {
-                if((keys['KeyA'] || keys['ArrowLeft']) && this.x > 0) this.x -= this.speed;
-                if((keys['KeyD'] || keys['ArrowRight']) && this.x < canvas.width - this.w) this.x += this.speed;
-            } else {
-                // Controles P2 (Flechas Izq/Der) en modo 1v1
-                if(keys['ArrowLeft'] && this.x > 0) this.x -= this.speed;
-                if(keys['ArrowRight'] && this.x < canvas.width - this.w) this.x += this.speed;
+            let dx = 0, dy = 0;
+            if(keys[this.controls.up] && this.y > 20) dy -= this.speed;
+            if(keys[this.controls.down] && this.y < canvas.height - 20) dy += this.speed;
+            if(keys[this.controls.left] && this.x > 20) dx -= this.speed;
+            if(keys[this.controls.right] && this.x < canvas.width - 20) dx += this.speed;
+            
+            this.x += dx; this.y += dy;
+
+            // Apuntar en dirección del movimiento o mantener la última
+            if(dx !== 0 || dy !== 0) this.angle = Math.atan2(dy, dx);
+
+            // Auto Disparo
+            let fireDelay = pData.fireRateLvl === 3 ? 10 : (pData.fireRateLvl === 2 ? 18 : 25);
+            if(is1v1) fireDelay = 20; // Balance en 1v1
+
+            this.fireCooldown--;
+            if(this.fireCooldown <= 0) {
+                // Dispara al enemigo más cercano si existe, sino hacia donde mira
+                let targetAngle = this.angle;
+                let closestDist = Infinity;
+                enemies.forEach(e => {
+                    let dist = Math.hypot(e.x - this.x, e.y - this.y);
+                    if(dist < closestDist) { closestDist = dist; targetAngle = Math.atan2(e.y - this.y, e.x - this.x); }
+                });
+
+                bullets.push(new Bullet(this.x, this.y, targetAngle, this.color));
+                this.fireCooldown = fireDelay;
             }
         }
         draw() {
             if(!this.alive) return;
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = this.color;
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle);
+            ctx.shadowBlur = 15; ctx.shadowColor = this.color;
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.w, this.h);
-            ctx.shadowBlur = 0; // reset
+            // Dibujar nave (Triángulo estilizado)
+            ctx.beginPath();
+            ctx.moveTo(15, 0);
+            ctx.lineTo(-10, 10);
+            ctx.lineTo(-5, 0);
+            ctx.lineTo(-10, -10);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
         }
     }
 
-    class GameObject {
-        constructor(x, y, w, h, speedY, color, type) {
-            this.x = x; this.y = y; this.w = w; this.h = h;
-            this.speedY = speedY; this.color = color; this.type = type;
+    class Bullet {
+        constructor(x, y, angle, color) {
+            this.x = x; this.y = y; this.vx = Math.cos(angle) * 12; this.vy = Math.sin(angle) * 12;
+            this.radius = 4; this.color = color; this.life = 100;
         }
-        update() { this.y += this.speedY; }
+        update() { this.x += this.vx; this.y += this.vy; this.life--; }
         draw() {
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = this.color;
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.w, this.h);
+            ctx.shadowBlur = 10; ctx.shadowColor = this.color;
+            ctx.fillStyle = "#fff";
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2); ctx.fill();
             ctx.shadowBlur = 0;
         }
     }
 
+    class Enemy {
+        constructor() {
+            // Spawnear en los bordes
+            if(Math.random() < 0.5) {
+                this.x = Math.random() < 0.5 ? -20 : canvas.width + 20;
+                this.y = Math.random() * canvas.height;
+            } else {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() < 0.5 ? -20 : canvas.height + 20;
+            }
+            this.radius = 12;
+            this.speed = (Math.random() * 1.5 + 1) + (timeSurvived / 60); // Se vuelven más rápidos con el tiempo
+            this.color = theme === 'crimson' ? '#ff3300' : '#ff00aa';
+            this.hp = 1;
+        }
+        update() {
+            // Perseguir al jugador más cercano
+            let target = null;
+            let closestDist = Infinity;
+            players.forEach(p => {
+                if(p.alive) {
+                    let dist = Math.hypot(p.x - this.x, p.y - this.y);
+                    if(dist < closestDist) { closestDist = dist; target = p; }
+                }
+            });
+
+            if(target) {
+                let angle = Math.atan2(target.y - this.y, target.x - this.x);
+                this.x += Math.cos(angle) * this.speed;
+                this.y += Math.sin(angle) * this.speed;
+            }
+        }
+        draw() {
+            ctx.shadowBlur = 10; ctx.shadowColor = this.color;
+            ctx.strokeStyle = this.color; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(this.x-10, this.y-10); ctx.lineTo(this.x+10, this.y+10); ctx.moveTo(this.x+10, this.y-10); ctx.lineTo(this.x-10, this.y+10); ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    class Particle {
+        constructor(x, y, color) {
+            this.x = x; this.y = y;
+            this.vx = (Math.random() - 0.5) * 8; this.vy = (Math.random() - 0.5) * 8;
+            this.life = 1; this.decay = Math.random() * 0.05 + 0.02;
+            this.color = color;
+        }
+        update() { this.x += this.vx; this.y += this.vy; this.life -= this.decay; }
+        draw() {
+            ctx.globalAlpha = Math.max(0, this.life);
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, 3, 3);
+            ctx.globalAlpha = 1;
+        }
+    }
+
+    class Coin {
+        constructor(x, y) {
+            this.x = x; this.y = y; this.radius = 6; this.life = 500;
+        }
+        update() { this.life--; }
+        draw() {
+            if(this.life < 100 && this.life % 10 < 5) return; // Parpadeo antes de desaparecer
+            ctx.shadowBlur = 15; ctx.shadowColor = "yellow";
+            ctx.fillStyle = "#ffd700";
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2); ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    /* --- INICIO Y FIN DEL JUEGO --- */
     function startGame(selectedTheme) {
         theme = selectedTheme;
         is1v1 = false;
+        if(theme === 'crimson') unlockAchievement('play_crimson');
         initGame();
     }
 
     function start1v1() {
         theme = 'cyber';
         is1v1 = true;
-        checkAchievement('1v1_mode', 'Rivalidad de Neón: Jugaste Modo 1v1');
+        unlockAchievement('play_1v1');
         initGame();
     }
 
     function initGame() {
         resizeCanvas();
         nav('screen-game');
-        document.getElementById('hud').style.display = 'none'; // Ocultar hud general en el juego
+        document.getElementById('hud').style.display = 'none';
         
-        score = 0;
-        sessionCoins = 0;
-        frameCount = 0;
-        gameSpeed = theme === 'crimson' ? 8 : 5;
-        obstacles = [];
-        coinsArr = [];
+        timeSurvived = 0; sessionCoins = 0; frameCount = 0;
+        enemies = []; bullets = []; particles = []; coinsArr = [];
         
         if(!is1v1) {
-            players = [new Player(canvas.width/2 - 15, pData.activeSkin, false)];
+            players = [new Player(canvas.width/2, canvas.height/2, pData.activeSkin, {up:'KeyW', down:'KeyS', left:'KeyA', right:'KeyD'})];
+            // Soporte alternativo con flechas para un jugador
+            players[0].controls2 = {up:'ArrowUp', down:'ArrowDown', left:'ArrowLeft', right:'ArrowRight'};
         } else {
             players = [
-                new Player(canvas.width/3, pData.activeSkin, false), // P1 (A/D)
-                new Player(canvas.width/3 * 2, '#ff003c', true) // P2 (Flechas)
+                new Player(canvas.width/3, canvas.height/2, pData.activeSkin, {up:'KeyW', down:'KeyS', left:'KeyA', right:'KeyD'}),
+                new Player(canvas.width/3 * 2, canvas.height/2, '#ff0055', {up:'ArrowUp', down:'ArrowDown', left:'ArrowLeft', right:'ArrowRight'})
             ];
-            showToast("P1 usa A/D. P2 usa Flechas Izq/Der");
+            showToast("Modo 1v1", "P1: WASD | P2: FLECHAS. ¡Sobrevive!");
         }
 
         isPlaying = true;
         gameLoop();
     }
 
-    function stopGame() {
-        isPlaying = false;
-        cancelAnimationFrame(gameLoopId);
+    function stopGame() { isPlaying = false; cancelAnimationFrame(gameLoopId); }
+
+    function createExplosion(x, y, color) {
+        for(let i=0; i<15; i++) particles.push(new Particle(x, y, color));
     }
 
     function gameOver() {
         stopGame();
         
-        let coinGain = sessionCoins * pData.multiplier;
-        if(theme === 'crimson') coinGain = Math.floor(coinGain * 1.5); // Bono de escenario
+        let coinGain = sessionCoins;
+        if(theme === 'crimson') coinGain = Math.floor(coinGain * 1.5);
         
         if(!is1v1) {
             pData.coins += coinGain;
+            pData.totalTime += timeSurvived;
+            
+            if(timeSurvived >= 30) unlockAchievement('survivor_30');
+            if(timeSurvived >= 60) unlockAchievement('survivor_60');
+            if(timeSurvived >= 120) unlockAchievement('survivor_120');
+            if(pData.coins >= 1000) unlockAchievement('rich');
+            
             saveData();
-            if(score > 1000) checkAchievement('pro_runner', 'Sobreviviste a 1000 puntos de distancia');
-            if(pData.coins >= 1000) checkAchievement('rich', 'Acumulaste 1000 monedas');
         }
 
-        document.getElementById('go-title').innerText = is1v1 ? "¡FIN DEL PARTIDO!" : "¡TE ESTRELLASTE!";
-        document.getElementById('go-score').innerText = is1v1 ? `El jugador que sobrevivió GANA` : `Puntuación: ${Math.floor(score)}`;
-        document.getElementById('go-coins').innerText = is1v1 ? `Modo local, no se ganan monedas` : `Monedas ganadas: ${coinGain}`;
+        document.getElementById('go-title').innerText = is1v1 ? "¡PARTIDA TERMINADA!" : "¡NAVE DESTRUIDA!";
+        document.getElementById('go-score').innerText = `Tiempo Sobrevivido: ${Math.floor(timeSurvived)}s`;
+        document.getElementById('go-coins').innerText = is1v1 ? `Modo Local: Sin ganancias` : `Monedas ganadas: ${coinGain}`;
         
         document.getElementById('screen-game').classList.remove('active');
         document.getElementById('screen-gameover').classList.add('active');
     }
 
-    // Colisión AABB
-    function checkCollision(r1, r2) {
-        return r1.x < r2.x + r2.w && r1.x + r1.w > r2.x && r1.y < r2.y + r2.h && r1.y + r1.h > r2.y;
-    }
-
+    /* --- BUCLE PRINCIPAL --- */
     function gameLoop() {
         if(!isPlaying) return;
         
-        // Limpiar pantalla
-        ctx.fillStyle = theme === 'crimson' ? 'rgba(20, 0, 0, 0.4)' : 'rgba(11, 12, 16, 0.4)';
+        // Efecto estela (fondo semitransparente)
+        ctx.fillStyle = theme === 'crimson' ? 'rgba(15, 0, 5, 0.4)' : 'rgba(5, 5, 16, 0.4)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        // Dibujar Cuadrícula de Fondo (Sensación espacial)
+        ctx.strokeStyle = theme === 'crimson' ? 'rgba(255, 0, 85, 0.05)' : 'rgba(0, 240, 255, 0.05)';
+        ctx.lineWidth = 1;
+        let offset = (frameCount * 0.5) % 40;
+        for(let i = -offset; i < canvas.width; i+=40) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); ctx.stroke(); }
+        for(let i = -offset; i < canvas.height; i+=40) { ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(canvas.width,i); ctx.stroke(); }
+
         frameCount++;
-        if(!is1v1) score += (gameSpeed / 10); // Aumentar puntuación
-        
-        // Dificultad progresiva
-        if(frameCount % 600 === 0) gameSpeed += 0.5;
+        if(frameCount % 60 === 0) timeSurvived++;
 
-        // Generar Obstáculos
-        if(frameCount % Math.max(20, Math.floor(80 - gameSpeed*2)) === 0) {
-            let w = Math.random() * 80 + 30;
-            let x = Math.random() * (canvas.width - w);
-            let obsColor = theme === 'crimson' ? '#ff3300' : '#888';
-            obstacles.push(new GameObject(x, -50, w, 20, gameSpeed, obsColor, 'obstacle'));
+        // Spawn Enemigos (Más rápido según el tiempo)
+        let spawnRate = Math.max(10, 60 - Math.floor(timeSurvived / 2));
+        if(frameCount % spawnRate === 0) enemies.push(new Enemy());
+
+        // Soporte extra controles P1 si juega solo
+        if(!is1v1) {
+            let p = players[0];
+            if(keys['ArrowUp'] && p.y > 20) p.y -= p.speed;
+            if(keys['ArrowDown'] && p.y < canvas.height - 20) p.y += p.speed;
+            if(keys['ArrowLeft'] && p.x > 20) p.x -= p.speed;
+            if(keys['ArrowRight'] && p.x < canvas.width - 20) p.x += p.speed;
         }
 
-        // Generar Monedas
-        if(frameCount % 100 === 0 && !is1v1) {
-            let x = Math.random() * (canvas.width - 20);
-            coinsArr.push(new GameObject(x, -30, 20, 20, gameSpeed * 0.8, '#ffd700', 'coin'));
-        }
-
-        // Actualizar Jugadores
+        // Actualizar Actores
         let aliveCount = 0;
-        players.forEach(p => {
-            p.update();
-            p.draw();
-            if(p.alive) aliveCount++;
-        });
-
+        players.forEach(p => { if(p.alive) { p.update(); p.draw(); aliveCount++; } });
         if(aliveCount === 0) { gameOver(); return; }
         if(is1v1 && aliveCount === 1) { gameOver(); return; }
 
-        // Actualizar Obstáculos y colisiones
-        for(let i = obstacles.length - 1; i >= 0; i--) {
-            let obs = obstacles[i];
-            obs.update();
-            obs.draw();
-
-            players.forEach(p => {
-                if(p.alive && checkCollision(p, obs)) {
-                    p.alive = false;
-                }
-            });
-
-            if(obs.y > canvas.height) obstacles.splice(i, 1);
+        // Actualizar Balas
+        for(let i = bullets.length-1; i>=0; i--) {
+            let b = bullets[i];
+            b.update(); b.draw();
+            if(b.x<0 || b.x>canvas.width || b.y<0 || b.y>canvas.height || b.life<=0) bullets.splice(i, 1);
         }
 
-        // Actualizar Monedas y recolección
-        for(let i = coinsArr.length - 1; i >= 0; i--) {
+        // Actualizar Partículas
+        for(let i = particles.length-1; i>=0; i--) {
+            let p = particles[i];
+            p.update(); p.draw();
+            if(p.life <= 0) particles.splice(i, 1);
+        }
+
+        // Actualizar Monedas
+        for(let i = coinsArr.length-1; i>=0; i--) {
             let c = coinsArr[i];
-            c.update();
-            c.draw();
-
+            c.update(); c.draw();
+            
+            // Atraer moneda al jugador si está cerca (Imán)
             players.forEach(p => {
-                if(p.alive && checkCollision(p, c)) {
-                    sessionCoins++;
-                    coinsArr.splice(i, 1);
-                }
-            });
-
-            if(c && c.y > canvas.height) coinsArr.splice(i, 1);
-        }
-
-        // Dibujar UI ingame
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        if(!is1v1) {
-            ctx.fillText(`Puntos: ${Math.floor(score)}`, 20, 40);
-            ctx.fillStyle = "#ffd700";
-            ctx.fillText(`Monedas: ${sessionCoins}`, 20, 70);
-        }
-
-        gameLoopId = requestAnimationFrame(gameLoop);
-    }
-</script>
-
-</body>
-</html>
+                if(!p.alive) return;
+                let dist = Math.hypot(p.x - c.x, p.y - c.y);
+                if(dist < 80) { // Radio imán
+                    c.x += (
