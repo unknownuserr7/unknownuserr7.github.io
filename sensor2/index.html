@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DS18B20 TempMonitor · SMX 2-A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --bg:#060D1A;--bg2:#0A1525;--bg3:#0F1E33;--bg4:#152540;
+  --g:rgba(255,255,255,0.03);--g2:rgba(255,255,255,0.06);
+  --b:rgba(0,208,168,0.12);--b2:rgba(0,208,168,0.25);--b3:rgba(0,208,168,0.4);
+  --teal:#00D0A8;--teal2:#00A884;--teal3:rgba(0,208,168,0.08);
+  --blue:#3B9EFF;--amber:#F5A524;--red:#FF5757;--green:#34D399;
+  --t:#DFF0ED;--t2:#7BAAB8;--t3:#3D6578;
+  --ff:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+  --r:12px;--rl:18px;
+  --sw:240px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--t);font-family:var(--fb);display:flex;min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -20%,rgba(0,208,168,0.07),transparent);pointer-events:none;z-index:0}
+
+/* ── SIDEBAR ─────────────────────────────── */
+#sidebar{
+  width:var(--sw);flex-shrink:0;background:var(--bg2);
+  border-right:1px solid var(--b);
+  display:flex;flex-direction:column;
+  position:fixed;left:0;top:0;bottom:0;z-index:200;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+.sb-logo{padding:24px 20px 20px;border-bottom:1px solid var(--b)}
+.sb-logo-icon{width:38px;height:38px;background:var(--teal3);border:1px solid var(--b2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px}
+.sb-logo-name{font-family:var(--ff);font-weight:800;font-size:14px;line-height:1.2;letter-spacing:-.2px}
+.sb-logo-sub{font-family:var(--fm);font-size:10px;color:var(--t2);letter-spacing:2px;margin-top:3px}
+.sb-nav{flex:1;padding:12px 10px;overflow-y:auto}
+.sb-section{font-family:var(--fm);font-size:9px;color:var(--t3);letter-spacing:3px;padding:12px 10px 6px}
+.sb-link{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  border-radius:9px;cursor:pointer;transition:all .2s;
+  font-size:13px;color:var(--t2);border:1px solid transparent;
+  margin-bottom:2px;user-select:none;
+}
+.sb-link:hover{background:var(--g2);color:var(--t)}
+.sb-link.active{background:var(--teal3);border-color:var(--b2);color:var(--teal);font-weight:500}
+.sb-link .icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sb-badge{margin-left:auto;background:var(--amber);color:#000;border-radius:999px;font-size:10px;padding:1px 7px;font-family:var(--fm);font-weight:700}
+.sb-footer{padding:16px 20px;border-top:1px solid var(--b);font-size:11px;color:var(--t3);font-family:var(--fm);line-height:1.6}
+.sb-footer strong{color:var(--teal);font-weight:500}
+
+/* ── TOPBAR (mobile) ─────────────────────── */
+#topbar{
+  display:none;background:var(--bg2);border-bottom:1px solid var(--b);
+  padding:14px 20px;align-items:center;gap:14px;
+  position:sticky;top:0;z-index:100;
+}
+#hamburger{background:none;border:none;color:var(--t);font-size:22px;cursor:pointer;line-height:1;padding:0}
+#topbar-title{font-family:var(--ff);font-weight:700;font-size:14px}
+
+/* ── OVERLAY ────────────────────────────── */
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:150;display:none;backdrop-filter:blur(2px)}
+
+/* ── MAIN ───────────────────────────────── */
+#main{flex:1;margin-left:var(--sw);display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1}
+.page-wrap{flex:1;padding:32px;max-width:1200px;width:100%}
+.page-hidden{display:none!important}
+
+/* ── PAGE HEADER ────────────────────────── */
+.page-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.page-title{font-family:var(--ff);font-weight:800;font-size:26px;letter-spacing:-.5px;line-height:1.1}
+.page-sub{font-family:var(--fm);font-size:11px;color:var(--t2);letter-spacing:2px;margin-top:5px}
+.page-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ── BUTTONS ────────────────────────────── */
+.btn{border-radius:8px;padding:8px 16px;font-size:12px;font-family:var(--fm);cursor:pointer;transition:all .2s;letter-spacing:1px;border:1px solid var(--b);background:var(--g);color:var(--t2)}
+.btn:hover{border-color:var(--b2);color:var(--t);background:var(--g2)}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--teal3);border-color:var(--b2);color:var(--teal)}
+.btn-primary:hover{background:rgba(0,208,168,0.15)}
+.btn-danger{background:rgba(255,87,87,.08);border-color:rgba(255,87,87,.3);color:var(--red)}
+
+/* ── GRID & CARDS ───────────────────────── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--g);border:1px solid var(--b);border-radius:var(--rl);padding:22px;transition:border-color .2s}
+.card:hover{border-color:var(--b2)}
+.card-sm{padding:16px 18px}
+.card-label{font-family:var(--fm);font-size:10px;letter-spacing:2.5px;color:var(--t3);margin-bottom:6px}
+.card-val{font-family:var(--ff);font-weight:700;font-size:32px;line-height:1;letter-spacing:-1px}
+.card-val-sm{font-size:22px}
+.card-meta{font-size:11px;color:var(--t2);margin-top:5px;font-family:var(--fm)}
+.card-accent{position:relative;overflow:hidden}
+.card-accent::before{content:'';position:absolute;inset:-1px;background:linear-gradient(135deg,rgba(0,208,168,.12),transparent 55%);border-radius:inherit;pointer-events:none}
+
+/* ── STAT HERO ──────────────────────────── */
+.stat-hero{display:flex;align-items:flex-end;gap:8px}
+.stat-hero-val{font-family:var(--ff);font-weight:800;font-size:clamp(64px,8vw,96px);line-height:1;letter-spacing:-3px;transition:color .4s}
+.stat-hero-unit{font-size:32px;color:var(--t2);margin-bottom:8px;font-family:var(--ff)}
+.pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* ── CHART WRAP ─────────────────────────── */
+.chart-box{position:relative;width:100%}
+.chart-title{font-family:var(--fm);font-size:10px;letter-spacing:2px;color:var(--t3);margin-bottom:14px}
+
+/* ── TABLE ──────────────────────────────── */
+.tbl-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--b)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:var(--bg3);border-bottom:1px solid var(--b)}
+thead th{padding:11px 16px;text-align:left;font-family:var(--fm);font-size:9px;letter-spacing:2.5px;color:var(--t3);font-weight:400;white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.03);transition:background .15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--g2)}
+td{padding:11px 16px;white-space:nowrap}
+.td-num{font-family:var(--ff);font-weight:600;font-size:15px}
+.td-mono{font-family:var(--fm);font-size:11px;color:var(--t2)}
+.td-right{text-align:right}
+
+/* ── BADGES ────────────────────────────── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:10px;font-family:var(--fm);letter-spacing:1px;border:1px solid}
+.badge-ok{background:rgba(0,208,168,.08);color:var(--teal);border-color:rgba(0,208,168,.25)}
+.badge-warn{background:rgba(245,165,36,.08);color:var(--amber);border-color:rgba(245,165,36,.25)}
+.badge-err{background:rgba(255,87,87,.08);color:var(--red);border-color:rgba(255,87,87,.25)}
+.badge-info{background:rgba(59,158,255,.08);color:var(--blue);border-color:rgba(59,158,255,.25)}
+
+/* ── SLOT CARDS ─────────────────────────── */
+.slot-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.slot-tab{background:var(--g);border:1px solid var(--b);color:var(--t2);border-radius:8px;padding:7px 14px;font-size:11px;font-family:var(--fm);cursor:pointer;transition:all .2s;letter-spacing:1px}
+.slot-tab.active{background:var(--teal3);border-color:var(--b2);color:var(--teal)}
+.slot-tab:hover:not(.active){border-color:var(--b2);color:var(--t)}
+
+/* ── INPUT / SELECT ─────────────────────── */
+.form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-family:var(--fm);font-size:10px;letter-spacing:2px;color:var(--t3)}
+input[type=date],input[type=number],select{
+  background:var(--bg3);border:1px solid var(--b);color:var(--t);
+  border-radius:8px;padding:8px 12px;font-size:13px;font-family:var(--fb);
+  outline:none;transition:border-color .2s;appearance:none;
+}
+input[type=date]:focus,input[type=number]:focus,select:focus{border-color:var(--b3)}
+input[type=number]{width:100px}
+
+/* ── EMPTY STATE ────────────────────────── */
+.empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:64px 24px;text-align:center;
+}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:.4}
+.empty-title{font-family:var(--ff);font-weight:700;font-size:18px;margin-bottom:8px;color:var(--t2)}
+.empty-text{font-size:13px;color:var(--t3);font-family:var(--fm);line-height:1.8;max-width:360px}
+.empty-code{
+  margin-top:16px;background:var(--bg3);border:1px solid var(--b);
+  border-radius:10px;padding:14px 20px;font-family:var(--fm);font-size:12px;
+  color:var(--teal);text-align:left;line-height:2;
+}
+
+/* ── DIVIDER ────────────────────────────── */
+.divider{border:none;border-top:1px solid var(--b);margin:24px 0}
+
+/* ── PAGINATION ─────────────────────────── */
+.pagination{display:flex;gap:6px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.page-btn{
+  background:var(--g);border:1px solid var(--b);color:var(--t2);
+  border-radius:7px;padding:6px 12px;font-size:12px;font-family:var(--fm);
+  cursor:pointer;transition:all .2s;
+}
+.page-btn:hover{border-color:var(--b2);color:var(--t)}
+.page-btn.active{background:var(--teal3);border-color:var(--b2);color:var(--teal)}
+.page-btn:disabled{opacity:.3;cursor:not-allowed}
+.page-info{font-family:var(--fm);font-size:11px;color:var(--t3);margin-left:8px}
+
+/* ── SENSOR DIAGRAM ─────────────────────── */
+.diagram{background:var(--bg3);border:1px solid var(--b);border-radius:var(--r);padding:20px 24px;font-family:var(--fm);font-size:12px;color:var(--teal);line-height:2.2;overflow-x:auto;white-space:pre}
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.spec-item{background:var(--bg3);border:1px solid var(--b);border-radius:10px;padding:14px 16px}
+.spec-k{font-family:var(--fm);font-size:10px;color:var(--t3);letter-spacing:2px;margin-bottom:4px}
+.spec-v{font-weight:500;font-size:14px}
+
+/* ── FOOTER ────────────────────────────── */
+footer{
+  border-top:1px solid var(--b);padding:20px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;font-size:11px;
+}
+.ft-credit{color:var(--t3);font-family:var(--fm)}
+.ft-credit strong{color:var(--teal);font-weight:500}
+.ft-pills{display:flex;gap:6px;flex-wrap:wrap}
+.ft-pill{background:var(--g);border:1px solid var(--b);border-radius:999px;padding:3px 10px;font-size:10px;font-family:var(--fm);color:var(--t3);letter-spacing:1px}
+
+/* ── LOADING ───────────────────────────── */
+#loading{
+  position:fixed;inset:0;background:var(--bg);z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+}
+.spinner{width:44px;height:44px;border:3px solid var(--b);border-top-color:var(--teal);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{font-family:var(--fm);font-size:11px;color:var(--t2);letter-spacing:3px}
+
+/* ── TREND ARROW ───────────────────────── */
+.up{color:var(--red)}
+.dn{color:var(--blue)}
+.eq{color:var(--t3)}
+
+/* ── STATUS BAR ────────────────────────── */
+.status-bar{
+  display:flex;align-items:center;gap:20px;background:var(--bg3);
+  border:1px solid var(--b);border-radius:10px;padding:12px 18px;
+  margin-bottom:24px;flex-wrap:wrap;
+}
+.status-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.status-item .lbl{font-family:var(--fm);font-size:10px;color:var(--t3);letter-spacing:1px}
+.status-item .val{font-weight:500}
+.sep{width:1px;height:24px;background:var(--b)}
+
+/* ── RESPONSIVE ────────────────────────── */
+@media(max-width:900px){
+  :root{--sw:260px}
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:none}
+  #overlay.open{display:block}
+  #topbar{display:flex}
+  #main{margin-left:0}
+  .grid4{grid-template-columns:1fr 1fr}
+  .grid3{grid-template-columns:1fr 1fr}
+  .page-wrap{padding:20px}
+}
+@media(max-width:560px){
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .spec-grid{grid-template-columns:1fr}
+  .page-wrap{padding:16px}
+  .page-title{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="loading-txt">CARREGANT DADES DEL SENSOR…</div>
+</div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">🌡️</div>
+    <div class="sb-logo-name">TempMonitor<br>DS18B20</div>
+    <div class="sb-logo-sub">RASPBERRY PI · 1-WIRE</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">PRINCIPAL</div>
+    <div class="sb-link active" onclick="nav('dashboard')"><span class="icon">🏠</span>Inici / Dashboard</div>
+    <div class="sb-section">ESTADÍSTIQUES</div>
+    <div class="sb-link" onclick="nav('daily')"><span class="icon">📊</span>Estadístiques diàries</div>
+    <div class="sb-link" onclick="nav('monthly')"><span class="icon">📅</span>Estadístiques mensuals</div>
+    <div class="sb-link" onclick="nav('slots')"><span class="icon">🕐</span>Franges horàries</div>
+    <div class="sb-section">DADES</div>
+    <div class="sb-link" onclick="nav('log')"><span class="icon">📋</span>Registre de lectures</div>
+    <div class="sb-link" onclick="nav('export')"><span class="icon">💾</span>Exportar dades</div>
+    <div class="sb-section">INFO</div>
+    <div class="sb-link" onclick="nav('sensor')"><span class="icon">🔌</span>Connexió del sensor</div>
+    <div class="sb-link" onclick="nav('about')"><span class="icon">ℹ️</span>Sobre el projecte</div>
+  </nav>
+  <div class="sb-footer">
+    Fet per <strong>Cludi i Abel</strong><br>
+    SMX 2-A · Curs 2025–26<br>
+    Sensor DS18B20 · Raspberry Pi
+  </div>
+</aside>
+
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <button id="hamburger" onclick="toggleSidebar()">☰</button>
+    <span id="topbar-title">DS18B20 Monitor</span>
+  </div>
+
+  <div class="page-wrap" id="content"></div>
+
+  <footer>
+    <div class="ft-credit">
+      Fet per <strong>Cludi i Abel</strong> · SMX 2-A · Curs 2025–26 &nbsp;·&nbsp;
+      Sensor DS18B20 · Raspberry Pi · GitHub Pages
+    </div>
+    <div class="ft-pills">
+      <span class="ft-pill">DS18B20</span>
+      <span class="ft-pill">PYTHON 3</span>
+      <span class="ft-pill">GITHUB PAGES</span>
+      <span class="ft-pill">CHART.JS</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════════════════════════════════
+const DATA_URL = './data/temperatures.json';
+const SLOTS = [
+  { label:'Matí',   short:'MAT', range:[0,8],   color:'#3B9EFF', fill:'rgba(59,158,255,.07)' },
+  { label:'Migdia', short:'MIG', range:[8,14],   color:'#00D0A8', fill:'rgba(0,208,168,.07)' },
+  { label:'Tarda',  short:'TAR', range:[14,20],  color:'#F5A524', fill:'rgba(245,165,36,.07)' },
+  { label:'Nit',    short:'NIT', range:[20,24],  color:'#A78BFA', fill:'rgba(167,139,250,.07)' },
+];
+const PAGE_SIZE = 50;
+const TEAL='#00D0A8',BLUE='#3B9EFF',AMBER='#F5A524',RED='#FF5757',PURPLE='#A78BFA';
+const GRID='rgba(0,208,168,0.06)',MUT='#3D6578';
+
+// ════════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════════
+let ALL = [];            // All readings [{timestamp, temperature, unit}]
+let CURRENT_PAGE = 'dashboard';
+let CHARTS = {};         // { chartId: Chart instance }
+let LOG_PAGE = 1;
+let LOG_DATE_FROM = '';
+let LOG_DATE_TO = '';
+let DAILY_DATE = '';
+let MONTHLY_YEAR = new Date().getFullYear();
+let MONTHLY_MONTH = new Date().getMonth() + 1;
+let SLOT_IDX = 0;
+let SLOT_DATE = '';
+
+// ════════════════════════════════════════════════════════════════
+//  DATA LOADING
+// ════════════════════════════════════════════════════════════════
+async function loadData() {
+  try {
+    const res = await fetch(DATA_URL + '?_=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const raw = await res.json();
+    if (!Array.isArray(raw) || raw.length === 0) {
+      ALL = [];
+    } else {
+      ALL = raw.filter(r => r.timestamp && typeof r.temperature === 'number');
+      ALL.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+    }
+  } catch(e) {
+    console.warn('temperatures.json no disponible:', e.message);
+    ALL = [];
+  }
+  document.getElementById('loading').style.display = 'none';
+  render();
+}
+
+// ════════════════════════════════════════════════════════════════
+//  DATA UTILITIES
+// ════════════════════════════════════════════════════════════════
+function byDay(dateStr) {
+  return ALL.filter(r => r.timestamp.startsWith(dateStr));
+}
+function bySlot(readings, slotIdx) {
+  const [a,b] = SLOTS[slotIdx].range;
+  return readings.filter(r => { const h = new Date(r.timestamp).getHours(); return h >= a && h < b; });
+}
+function byMonth(year, month) {
+  const prefix = `${year}-${String(month).padStart(2,'0')}`;
+  return ALL.filter(r => r.timestamp.startsWith(prefix));
+}
+function stats(arr) {
+  if (!arr.length) return null;
+  const t = arr.map(r => r.temperature);
+  const mn = Math.min(...t), mx = Math.max(...t);
+  const avg = t.reduce((a,b)=>a+b,0)/t.length;
+  const mnR = arr[t.indexOf(mn)], mxR = arr[t.indexOf(mx)];
+  return { min:mn, max:mx, avg, count:arr.length, minEntry:mnR, maxEntry:mxR };
+}
+function getDaysList() {
+  return [...new Set(ALL.map(r => r.timestamp.slice(0,10)))].sort();
+}
+function tempColor(t) {
+  if (t < 5) return BLUE;
+  if (t > 40) return RED;
+  if (t < 15) return '#7BC8FF';
+  if (t > 30) return AMBER;
+  return TEAL;
+}
+function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString('ca-ES',{hour:'2-digit',minute:'2-digit'});
+}
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('ca-ES',{day:'2-digit',month:'2-digit',year:'2-digit'});
+}
+function fmtFull(iso) {
+  const d = new Date(iso);
+  return `${fmtDate(iso)} ${d.toLocaleTimeString('ca-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
+}
+function statusFromAge(iso) {
+  const mins = (Date.now() - new Date(iso)) / 60000;
+  if (mins < 60)  return { cls:'badge-ok',  txt:'RECENT' };
+  if (mins < 480) return { cls:'badge-ok',  txt:'AVUI' };
+  if (mins < 1440)return { cls:'badge-warn',txt:'FA HORES' };
+  return { cls:'badge-err', txt:'ANTIC' };
+}
+function diffArrow(cur, prev) {
+  if (prev === undefined) return '';
+  const d = +(cur - prev).toFixed(2);
+  if (d > 0) return `<span class="up">▲ ${d.toFixed(2)}°</span>`;
+  if (d < 0) return `<span class="dn">▼ ${Math.abs(d).toFixed(2)}°</span>`;
+  return `<span class="eq">—</span>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  CHART HELPERS
+// ════════════════════════════════════════════════════════════════
+const chartBase = () => ({
+  responsive:true, maintainAspectRatio:false,
+  plugins:{ legend:{display:false}, tooltip:{
+    backgroundColor:'#0A1525', borderColor:'rgba(0,208,168,.25)', borderWidth:1,
+    titleColor:MUT, bodyColor:'#DFF0ED', padding:10, cornerRadius:8,
+    titleFont:{family:'DM Mono',size:10}, bodyFont:{family:'Syne',size:14,weight:'700'},
+    callbacks:{ label: c => ` ${c.parsed.y.toFixed(2)} °C` }
+  }},
+  scales:{
+    x:{ grid:{color:GRID}, ticks:{color:MUT,font:{family:'DM Mono',size:10},maxRotation:0}, border:{color:'transparent'} },
+    y:{ grid:{color:GRID}, ticks:{color:MUT,font:{family:'DM Mono',size:10},callback:v=>`${v}°`}, border:{color:'transparent'} }
+  }
+});
+function mkChart(id, type, labels, datasets, extraOpts={}) {
+  destroyChart(id);
+  const el = document.getElementById(id);
+  if (!el) return;
+  CHARTS[id] = new Chart(el, {
+    type, data:{labels, datasets},
+    options:{ ...chartBase(), ...extraOpts }
+  });
+}
+function destroyChart(id) {
+  if (CHARTS[id]) { CHARTS[id].destroy(); delete CHARTS[id]; }
+}
+function lineDS(data, color, fill) {
+  return { data, borderColor:color, borderWidth:2, fill:!!fill,
+    backgroundColor:fill||'transparent', tension:.4, pointRadius:0, pointHoverRadius:5,
+    pointHoverBackgroundColor:color };
+}
+function barDS(data, color) {
+  return { data, backgroundColor:color+'99', borderColor:color, borderWidth:1,
+    borderRadius:4, borderSkipped:false, hoverBackgroundColor:color };
+}
+function noDataChart(id) {
+  destroyChart(id);
+  const el = document.getElementById(id);
+  if (!el) return;
+  const ctx = el.getContext('2d');
+  ctx.clearRect(0,0,el.width,el.height);
+  ctx.fillStyle='#3D6578'; ctx.font='12px DM Mono'; ctx.textAlign='center';
+  ctx.fillText('Sense dades per a la selecció', el.width/2, el.height/2);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  ROUTER & NAVIGATION
+// ════════════════════════════════════════════════════════════════
+function nav(page) {
+  CURRENT_PAGE = page;
+  document.querySelectorAll('.sb-link').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll(`.sb-link[onclick="nav('${page}')"]`).forEach(el => el.classList.add('active'));
+  const titles = { dashboard:'Inici / Dashboard', daily:'Estadístiques diàries',
+    monthly:'Estadístiques mensuals', slots:'Franges horàries',
+    log:'Registre de lectures', export:'Exportar dades',
+    sensor:'Connexió del sensor', about:'Sobre el projecte' };
+  document.getElementById('topbar-title').textContent = titles[page] || page;
+  closeSidebar();
+  render();
+  window.scrollTo(0,0);
+}
+function render() {
+  const pages = {dashboard:pgDashboard, daily:pgDaily, monthly:pgMonthly,
+    slots:pgSlots, log:pgLog, export:pgExport, sensor:pgSensor, about:pgAbout};
+  const fn = pages[CURRENT_PAGE] || pgDashboard;
+  fn();
+}
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ════════════════════════════════════════════════════════════════
+//  EMPTY STATE
+// ════════════════════════════════════════════════════════════════
+function emptyState(msg) {
+  return `<div class="empty">
+    <div class="empty-icon">📡</div>
+    <div class="empty-title">Sense dades disponibles</div>
+    <div class="empty-text">${msg}</div>
+    <div class="empty-code">
+      # Executar a la Raspberry Pi:<br>
+      python3 scripts/sensor_reader.py<br>
+      bash scripts/sync_github.sh
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: DASHBOARD
+// ════════════════════════════════════════════════════════════════
+function pgDashboard() {
+  const c = document.getElementById('content');
+  if (!ALL.length) {
+    c.innerHTML = `<div class="page-hd"><div><div class="page-title">Inici / Dashboard</div><div class="page-sub">RESUM GENERAL DEL SISTEMA</div></div></div>${emptyState('El fitxer <strong>data/temperatures.json</strong> no conté dades. Executa el sensor a la Raspberry Pi per iniciar la recollida.')}`;
+    return;
+  }
+  const last = ALL[ALL.length-1];
+  const todayStr = new Date().toISOString().slice(0,10);
+  const todayData = byDay(todayStr).length ? byDay(todayStr) : ALL.slice(-48);
+  const todaySt = stats(todayData);
+  const ageSt = statusFromAge(last.timestamp);
+  const ageMin = Math.round((Date.now()-new Date(last.timestamp))/60000);
+  const ageLabel = ageMin < 60 ? `fa ${ageMin} min` : ageMin < 1440 ? `fa ${Math.round(ageMin/60)} h` : `fa ${Math.round(ageMin/1440)} dies`;
+  const tempClr = tempColor(last.temperature);
+
+  // Last 24h chart data
+  const last24 = ALL.slice(-96);
+  const l24labels = last24.map(r=>fmtTime(r.timestamp));
+  const l24vals = last24.map(r=>r.temperature);
+
+  // Last 10 readings
+  const last10 = ALL.slice(-10).reverse();
+
+  c.innerHTML = `
+<div class="page-hd">
+  <div><div class="page-title">Inici / Dashboard</div><div class="page-sub">RESUM EN TEMPS REAL · ${ALL.length} LECTURES AL FITXER</div></div>
+  <div class="page-actions">
+    <button class="btn btn-primary" onclick="loadData()">↺ Actualitzar</button>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-item"><span class="lbl">ESTAT</span><span class="badge ${ageSt.cls}"><span class="pulse-dot" style="background:${ageSt.cls==='badge-ok'?TEAL:ageSt.cls==='badge-warn'?AMBER:RED}"></span>${ageSt.txt}</span></div>
+  <div class="sep"></div>
+  <div class="status-item"><span class="lbl">ÚLTIMA LECTURA</span><span class="val">${fmtFull(last.timestamp)}</span></div>
+  <div class="sep"></div>
+  <div class="status-item"><span class="lbl">TEMPS</span><span class="val" style="color:var(--t2)">${ageLabel}</span></div>
+  <div class="sep"></div>
+  <div class="status-item"><span class="lbl">TOTAL LECTURES</span><span class="val" style="color:var(--teal)">${ALL.length.toLocaleString('ca-ES')}</span></div>
+</div>
+
+<div class="grid2" style="margin-bottom:16px">
+  <div class="card card-accent">
+    <div class="card-label">TEMPERATURA ACTUAL</div>
+    <div class="stat-hero">
+      <div class="stat-hero-val" style="color:${tempClr}">${last.temperature.toFixed(2)}</div>
+      <div class="stat-hero-unit">°C</div>
+    </div>
+    <div class="card-meta">${fmtFull(last.timestamp)}</div>
+  </div>
+  <div class="grid2" style="grid-template-columns:1fr 1fr;gap:12px">
+    <div class="card card-sm"><div class="card-label">MÍNIMA AVUI</div><div class="card-val card-val-sm" style="color:${BLUE}">${todaySt?todaySt.min.toFixed(2)+'°C':'—'}</div><div class="card-meta">${todaySt?fmtTime(todaySt.minEntry.timestamp):'sense dades'}</div></div>
+    <div class="card card-sm"><div class="card-label">MÀXIMA AVUI</div><div class="card-val card-val-sm" style="color:${AMBER}">${todaySt?todaySt.max.toFixed(2)+'°C':'—'}</div><div class="card-meta">${todaySt?fmtTime(todaySt.maxEntry.timestamp):'sense dades'}</div></div>
+    <div class="card card-sm"><div class="card-label">MITJANA AVUI</div><div class="card-val card-val-sm" style="color:${TEAL}">${todaySt?todaySt.avg.toFixed(2)+'°C':'—'}</div><div class="card-meta">${todaySt?todaySt.count+' lectures':''}</div></div>
+    <div class="card card-sm"><div class="card-label">DIES AMB DADES</div><div class="card-val card-val-sm" style="color:var(--t)">${getDaysList().length}</div><div class="card-meta">des de ${fmtDate(ALL[0].timestamp)}</div></div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="chart-title">EVOLUCIÓ ÚLTIMES LECTURES (${last24.length} registres)</div>
+  <div class="chart-box" style="height:220px"><canvas id="ch-dash24" role="img" aria-label="Gràfic últimes lectures"></canvas></div>
+</div>
+
+<div class="card">
+  <div class="chart-title" style="margin-bottom:14px">ÚLTIMES 10 LECTURES</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>TEMPERATURA</th><th>DATA I HORA</th><th>ESTAT</th><th>VARIACIÓ</th></tr></thead>
+    <tbody>${last10.map((r,i)=>{
+      const prev=last10[i+1]?last10[i+1].temperature:undefined;
+      const st=statusFromAge(r.timestamp);
+      return `<tr>
+        <td class="td-mono">${ALL.length-i}</td>
+        <td class="td-num" style="color:${tempColor(r.temperature)}">${r.temperature.toFixed(2)} °C</td>
+        <td class="td-mono">${fmtFull(r.timestamp)}</td>
+        <td><span class="badge ${st.cls}">${st.txt}</span></td>
+        <td>${diffArrow(r.temperature,prev)}</td>
+      </tr>`;}).join('')}
+    </tbody>
+  </table></div>
+</div>`;
+
+  requestAnimationFrame(()=>{
+    mkChart('ch-dash24','line',l24labels,
+      [lineDS(l24vals,TEAL,'rgba(0,208,168,.06)')],
+      { scales:{...chartBase().scales, x:{...chartBase().scales.x, ticks:{...chartBase().scales.x.ticks,maxTicksLimit:8}}}});
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: ESTADÍSTIQUES DIÀRIES
+// ════════════════════════════════════════════════════════════════
+function pgDaily() {
+  if (!DAILY_DATE) DAILY_DATE = new Date().toISOString().slice(0,10);
+  const c = document.getElementById('content');
+  const days = getDaysList();
+  if (!ALL.length) {
+    c.innerHTML = `<div class="page-hd"><div><div class="page-title">Estadístiques diàries</div><div class="page-sub">ANÀLISI PER DIA</div></div></div>${emptyState('Sense dades per mostrar.')}`;
+    return;
+  }
+  const data = byDay(DAILY_DATE);
+  const st = stats(data);
+  const opts = days.map(d=>`<option value="${d}" ${d===DAILY_DATE?'selected':''}>${d}</option>`).join('');
+
+  c.innerHTML = `
+<div class="page-hd">
+  <div><div class="page-title">Estadístiques diàries</div><div class="page-sub">ANÀLISI DETALLADA PER DIA</div></div>
+</div>
+<div class="form-row">
+  <div class="form-group">
+    <div class="form-label">SELECCIONA DIA</div>
+    <select onchange="DAILY_DATE=this.value;pgDaily()"><option value="">-- Escull --</option>${opts}</select>
+  </div>
+  <div class="form-group">
+    <div class="form-label">O INTRODUEIX DATA</div>
+    <input type="date" value="${DAILY_DATE}" onchange="DAILY_DATE=this.value;pgDaily()"/>
+  </div>
+</div>
+${!data.length ? emptyState(`No hi ha lectures per al dia <strong>${DAILY_DATE}</strong>.`) : `
+<div class="grid4" style="margin-bottom:16px">
+  <div class="card card-sm"><div class="card-label">LECTURES</div><div class="card-val card-val-sm" style="color:var(--teal)">${st.count}</div><div class="card-meta">registres</div></div>
+  <div class="card card-sm"><div class="card-label">MÍNIMA</div><div class="card-val card-val-sm" style="color:${BLUE}">${st.min.toFixed(2)}°C</div><div class="card-meta">${fmtTime(st.minEntry.timestamp)}</div></div>
+  <div class="card card-sm"><div class="card-label">MÀXIMA</div><div class="card-val card-val-sm" style="color:${AMBER}">${st.max.toFixed(2)}°C</div><div class="card-meta">${fmtTime(st.maxEntry.timestamp)}</div></div>
+  <div class="card card-sm"><div class="card-label">MITJANA</div><div class="card-val card-val-sm" style="color:${TEAL}">${st.avg.toFixed(2)}°C</div><div class="card-meta">±${(st.max-st.min).toFixed(2)}° rang</div></div>
+</div>
+<div class="card" style="margin-bottom:16px">
+  <div class="chart-title">TEMPERATURA AO LLARG DEL DIA ${DAILY_DATE}</div>
+  <div class="chart-box" style="height:240px"><canvas id="ch-daily" role="img" aria-label="Gràfic temperatura del dia"></canvas></div>
+</div>
+<div class="card">
+  <div class="chart-title" style="margin-bottom:14px">TOTES LES LECTURES DEL ${DAILY_DATE} (${data.length})</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>HORA</th><th>TEMPERATURA</th><th>VARIACIÓ</th></tr></thead>
+    <tbody>${data.map((r,i)=>{
+      const prev=data[i-1]?data[i-1].temperature:undefined;
+      return `<tr><td class="td-mono">${i+1}</td><td class="td-mono">${fmtTime(r.timestamp)}</td>
+        <td class="td-num" style="color:${tempColor(r.temperature)}">${r.temperature.toFixed(2)} °C</td>
+        <td>${diffArrow(r.temperature,prev)}</td></tr>`;}).join('')}
+    </tbody>
+  </table></div>
+</div>`}`;
+
+  if (data.length) requestAnimationFrame(()=>{
+    mkChart('ch-daily','line',
+      data.map(r=>fmtTime(r.timestamp)),
+      [lineDS(data.map(r=>r.temperature),TEAL,'rgba(0,208,168,.07)')]);
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: ESTADÍSTIQUES MENSUALS
+// ════════════════════════════════════════════════════════════════
+function pgMonthly() {
+  const c = document.getElementById('content');
+  if (!ALL.length) {
+    c.innerHTML = `<div class="page-hd"><div><div class="page-title">Estadístiques mensuals</div><div class="page-sub">ANÀLISI PER MES</div></div></div>${emptyState('Sense dades per mostrar.')}`;
+    return;
+  }
+  const monthData = byMonth(MONTHLY_YEAR, MONTHLY_MONTH);
+  // Group by day
+  const dayMap = {};
+  monthData.forEach(r=>{
+    const d=r.timestamp.slice(0,10);
+    if(!dayMap[d]) dayMap[d]=[];
+    dayMap[d].push(r.temperature);
+  });
+  const dayKeys = Object.keys(dayMap).sort();
+  const dayStats = dayKeys.map(d=>({
+    date:d, day:parseInt(d.slice(8)),
+    min:+Math.min(...dayMap[d]).toFixed(2),
+    avg:+(dayMap[d].reduce((a,b)=>a+b,0)/dayMap[d].length).toFixed(2),
+    max:+Math.max(...dayMap[d]).toFixed(2),
+    count:dayMap[d].length
+  }));
+
+  const overallSt = stats(monthData);
+  const hotDay = dayStats.reduce((a,b)=>b.max>a.max?b:a, dayStats[0]||{max:-999});
+  const coldDay = dayStats.reduce((a,b)=>b.min<a.min?b:a, dayStats[0]||{min:999});
+
+  // Month/year picker options
+  const allMonths = [...new Set(ALL.map(r=>r.timestamp.slice(0,7)))].sort();
+  const monthOpts = allMonths.map(m=>{
+    const [y,mo]=m.split('-');
+    return `<option value="${m}" ${+y===MONTHLY_YEAR&&+mo===MONTHLY_MONTH?'selected':''}>${m}</option>`;
+  }).join('');
+
+  c.innerHTML=`
+<div class="page-hd">
+  <div><div class="page-title">Estadístiques mensuals</div><div class="page-sub">ANÀLISI PER MES · AGRUPACIÓ DIÀRIA</div></div>
+</div>
+<div class="form-row">
+  <div class="form-group">
+    <div class="form-label">MES</div>
+    <select onchange="const[y,m]=this.value.split('-');MONTHLY_YEAR=+y;MONTHLY_MONTH=+m;pgMonthly()">
+      ${monthOpts}
+    </select>
+  </div>
+</div>
+${!dayStats.length ? emptyState(`No hi ha lectures per a ${MONTHLY_YEAR}-${String(MONTHLY_MONTH).padStart(2,'0')}.`) : `
+<div class="grid4" style="margin-bottom:16px">
+  <div class="card card-sm"><div class="card-label">TOTAL LECTURES</div><div class="card-val card-val-sm" style="color:${TEAL}">${monthData.length}</div><div class="card-meta">${dayStats.length} dies amb dades</div></div>
+  <div class="card card-sm"><div class="card-label">TEMPERATURA MÍNIMA</div><div class="card-val card-val-sm" style="color:${BLUE}">${overallSt?overallSt.min.toFixed(2)+'°C':'—'}</div><div class="card-meta">Dia ${coldDay.date||'—'}</div></div>
+  <div class="card card-sm"><div class="card-label">TEMPERATURA MÀXIMA</div><div class="card-val card-val-sm" style="color:${AMBER}">${overallSt?overallSt.max.toFixed(2)+'°C':'—'}</div><div class="card-meta">Dia ${hotDay.date||'—'}</div></div>
+  <div class="card card-sm"><div class="card-label">MITJANA DEL MES</div><div class="card-val card-val-sm" style="color:${TEAL}">${overallSt?overallSt.avg.toFixed(2)+'°C':'—'}</div><div class="card-meta">totes les lectures</div></div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="chart-title">EVOLUCIÓ DIÀRIA DEL MES (min / avg / max)</div>
+  <div class="chart-box" style="height:250px"><canvas id="ch-monthly" role="img" aria-label="Gràfic estadístiques mensuals"></canvas></div>
+</div>
+
+<div class="card">
+  <div class="chart-title" style="margin-bottom:14px">TAULA DIÀRIA</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>DIA</th><th>MÍNIMA</th><th>MITJANA</th><th>MÀXIMA</th><th>RANG</th><th>LECTURES</th></tr></thead>
+    <tbody>${dayStats.map(d=>`<tr>
+      <td class="td-mono">${d.date}</td>
+      <td class="td-num" style="color:${BLUE};font-size:13px">${d.min.toFixed(2)}°C</td>
+      <td class="td-num" style="color:${TEAL};font-size:13px">${d.avg.toFixed(2)}°C</td>
+      <td class="td-num" style="color:${AMBER};font-size:13px">${d.max.toFixed(2)}°C</td>
+      <td class="td-mono">${(d.max-d.min).toFixed(2)}°</td>
+      <td class="td-mono">${d.count}</td>
+    </tr>`).join('')}
+    </tbody>
+  </table></div>
+</div>`}`;
+
+  if (dayStats.length) requestAnimationFrame(()=>{
+    mkChart('ch-monthly','line',
+      dayStats.map(d=>String(d.day)),
+      [
+        { ...lineDS(dayStats.map(d=>d.min),BLUE,'rgba(59,158,255,.05)'), label:'Mín' },
+        { ...lineDS(dayStats.map(d=>d.avg),TEAL,'rgba(0,208,168,.05)'), label:'Avg' },
+        { ...lineDS(dayStats.map(d=>d.max),AMBER,'rgba(245,165,36,.05)'), label:'Màx' },
+      ],
+      { plugins:{ legend:{ display:true, labels:{ color:'#7BAAB8', font:{family:'DM Mono',size:11}, boxWidth:10, padding:20 } }, tooltip:{ callbacks:{ label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(2)}°C` } } } }
+    );
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: FRANGES HORÀRIES
+// ════════════════════════════════════════════════════════════════
+function pgSlots() {
+  const c = document.getElementById('content');
+  if (!ALL.length) {
+    c.innerHTML=`<div class="page-hd"><div><div class="page-title">Franges horàries</div><div class="page-sub">ANÀLISI PER FRANJA</div></div></div>${emptyState('Sense dades per mostrar.')}`;
+    return;
+  }
+  if (!SLOT_DATE) SLOT_DATE = getDaysList().slice(-1)[0] || new Date().toISOString().slice(0,10);
+  const days = getDaysList();
+  const dayData = byDay(SLOT_DATE);
+  const sl = SLOTS[SLOT_IDX];
+  const slData = bySlot(dayData, SLOT_IDX);
+  const slSt = stats(slData);
+  const dayOpts = days.map(d=>`<option value="${d}" ${d===SLOT_DATE?'selected':''}>${d}</option>`).join('');
+
+  // All 4 slots summary for selected day
+  const slotSummary = SLOTS.map((s,i)=>{
+    const d=bySlot(dayData,i);
+    const st=stats(d);
+    return { ...s, data:d, st };
+  });
+
+  c.innerHTML=`
+<div class="page-hd">
+  <div><div class="page-title">Franges horàries</div><div class="page-sub">ESTADÍSTIQUES PER FRANJA DEL DIA</div></div>
+</div>
+<div class="form-row">
+  <div class="form-group">
+    <div class="form-label">DIA</div>
+    <select onchange="SLOT_DATE=this.value;pgSlots()">${dayOpts}</select>
+  </div>
+</div>
+
+<div class="grid4" style="margin-bottom:20px">
+${slotSummary.map((s,i)=>`
+<div class="card card-sm" style="border-color:${i===SLOT_IDX?s.color+'55':'var(--b)'};cursor:pointer" onclick="SLOT_IDX=${i};pgSlots()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="card-label" style="color:${s.color};margin-bottom:0">${s.short} · ${s.range[0]}:00–${s.range[1]}:00</div>
+    ${i===SLOT_IDX?`<span class="badge badge-ok">ACTIVA</span>`:''}
+  </div>
+  <div style="font-family:var(--ff);font-weight:700;font-size:20px;color:${s.color}">${s.st?s.st.avg.toFixed(2)+'°C':'—'}</div>
+  <div class="card-meta">${s.st?`${s.st.min.toFixed(1)}° — ${s.st.max.toFixed(1)}° · ${s.st.count} lectures`:'Sense dades'}</div>
+</div>`).join('')}
+</div>
+
+<div class="slot-tabs">
+${SLOTS.map((s,i)=>`<button class="slot-tab ${i===SLOT_IDX?'active':''}" onclick="SLOT_IDX=${i};pgSlots()" style="${i===SLOT_IDX?`background:${s.color}22;border-color:${s.color}55;color:${s.color}`:''}">${s.label} (${s.range[0]}:00–${s.range[1]}:00)</button>`).join('')}
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="chart-title">LECTURA A LA FRANJA "${sl.label.toUpperCase()}" (${sl.range[0]}:00 – ${sl.range[1]}:00) · ${SLOT_DATE}</div>
+  <div class="chart-box" style="height:220px"><canvas id="ch-slot" role="img" aria-label="Gràfic franja horària"></canvas></div>
+  ${slSt?`<div style="display:flex;gap:24px;margin-top:14px;flex-wrap:wrap">
+    <div><div class="card-label">MÍNIMA</div><div style="font-family:var(--ff);font-weight:700;font-size:18px;color:${BLUE}">${slSt.min.toFixed(2)}°C</div></div>
+    <div><div class="card-label">MITJANA</div><div style="font-family:var(--ff);font-weight:700;font-size:18px;color:${sl.color}">${slSt.avg.toFixed(2)}°C</div></div>
+    <div><div class="card-label">MÀXIMA</div><div style="font-family:var(--ff);font-weight:700;font-size:18px;color:${AMBER}">${slSt.max.toFixed(2)}°C</div></div>
+    <div><div class="card-label">LECTURES</div><div style="font-family:var(--ff);font-weight:700;font-size:18px;color:var(--t)">${slSt.count}</div></div>
+  </div>`:''}
+</div>
+
+${slData.length?`<div class="card">
+  <div class="chart-title" style="margin-bottom:14px">LECTURES DE LA FRANJA</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>HORA</th><th>TEMPERATURA</th><th>VARIACIÓ</th></tr></thead>
+    <tbody>${slData.map((r,i)=>`<tr>
+      <td class="td-mono">${i+1}</td>
+      <td class="td-mono">${fmtTime(r.timestamp)}</td>
+      <td class="td-num" style="color:${tempColor(r.temperature)}">${r.temperature.toFixed(2)} °C</td>
+      <td>${diffArrow(r.temperature,slData[i-1]?.temperature)}</td>
+    </tr>`).join('')}
+    </tbody>
+  </table></div>
+</div>`:''}`;
+
+  requestAnimationFrame(()=>{
+    if (slData.length) {
+      mkChart('ch-slot','line',
+        slData.map(r=>fmtTime(r.timestamp)),
+        [lineDS(slData.map(r=>r.temperature),sl.color,sl.fill)]);
+    } else noDataChart('ch-slot');
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: REGISTRE DE LECTURES
+// ════════════════════════════════════════════════════════════════
+function pgLog() {
+  const c = document.getElementById('content');
+  if (!ALL.length) {
+    c.innerHTML=`<div class="page-hd"><div><div class="page-title">Registre de lectures</div><div class="page-sub">LLISTAT COMPLET</div></div></div>${emptyState('Sense dades per mostrar.')}`;
+    return;
+  }
+  // Filter
+  let filtered = [...ALL].reverse();
+  if (LOG_DATE_FROM) filtered = filtered.filter(r=>r.timestamp.slice(0,10)>=LOG_DATE_FROM);
+  if (LOG_DATE_TO)   filtered = filtered.filter(r=>r.timestamp.slice(0,10)<=LOG_DATE_TO);
+
+  const total = filtered.length;
+  const totalPages = Math.ceil(total/PAGE_SIZE) || 1;
+  if (LOG_PAGE > totalPages) LOG_PAGE = totalPages;
+  const start = (LOG_PAGE-1)*PAGE_SIZE;
+  const pageData = filtered.slice(start, start+PAGE_SIZE);
+
+  const pagesArr = [];
+  for(let i=1;i<=totalPages;i++){
+    if(i===1||i===totalPages||Math.abs(i-LOG_PAGE)<=2) pagesArr.push(i);
+    else if(pagesArr[pagesArr.length-1]!=='…') pagesArr.push('…');
+  }
+
+  c.innerHTML=`
+<div class="page-hd">
+  <div><div class="page-title">Registre de lectures</div><div class="page-sub">TOTES LES LECTURES · ${ALL.length.toLocaleString('ca-ES')} TOTAL</div></div>
+</div>
+<div class="form-row">
+  <div class="form-group">
+    <div class="form-label">DES DE</div>
+    <input type="date" value="${LOG_DATE_FROM}" onchange="LOG_DATE_FROM=this.value;LOG_PAGE=1;pgLog()"/>
+  </div>
+  <div class="form-group">
+    <div class="form-label">FINS A</div>
+    <input type="date" value="${LOG_DATE_TO}" onchange="LOG_DATE_TO=this.value;LOG_PAGE=1;pgLog()"/>
+  </div>
+  <div class="form-group" style="justify-content:flex-end;margin-top:auto">
+    <button class="btn" onclick="LOG_DATE_FROM='';LOG_DATE_TO='';LOG_PAGE=1;pgLog()">✕ Netejar filtres</button>
+  </div>
+</div>
+<div class="card" style="padding:0;overflow:hidden">
+  <div style="padding:14px 20px;background:var(--bg3);border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center">
+    <span class="card-label" style="margin:0">MOSTRANT ${start+1}–${Math.min(start+PAGE_SIZE,total)} DE ${total} LECTURES</span>
+    ${total<ALL.length?`<span class="badge badge-info">FILTRADES</span>`:''}
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>TEMPERATURA</th><th>DATA I HORA</th><th>VARIACIÓ</th><th>ESTAT</th></tr></thead>
+    <tbody>${pageData.map((r,i)=>{
+      const prev = filtered[start+i+1];
+      const diff = prev ? diffArrow(r.temperature, prev.temperature) : '—';
+      const st = statusFromAge(r.timestamp);
+      return `<tr>
+        <td class="td-mono">${total-(start+i)}</td>
+        <td class="td-num" style="color:${tempColor(r.temperature)}">${r.temperature.toFixed(2)} °C</td>
+        <td class="td-mono">${fmtFull(r.timestamp)}</td>
+        <td>${diff}</td>
+        <td><span class="badge ${st.cls}">${st.txt}</span></td>
+      </tr>`;}).join('')}
+    </tbody>
+  </table></div>
+</div>
+<div class="pagination">
+  <button class="page-btn" ${LOG_PAGE===1?'disabled':''} onclick="LOG_PAGE--;pgLog()">← Anterior</button>
+  ${pagesArr.map(p=>p==='…'?`<span class="page-info">…</span>`:`<button class="page-btn ${p===LOG_PAGE?'active':''}" onclick="LOG_PAGE=${p};pgLog()">${p}</button>`).join('')}
+  <button class="page-btn" ${LOG_PAGE===totalPages?'disabled':''} onclick="LOG_PAGE++;pgLog()">Següent →</button>
+  <span class="page-info">${total} resultats · ${totalPages} pàgines</span>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: EXPORTAR DADES
+// ════════════════════════════════════════════════════════════════
+function pgExport() {
+  const c = document.getElementById('content');
+  c.innerHTML=`
+<div class="page-hd">
+  <div><div class="page-title">Exportar dades</div><div class="page-sub">DESCÀRREGA EN DIFERENTS FORMATS</div></div>
+</div>
+${!ALL.length ? emptyState('Sense dades per exportar.') : `
+<div class="grid2" style="margin-bottom:20px">
+  <div class="card">
+    <div style="font-size:28px;margin-bottom:10px">📄</div>
+    <div class="card-label">EXPORTAR COM A CSV</div>
+    <div style="font-size:13px;color:var(--t2);margin:8px 0 16px;line-height:1.7">Format compatible amb Excel, Google Sheets i qualsevol programa d'anàlisi de dades.</div>
+    <div class="form-row" style="margin-bottom:14px">
+      <div class="form-group">
+        <div class="form-label">DES DE</div>
+        <input type="date" id="exp-from"/>
+      </div>
+      <div class="form-group">
+        <div class="form-label">FINS A</div>
+        <input type="date" id="exp-to"/>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="exportCSV()">↓ Descarregar CSV</button>
+  </div>
+  <div class="card">
+    <div style="font-size:28px;margin-bottom:10px">📋</div>
+    <div class="card-label">EXPORTAR COM A JSON</div>
+    <div style="font-size:13px;color:var(--t2);margin:8px 0 16px;line-height:1.7">Format original del fitxer. Útil per a còpies de seguretat o migrar les dades a un altre sistema.</div>
+    <div style="height:50px"></div>
+    <button class="btn btn-primary" onclick="exportJSON()">↓ Descarregar JSON</button>
+  </div>
+</div>
+<div class="card">
+  <div class="card-label" style="margin-bottom:12px">PREVISUALITZACIÓ (PRIMERES 10 FILES CSV)</div>
+  <div class="diagram" style="font-size:11px;line-height:1.8;color:var(--t)">${['timestamp,temperature,unit',...ALL.slice(0,10).map(r=>`${r.timestamp},${r.temperature},${r.unit}`)].join('\n')}</div>
+  <div class="card-meta" style="margin-top:10px">${ALL.length} lectures totals al fitxer</div>
+</div>
+`}`;
+}
+
+function getFilteredForExport(fromId, toId) {
+  const from = document.getElementById(fromId)?.value;
+  const to   = document.getElementById(toId)?.value;
+  let data = [...ALL];
+  if (from) data = data.filter(r => r.timestamp.slice(0,10) >= from);
+  if (to)   data = data.filter(r => r.timestamp.slice(0,10) <= to);
+  return data;
+}
+function exportCSV() {
+  const data = getFilteredForExport('exp-from','exp-to');
+  const csv = ['timestamp,temperature,unit', ...data.map(r=>`${r.timestamp},${r.temperature},${r.unit}`)].join('\n');
+  download('temperatures.csv', csv, 'text/csv');
+}
+function exportJSON() {
+  const data = getFilteredForExport('exp-from','exp-to');
+  download('temperatures.json', JSON.stringify(data, null, 2), 'application/json');
+}
+function download(name, content, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], {type}));
+  a.download = name; a.click();
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: CONNEXIÓ DEL SENSOR
+// ════════════════════════════════════════════════════════════════
+function pgSensor() {
+  document.getElementById('content').innerHTML=`
+<div class="page-hd">
+  <div><div class="page-title">Connexió del sensor</div><div class="page-sub">DS18B20 · RASPBERRY PI · PROTOBOARD</div></div>
+</div>
+<div class="grid2" style="margin-bottom:20px">
+  <div class="card card-accent">
+    <div class="card-label" style="margin-bottom:14px">DIAGRAMA DE CONNEXIÓ</div>
+    <div class="diagram">RASPBERRY PI 4          PROTOBOARD
+──────────────        ──────────────────────────
+Pin 1  (3.3V) ●──────→ VCC ─→ Cable VERMELL
+                           ─→ [R 4.7kΩ]──┐
+Pin 7  (GPIO4)●──────→ DATA─→ Cable GROC ─┘
+Pin 6  (GND)  ●──────→ GND ─→ Cable NEGRE
+──────────────        ──────────────────────────</div>
+    <div style="margin-top:14px;padding:12px;background:rgba(255,87,87,.07);border:1px solid rgba(255,87,87,.2);border-radius:10px;font-size:12px;color:var(--red)">
+      ⚠️ La resistència de 4,7 kΩ és OBLIGATÒRIA entre VCC i DATA
+    </div>
+  </div>
+  <div>
+    <div class="card card-sm" style="margin-bottom:12px">
+      <div class="card-label">PINS DE LA RASPBERRY PI</div>
+      <table style="width:100%;font-size:12px;margin-top:10px">
+        <thead><tr><th style="padding:5px 0;text-align:left;font-family:var(--fm);font-size:9px;color:var(--t3);letter-spacing:2px">PIN</th><th style="padding:5px 0;text-align:left;font-family:var(--fm);font-size:9px;color:var(--t3);letter-spacing:2px">NOM</th><th style="padding:5px 0;text-align:left;font-family:var(--fm);font-size:9px;color:var(--t3);letter-spacing:2px">DS18B20</th></tr></thead>
+        <tbody>
+          <tr><td class="td-mono" style="padding:5px 0">Pin 1</td><td style="padding:5px 0">3.3V</td><td style="padding:5px 0;color:#FF6B6B;font-weight:600">Cable VERMELL (VDD+)</td></tr>
+          <tr><td class="td-mono" style="padding:5px 0">Pin 7</td><td style="padding:5px 0">GPIO 4</td><td style="padding:5px 0;color:#FFD93D;font-weight:600">Cable GROC (DATA)</td></tr>
+          <tr><td class="td-mono" style="padding:5px 0">Pin 6</td><td style="padding:5px 0">GND</td><td style="padding:5px 0;color:#888;font-weight:600">Cable NEGRE (GND)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card card-sm">
+      <div class="card-label" style="margin-bottom:10px">ACTIVAR 1-WIRE (RASPBERRY PI)</div>
+      <div class="diagram" style="font-size:11px;padding:14px 16px;line-height:2">sudo raspi-config
+→ Interface Options
+→ 1-Wire → Yes
+→ Finish → Reboot
+
+# O manualment:
+echo "dtoverlay=w1-gpio" | sudo tee -a /boot/firmware/config.txt
+sudo reboot</div>
+    </div>
+  </div>
+</div>
+<div class="card" style="margin-bottom:16px">
+  <div class="card-label" style="margin-bottom:14px">ESPECIFICACIONS TÈCNIQUES DEL SENSOR</div>
+  <div class="spec-grid">
+    ${[['Model / Xip','DS18B20 (Binghe B20)'],['Voltatge','3,0 V – 5,5 V DC'],['Rang de temperatura','-55 °C a +125 °C'],['Resolució ajustable','9 / 10 / 11 / 12 bits'],['Precisió (12 bits)','±0,06 °C'],['Protocol','1-Wire (sortida digital)'],['Impermeabilitat','IP68'],['Resistència aïllament','≥ 100 MΩ (500 V DC)'],['Tensió suportada','1500 V CA, 5 s, 0,5 mA'],['Carcassa','Acer inoxidable']].map(([k,v])=>`
+    <div class="spec-item"><div class="spec-k">${k}</div><div class="spec-v">${v}</div></div>`).join('')}
+  </div>
+</div>
+<div class="card">
+  <div class="card-label" style="margin-bottom:10px">VERIFICACIÓ DEL SENSOR (TERMINAL RASPBERRY PI)</div>
+  <div class="diagram" style="font-size:11px;line-height:2"># Llistar dispositius 1-Wire detectats
+ls /sys/bus/w1/devices/
+# Ha d'aparèixer: 28-xxxxxxxxxxxx
+
+# Llegir temperatura directament
+cat /sys/bus/w1/devices/28-*/w1_slave
+# Sortida: ... YES / ... t=21312  (→ 21.312°C)
+
+# Executar el script Python
+python3 ~/sensor-data/scripts/sensor_reader.py</div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  PAGE: SOBRE EL PROJECTE
+// ════════════════════════════════════════════════════════════════
+function pgAbout() {
+  document.getElementById('content').innerHTML=`
+<div class="page-hd">
+  <div><div class="page-title">Sobre el projecte</div><div class="page-sub">RECOLLIDA I MOSTRA DE DADES DEL SENSOR DS18B20</div></div>
+</div>
+<div class="grid2" style="margin-bottom:20px">
+  <div class="card card-accent">
+    <div style="font-size:32px;margin-bottom:12px">🎓</div>
+    <div class="card-label">AUTORS</div>
+    <div style="font-family:var(--ff);font-weight:700;font-size:22px;margin:6px 0 4px">Cludi i Abel</div>
+    <div style="font-size:14px;color:var(--t2)">SMX 2-A · Curs 2025–26</div>
+    <hr class="divider" style="margin:14px 0"/>
+    <div class="card-label">CENTRE</div>
+    <div style="font-size:14px;margin-top:4px">Sistemes Microinformàtics i Xarxes</div>
+  </div>
+  <div class="card">
+    <div class="card-label" style="margin-bottom:14px">DESCRIPCIÓ DEL PROJECTE</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.9">
+      Sistema complet de monitoratge de temperatura basant en el sensor impermeable DS18B20 connectat a una Raspberry Pi via protocol 1-Wire.<br><br>
+      Les dades es recullen automàticament, es desen en format JSON i es publiquen a GitHub tres vegades al dia. La web (GitHub Pages) mostra estadístiques en temps real llegint directament el fitxer de dades.
+    </div>
+  </div>
+</div>
+<div class="card" style="margin-bottom:16px">
+  <div class="card-label" style="margin-bottom:14px">FUNCIONALITATS IMPLEMENTADES</div>
+  <div class="spec-grid">
+    ${[
+      ['🐍 Script Python','Lectura del sensor DS18B20 via 1-Wire i desament a temperatures.json'],
+      ['📡 GitHub Sync','Sincronització automàtica 3 vegades al dia (08h, 14h, 20h) via git push'],
+      ['📊 Estadístiques diàries','Gràfic i taula de temperatures per a qualsevol dia amb dades'],
+      ['📅 Estadístiques mensuals','Anàlisi de min/avg/màx per a cada dia del mes seleccionat'],
+      ['🕐 Franges horàries','Anàlisi per franja: Matí (0-8h), Migdia (8-14h), Tarda (14-20h), Nit (20-24h)'],
+      ['📋 Registre complet','Llistat paginat de totes les lectures amb filtres per data'],
+      ['💾 Exportació de dades','Descàrrega en format CSV i JSON amb filtre per dates'],
+      ['⚙️ Setup automàtic','Script setup.sh que configura tot a la Raspberry Pi amb una sola comanda'],
+    ].map(([t,d])=>`<div class="spec-item"><div class="spec-k" style="color:var(--teal)">${t}</div><div class="spec-v" style="font-size:13px;font-weight:400;color:var(--t2);margin-top:4px">${d}</div></div>`).join('')}
+  </div>
+</div>
+<div class="card">
+  <div class="card-label" style="margin-bottom:14px">ARQUITECTURA DEL SISTEMA</div>
+  <div class="diagram" style="font-size:12px;line-height:2.2">
+ DS18B20 Sensor
+      │ 1-Wire (GPIO4)
+      ▼
+ Raspberry Pi ──→ sensor_reader.py ──→ data/temperatures.json
+      │                                        │
+      │ sync_github.sh (cron 08/14/20h)        │
+      ▼                                        │
+ GitHub Repository ◄──────────────────────────┘
+      │
+      ├──→ GitHub Pages (index.html) ──→ Navegador web
+      │         └── fetch('./data/temperatures.json')
+      │
+      └──→ GitHub API ──→ App mòbil
+  </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════════
+loadData();
+// Auto-refresh cada 5 minuts
+setInterval(loadData, 5*60*1000);
+</script>
+</body>
+</html>
