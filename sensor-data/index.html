@@ -1,1 +1,1210 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DS18B20 · TempMonitor · SMX 2-A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --bg:#060D18;--s1:#0B1622;--s2:#0F1E2E;--s3:#152436;
+  --glass:rgba(255,255,255,0.03);--glass2:rgba(255,255,255,0.055);
+  --bo:rgba(0,210,168,0.13);--bo2:rgba(0,210,168,0.28);--bo3:rgba(0,210,168,0.5);
+  --teal:#00D2A8;--teal2:#00A882;--teal3:rgba(0,210,168,0.09);
+  --blue:#2E8FFF;--blue2:rgba(46,143,255,0.1);
+  --amber:#F5A623;--amber2:rgba(245,166,35,0.1);
+  --red:#FF5B5B;--red2:rgba(255,91,91,0.1);
+  --green:#3DD68C;--green2:rgba(61,214,140,0.1);
+  --tx:#DFF0F5;--tx2:#8BB8C8;--tx3:#4A7285;
+  --fs:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+  --r:12px;--r2:18px;--r3:24px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,210,168,.025)1px,transparent 1px),linear-gradient(90deg,rgba(0,210,168,.025)1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0}
+.z{position:relative;z-index:1}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
 
+/* NAV */
+header{background:rgba(6,13,24,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bo);position:sticky;top:0;z-index:200}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.brand-icon{width:34px;height:34px;border-radius:9px;background:var(--teal3);border:1px solid var(--bo2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.brand-name{font-family:var(--fs);font-weight:800;font-size:14px;color:var(--tx);letter-spacing:-.3px}
+.brand-sub{font-family:var(--fm);font-size:9px;color:var(--tx3);letter-spacing:2px}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-family:var(--fm);letter-spacing:.8px;color:var(--tx3);cursor:pointer;border:none;background:transparent;white-space:nowrap;transition:all .2s}
+.nav-tab:hover{color:var(--tx2);background:var(--glass2)}
+.nav-tab.active{color:var(--teal);background:var(--teal3);border:1px solid var(--bo)}
+.nav-tab .icon{font-size:14px}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.pill{display:flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--bo);border-radius:999px;padding:5px 12px;font-size:11px;font-family:var(--fm)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blink 2s infinite}
+.dot.err{background:var(--red);animation:none}
+.dot.warn{background:var(--amber)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* PAGES */
+.page{display:none;padding:28px 0 60px;min-height:calc(100vh - 58px)}
+.page.active{display:block}
+
+/* CARDS */
+.card{background:var(--glass);border:1px solid var(--bo);border-radius:var(--r2);padding:22px}
+.card-sm{background:var(--glass);border:1px solid var(--bo);border-radius:var(--r);padding:16px}
+.card:hover,.card-sm:hover{border-color:var(--bo2)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.g2{grid-template-columns:1fr}}
+
+/* TYPOGRAPHY */
+.page-title{font-family:var(--fs);font-weight:800;font-size:22px;letter-spacing:-.5px;margin-bottom:4px}
+.page-sub{font-family:var(--fm);font-size:10px;color:var(--tx3);letter-spacing:2px}
+.section-sep{margin:24px 0 16px}
+.label{font-family:var(--fm);font-size:9px;letter-spacing:2.5px;color:var(--tx3);margin-bottom:6px;text-transform:uppercase}
+.val-big{font-family:var(--fs);font-weight:800;font-size:48px;line-height:1;letter-spacing:-2px}
+.val-med{font-family:var(--fs);font-weight:700;font-size:26px}
+.val-sm{font-family:var(--fs);font-weight:600;font-size:18px}
+
+/* STAT CARDS */
+.stat{background:var(--s2);border:1px solid var(--bo);border-radius:var(--r);padding:14px 16px;transition:border-color .2s}
+.stat:hover{border-color:var(--bo2)}
+.stat .label{margin-bottom:8px}
+.stat-val{font-family:var(--fs);font-weight:700;font-size:22px}
+.stat-note{font-size:11px;color:var(--tx3);margin-top:3px;font-family:var(--fm)}
+
+/* CHART WRAPPER */
+.ch{position:relative;width:100%}
+
+/* TABS (in-page) */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab-btn{background:var(--glass);border:1px solid var(--bo);color:var(--tx3);border-radius:8px;padding:6px 14px;font-size:11px;font-family:var(--fm);cursor:pointer;transition:all .2s;letter-spacing:.8px}
+.tab-btn:hover{border-color:var(--bo2);color:var(--tx2)}
+.tab-btn.active{background:var(--teal3);border-color:var(--bo2);color:var(--teal)}
+
+/* FORM ELEMENTS */
+.inp{width:100%;background:var(--s2);border:1px solid var(--bo);border-radius:var(--r);padding:11px 14px;font-size:14px;color:var(--tx);font-family:var(--fb);outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--bo2)}
+.inp::placeholder{color:var(--tx3)}
+.inp-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.inp-label{font-size:11px;font-family:var(--fm);letter-spacing:1px;color:var(--tx2)}
+select.inp option{background:var(--s2)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--r);font-size:12px;font-family:var(--fm);letter-spacing:1px;cursor:pointer;border:1px solid;transition:all .2s;font-weight:500}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--teal);color:var(--bg);border-color:var(--teal)}
+.btn-primary:hover{background:var(--teal2)}
+.btn-outline{background:var(--glass);color:var(--tx2);border-color:var(--bo)}
+.btn-outline:hover{border-color:var(--bo2);color:var(--tx)}
+.btn-danger{background:var(--red2);color:var(--red);border-color:var(--red)}
+.btn-full{width:100%}
+.btn-sm{padding:6px 14px;font-size:11px}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;border-radius:var(--r)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{border-bottom:1px solid var(--bo)}
+th{padding:11px 14px;text-align:left;font-size:9px;font-family:var(--fm);letter-spacing:2px;color:var(--tx3);font-weight:400;white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.025);transition:background .15s}
+tbody tr:hover{background:var(--glass2)}
+td{padding:11px 14px;font-size:13px;white-space:nowrap}
+.td-temp{font-family:var(--fs);font-weight:700;font-size:14px}
+.td-mono{font-family:var(--fm);color:var(--tx3);font-size:11px}
+
+/* BADGE */
+.badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10px;font-family:var(--fm);border:1px solid;letter-spacing:.5px}
+.badge-ok{background:var(--green2);color:var(--green);border-color:rgba(61,214,140,.3)}
+.badge-warn{background:var(--amber2);color:var(--amber);border-color:rgba(245,166,35,.3)}
+.badge-err{background:var(--red2);color:var(--red);border-color:rgba(255,91,91,.3)}
+.badge-info{background:var(--blue2);color:var(--blue);border-color:rgba(46,143,255,.3)}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:60px 20px}
+.empty-icon{font-size:48px;opacity:.3;margin-bottom:16px}
+.empty-title{font-family:var(--fs);font-weight:700;font-size:18px;color:var(--tx2);margin-bottom:8px}
+.empty-sub{font-size:13px;color:var(--tx3)}
+
+/* ALERT BOX */
+.alert{border-radius:var(--r);padding:14px 16px;font-size:13px;margin-bottom:16px;border:1px solid}
+.alert-warn{background:var(--amber2);border-color:rgba(245,166,35,.3);color:var(--amber)}
+.alert-err{background:var(--red2);border-color:rgba(255,91,91,.3);color:var(--red)}
+.alert-ok{background:var(--green2);border-color:rgba(61,214,140,.3);color:var(--green)}
+.alert-info{background:var(--blue2);border-color:rgba(46,143,255,.3);color:var(--blue)}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--bo);margin:20px 0}
+
+/* LOADING */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .4s}
+#loader.hide{opacity:0;pointer-events:none}
+.spin{width:44px;height:44px;border:2px solid var(--bo);border-top-color:var(--teal);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* HERO temp display */
+.hero-temp{font-family:var(--fs);font-weight:800;font-size:clamp(64px,12vw,108px);line-height:1;letter-spacing:-4px;transition:color .5s;text-shadow:0 0 80px rgba(0,210,168,.2)}
+.hero-unit{font-size:.35em;vertical-align:super;letter-spacing:0;opacity:.6}
+
+/* GAUGE ring */
+.gauge-wrap{position:relative;width:160px;height:160px;flex-shrink:0}
+.gauge-wrap svg{width:160px;height:160px;transform:rotate(-90deg)}
+.gauge-bg{fill:none;stroke:var(--s3);stroke-width:8}
+.gauge-fill{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .8s ease,stroke .5s}
+
+/* FOOTER */
+.site-footer{border-top:1px solid var(--bo);padding:20px 0;margin-top:auto}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.footer-credit{font-size:12px;color:var(--tx3)}
+.footer-credit strong{color:var(--teal)}
+.footer-pills{display:flex;gap:6px;flex-wrap:wrap}
+.fpill{background:var(--glass);border:1px solid var(--bo);border-radius:999px;padding:3px 10px;font-size:9px;font-family:var(--fm);color:var(--tx3);letter-spacing:1px}
+
+/* RANGE SLIDER */
+input[type=range]{width:100%;accent-color:var(--teal);cursor:pointer}
+
+/* TOGGLE */
+.toggle{width:42px;height:23px;background:var(--s3);border:1px solid var(--bo);border-radius:999px;cursor:pointer;position:relative;transition:background .3s;flex-shrink:0}
+.toggle.on{background:var(--teal);border-color:var(--teal)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;background:#fff;border-radius:50%;transition:left .25s}
+.toggle.on::after{left:22px}
+
+/* PAGINACIÓ */
+.paginator{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:16px}
+.paginator span{font-size:12px;font-family:var(--fm);color:var(--tx3)}
+
+/* PROGRESS BAR */
+.prog-wrap{background:var(--s3);border-radius:999px;height:6px;overflow:hidden}
+.prog-fill{height:100%;border-radius:999px;background:var(--teal);transition:width .6s}
+
+@media(max-width:520px){.nav-tab span:not(.icon){display:none}.nav-tab{padding:7px 10px}}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="spin"></div><span style="font-family:var(--fm);font-size:11px;color:var(--tx3);letter-spacing:2px">CARREGANT DADES…</span></div>
+
+<header>
+<div class="wrap z">
+<div class="nav-inner">
+  <a class="brand" href="#home">
+    <div class="brand-icon">🌡️</div>
+    <div><div class="brand-name">TempMonitor</div><div class="brand-sub">DS18B20 · SMX 2-A</div></div>
+  </a>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" data-page="home" onclick="nav('home')"><span class="icon">⬤</span><span>INICI</span></button>
+    <button class="nav-tab" data-page="daily" onclick="nav('daily')"><span class="icon">◈</span><span>DIARI</span></button>
+    <button class="nav-tab" data-page="monthly" onclick="nav('monthly')"><span class="icon">◫</span><span>MENSUAL</span></button>
+    <button class="nav-tab" data-page="log" onclick="nav('log')"><span class="icon">≡</span><span>REGISTRE</span></button>
+    <button class="nav-tab" data-page="add" onclick="nav('add')"><span class="icon">＋</span><span>AFEGIR</span></button>
+    <button class="nav-tab" data-page="config" onclick="nav('config')"><span class="icon">⚙</span><span>AJUSTOS</span></button>
+  </nav>
+  <div class="nav-right">
+    <div class="pill"><span class="dot" id="status-dot"></span><span id="status-txt" style="font-size:10px">—</span></div>
+  </div>
+</div>
+</div>
+</header>
+
+<div class="z" style="min-height:calc(100vh - 58px)">
+
+<!-- ═══════════════ INICI ═══════════════ -->
+<div class="page active" id="page-home">
+<div class="wrap">
+  <div style="display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start;padding-top:4px">
+    <div>
+      <div style="margin-bottom:20px">
+        <div class="label">TEMPERATURA ACTUAL · ÚLTIMA LECTURA</div>
+        <div class="hero-temp" id="h-temp" style="color:var(--teal)">—<span class="hero-unit">°C</span></div>
+        <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap">
+          <span class="label" style="margin:0">Última lectura: <span id="h-lasttime" style="color:var(--tx2)">—</span></span>
+          <span class="label" style="margin:0">Estat: <span id="h-freshness" style="color:var(--teal)">—</span></span>
+        </div>
+      </div>
+
+      <div class="g4" style="margin-bottom:20px">
+        <div class="stat"><div class="label">MÍNIMA AVUI</div><div class="stat-val" id="h-min" style="color:var(--blue)">—</div><div class="stat-note" id="h-min-t">—</div></div>
+        <div class="stat"><div class="label">MÀXIMA AVUI</div><div class="stat-val" id="h-max" style="color:var(--amber)">—</div><div class="stat-note" id="h-max-t">—</div></div>
+        <div class="stat"><div class="label">MITJANA AVUI</div><div class="stat-val" id="h-avg" style="color:var(--teal)">—</div><div class="stat-note" id="h-count">—</div></div>
+        <div class="stat"><div class="label">TOTAL REGISTRES</div><div class="stat-val" id="h-total" style="color:var(--tx2)">—</div><div class="stat-note">en el fitxer JSON</div></div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div><div class="label" style="margin:0">ÚLTIMES 24 HORES · LECTURES D'AVUI</div></div>
+          <span id="h-nodata-today" style="display:none" class="badge badge-warn">SENSE DADES AVUI</span>
+        </div>
+        <div class="ch" style="height:200px"><canvas id="ch-24h" role="img" aria-label="Evolució temperatura 24h"></canvas></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="label">ALERTES ACTIVES</div>
+        <div id="h-alerts">
+          <div class="empty" style="padding:24px 0">
+            <div style="color:var(--tx3);font-size:13px">Cap alerta activa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">FRANGES AVUI</div>
+        <div id="h-slots" style="display:flex;flex-direction:column;gap:8px;margin-top:4px"></div>
+      </div>
+
+      <div class="card">
+        <div class="label">SINCRONITZACIÓ GIT</div>
+        <div style="margin-top:6px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+            <span style="color:var(--tx3)">Repositori configurat</span>
+            <span id="sync-repo-status" style="color:var(--tx3)">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:10px">
+            <span style="color:var(--tx3)">Última actualització</span>
+            <span id="sync-last" style="color:var(--tx2);font-family:var(--fm);font-size:11px">—</span>
+          </div>
+          <div style="font-size:10px;color:var(--tx3);font-family:var(--fm);margin-bottom:8px">PRÒXIMES SINCRONITZACIONS AUTOMÀTIQUES</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span>Matí</span><span style="color:var(--teal);font-family:var(--fm)">08:00</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span>Migdia</span><span style="color:var(--teal);font-family:var(--fm)">14:00</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px"><span>Nit</span><span style="color:var(--teal);font-family:var(--fm)">20:00</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ DIARI ═══════════════ -->
+<div class="page" id="page-daily">
+<div class="wrap">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div><div class="page-title">Estadístiques diàries</div><div class="page-sub">DADES REALS DEL SENSOR PER DIA</div></div>
+    <input type="date" id="daily-date" class="inp" style="width:auto" onchange="renderDaily()"/>
+  </div>
+
+  <div id="daily-nodata" class="empty" style="display:none">
+    <div class="empty-icon">📭</div>
+    <div class="empty-title">Sense dades per aquest dia</div>
+    <div class="empty-sub">Tria una altra data o afegeix lectures</div>
+  </div>
+
+  <div id="daily-content">
+    <div class="g4" style="margin-bottom:20px" id="daily-stats-row"></div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="label" style="margin-bottom:14px">EVOLUCIÓ HORÀRIA DEL DIA SELECCIONAT</div>
+      <div class="ch" style="height:220px"><canvas id="ch-day" role="img" aria-label="Temperatura per hora del dia seleccionat"></canvas></div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+        <div class="label" style="margin:0">ESTADÍSTIQUES PER FRANJA HORÀRIA</div>
+        <div class="tabs" id="slot-tabs">
+          <button class="tab-btn active" onclick="selectSlot(0,this)">MATÍ 00–08h</button>
+          <button class="tab-btn" onclick="selectSlot(1,this)">MIGDIA 08–14h</button>
+          <button class="tab-btn" onclick="selectSlot(2,this)">TARDA 14–20h</button>
+          <button class="tab-btn" onclick="selectSlot(3,this)">NIT 20–24h</button>
+        </div>
+      </div>
+      <div class="g2" style="gap:16px">
+        <div class="card">
+          <div class="ch" style="height:190px"><canvas id="ch-slot" role="img" aria-label="Temperatura per franja horaria"></canvas></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="g3" id="slot-mini-stats"></div>
+          <div class="card" id="slot-readings-list" style="flex:1;overflow-y:auto;max-height:140px;padding:12px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label" style="margin-bottom:14px">LECTURES PER HORA (HISTOGRAMA)</div>
+      <div class="ch" style="height:160px"><canvas id="ch-hist" role="img" aria-label="Lectures per hora del dia"></canvas></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ MENSUAL ═══════════════ -->
+<div class="page" id="page-monthly">
+<div class="wrap">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div><div class="page-title">Estadístiques mensuals</div><div class="page-sub">RESUM PER MES AMB DADES REALS</div></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input type="month" id="monthly-month" class="inp" style="width:auto" onchange="renderMonthly()"/>
+      <div class="tabs" id="monthly-tabs">
+        <button class="tab-btn active" onclick="selMonthPeriod('avg',this)">MITJA</button>
+        <button class="tab-btn" onclick="selMonthPeriod('min',this)">MÍN</button>
+        <button class="tab-btn" onclick="selMonthPeriod('max',this)">MÀX</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="monthly-nodata" class="empty" style="display:none">
+    <div class="empty-icon">📭</div>
+    <div class="empty-title">Sense dades per aquest mes</div>
+    <div class="empty-sub">Tria un altre mes o afegeix lectures</div>
+  </div>
+
+  <div id="monthly-content">
+    <div class="g4" style="margin-bottom:20px" id="monthly-stats-row"></div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="label" style="margin-bottom:14px">TEMPERATURA DIÀRIA DEL MES · <span id="monthly-period-label">MITTJANA</span></div>
+      <div class="ch" style="height:240px"><canvas id="ch-monthly" role="img" aria-label="Temperatura mensual per dia"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div class="label" style="margin:0">RESUM PER DIA</div>
+        <button class="btn btn-sm btn-outline" onclick="exportCSVMonthly()">↓ EXPORTAR CSV</button>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>DIA</th><th>MÍNIMA</th><th>MITJANA</th><th>MÀXIMA</th><th>LECTURES</th><th>VARIACIÓ</th></tr></thead>
+          <tbody id="monthly-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ REGISTRE ═══════════════ -->
+<div class="page" id="page-log">
+<div class="wrap">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div><div class="page-title">Registre de lectures</div><div class="page-sub">TOTES LES DADES DEL FITXER temperatures.json</div></div>
+    <button class="btn btn-outline btn-sm" onclick="exportCSV()">↓ EXPORTAR CSV COMPLET</button>
+  </div>
+
+  <div class="g4" style="margin-bottom:20px" id="log-stats-row"></div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+      <div class="inp-group" style="margin:0;flex:1;min-width:130px"><div class="inp-label">DES DE</div><input type="date" id="log-from" class="inp" onchange="renderLog()"/></div>
+      <div class="inp-group" style="margin:0;flex:1;min-width:130px"><div class="inp-label">FINS A</div><input type="date" id="log-to" class="inp" onchange="renderLog()"/></div>
+      <div class="inp-group" style="margin:0;flex:1;min-width:130px"><div class="inp-label">ESTAT</div>
+        <select class="inp" id="log-filter" onchange="renderLog()">
+          <option value="all">Tots</option>
+          <option value="normal">Normal</option>
+          <option value="cold">Fred</option>
+          <option value="hot">Calor</option>
+          <option value="xcold">Fred extrem</option>
+          <option value="xhot">Calor extrem</option>
+        </select>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="clearLogFilters()">✕ NETEJAR</button>
+    </div>
+  </div>
+
+  <div id="log-nodata" class="empty" style="display:none">
+    <div class="empty-icon">📭</div>
+    <div class="empty-title">Sense resultats amb els filtres actuals</div>
+    <div class="empty-sub">Prova de canviar els filtres</div>
+  </div>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>TEMPERATURA</th><th>DATA I HORA</th><th>ESTAT</th><th>VARIACIÓ</th><th>HORA DEL DIA</th></tr></thead>
+        <tbody id="log-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="paginator" id="log-pager"></div>
+</div>
+</div>
+
+<!-- ═══════════════ AFEGIR ═══════════════ -->
+<div class="page" id="page-add">
+<div class="wrap">
+  <div style="max-width:540px;margin:0 auto">
+    <div style="margin-bottom:24px"><div class="page-title">Afegir lectura manual</div><div class="page-sub">AFEGIR DADES AL FITXER VIA GITHUB API</div></div>
+
+    <div id="add-no-config" class="alert alert-warn" style="display:none">
+      ⚠️ Configura l'usuari, repositori i token de GitHub a <strong>Ajustos</strong> per poder desar dades.
+      <br/><button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="nav('config')">→ ANAR A AJUSTOS</button>
+    </div>
+
+    <div id="add-form">
+      <div class="card" style="margin-bottom:16px">
+        <div class="label" style="margin-bottom:14px">DADES DE LA LECTURA</div>
+        <div class="inp-group">
+          <div class="inp-label">TEMPERATURA (°C)</div>
+          <input type="number" id="add-temp" class="inp" placeholder="ex: 21.34" step="0.01" min="-55" max="125"/>
+          <div style="font-size:11px;color:var(--tx3)">Rang vàlid del sensor: -55°C a +125°C</div>
+        </div>
+        <div class="inp-group">
+          <div class="inp-label">DATA I HORA</div>
+          <input type="datetime-local" id="add-ts" class="inp"/>
+          <div style="font-size:11px;color:var(--tx3)">Deixa en blanc per usar l'hora actual</div>
+        </div>
+        <div class="inp-group" style="margin:0">
+          <div class="inp-label">UNITAT</div>
+          <select class="inp" id="add-unit"><option value="celsius">Celsius (°C)</option></select>
+        </div>
+      </div>
+
+      <div id="add-result" style="display:none;margin-bottom:16px"></div>
+
+      <button class="btn btn-primary btn-full" onclick="addReading()" id="add-btn">
+        ↑ DESAR A GITHUB
+      </button>
+      <div style="font-size:11px;color:var(--tx3);text-align:center;margin-top:10px;font-family:var(--fm)">
+        El token es guarda al teu navegador localment i no és enviat a cap servidor extern.
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card">
+      <div class="label" style="margin-bottom:10px">INFORMACIÓ DEL SENSOR DS18B20</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Model</span><span style="font-family:var(--fm)">DS18B20 (Binghe B20)</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Rang de mesura</span><span style="font-family:var(--fm)">-55°C → +125°C</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Resolució màx.</span><span style="font-family:var(--fm)">12 bits (±0.0625°C)</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Protocol</span><span style="font-family:var(--fm)">1-Wire (GPIO 4)</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Voltatge</span><span style="font-family:var(--fm)">3.0 – 5.5 V DC</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0"><span style="color:var(--tx3)">Impermeabilitat</span><span style="font-family:var(--fm)">IP68</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ AJUSTOS ═══════════════ -->
+<div class="page" id="page-config">
+<div class="wrap">
+  <div style="max-width:680px;margin:0 auto">
+    <div style="margin-bottom:24px"><div class="page-title">Ajustos</div><div class="page-sub">CONFIGURACIÓ DE GITHUB I ALERTES DE TEMPERATURA</div></div>
+
+    <!-- GitHub -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="label" style="margin-bottom:14px">CREDENCIALS GITHUB (per afegir lectures)</div>
+      <div class="inp-group">
+        <div class="inp-label">USUARI DE GITHUB</div>
+        <input type="text" id="cfg-user" class="inp" placeholder="el_teu_usuari"/>
+      </div>
+      <div class="inp-group">
+        <div class="inp-label">NOM DEL REPOSITORI</div>
+        <input type="text" id="cfg-repo" class="inp" placeholder="sensor-data"/>
+      </div>
+      <div class="inp-group">
+        <div class="inp-label">TOKEN D'ACCÉS PERSONAL (ghp_...)</div>
+        <input type="password" id="cfg-token" class="inp" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"/>
+        <div style="font-size:11px;color:var(--tx3)">Settings GitHub → Developer settings → Personal access tokens → Tokens (classic) → scope: repo</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="saveCfg()">✓ DESAR CONFIGURACIÓ</button>
+        <button class="btn btn-outline" onclick="testGH()">⟳ PROVAR CONNEXIÓ</button>
+      </div>
+      <div id="cfg-result" style="margin-top:12px;display:none"></div>
+    </div>
+
+    <!-- Alertes -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="label" style="margin-bottom:14px">ALERTES DE TEMPERATURA</div>
+      <div class="g2">
+        <div class="inp-group" style="margin:0">
+          <div class="inp-label">ALERTA FRED (°C, -55 a 125)</div>
+          <input type="number" id="cfg-alert-cold" class="inp" min="-55" max="125" step="0.5" placeholder="-55 = desactivada"/>
+        </div>
+        <div class="inp-group" style="margin:0">
+          <div class="inp-label">ALERTA CALOR (°C, -55 a 125)</div>
+          <input type="number" id="cfg-alert-hot" class="inp" min="-55" max="125" step="0.5" placeholder="125 = desactivada"/>
+        </div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--tx3)">Les alertes es mostren al tauler d'inici quan la darrera lectura supera els límits definits.</div>
+      <button class="btn btn-primary" style="margin-top:14px" onclick="saveCfg()">✓ DESAR ALERTES</button>
+    </div>
+
+    <!-- About -->
+    <div class="card">
+      <div class="label" style="margin-bottom:10px">SOBRE EL PROJECTE</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Autors</span><span><strong style="color:var(--teal)">Cludi i Abel</strong></span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Curs</span><span>SMX 2-A · 2025–26</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Sensor</span><span style="font-family:var(--fm)">DS18B20 · 1-Wire · GPIO4</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--bo)"><span style="color:var(--tx3)">Plataforma</span><span style="font-family:var(--fm)">Raspberry Pi + GitHub Pages</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0"><span style="color:var(--tx3)">Fitxer dades</span><span style="font-family:var(--fm)">./data/temperatures.json</span></div>
+      </div>
+      <hr class="divider" style="margin:14px 0"/>
+      <div class="label" style="margin-bottom:8px">DADES LOCALS</div>
+      <div style="font-size:12px;color:var(--tx3);margin-bottom:12px">Elimina la configuració guardada al navegador (token, alertes).</div>
+      <button class="btn btn-danger btn-sm" onclick="clearLocalData()">✕ ESBORRAR DADES LOCALS</button>
+    </div>
+  </div>
+</div>
+</div>
+
+</div><!-- end z -->
+
+<!-- FOOTER -->
+<footer class="site-footer z">
+<div class="wrap">
+<div class="footer-inner">
+  <div class="footer-credit">Fet per <strong>Cludi i Abel</strong> · SMX 2-A · Curs 2025–26 · Sensor DS18B20 + Raspberry Pi</div>
+  <div class="footer-pills">
+    <span class="fpill">DS18B20</span><span class="fpill">1-WIRE</span><span class="fpill">RASPBERRY PI</span>
+    <span class="fpill">PYTHON 3</span><span class="fpill">GITHUB PAGES</span><span class="fpill">CHART.JS</span>
+  </div>
+</div>
+</div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// CONFIG & STATE
+// ═══════════════════════════════════════════════════════════════════════════
+const DATA_URL = './data/temperatures.json'; // Relatiu al repo → funciona a GitHub Pages
+const SLOTS = [
+  { label:'Matí',   short:'00–08h', range:[0,8]  },
+  { label:'Migdia', short:'08–14h', range:[8,14] },
+  { label:'Tarda',  short:'14–20h', range:[14,20] },
+  { label:'Nit',    short:'20–24h', range:[20,24] },
+];
+const TEMP_COLD  = 15;
+const TEMP_HOT   = 30;
+const TEMP_XCOLD =  5;
+const TEMP_XHOT  = 40;
+
+let DATA = [];
+let currentPage = 'home';
+let currentSlot = 0;
+let currentMonthPeriod = 'avg';
+let logPage = 0;
+const LOG_PER_PAGE = 50;
+
+const charts = {};
+
+const COLORS = {
+  teal: '#00D2A8', blue: '#2E8FFF', amber: '#F5A623',
+  red: '#FF5B5B', green: '#3DD68C', grid:'rgba(0,210,168,.06)',
+  muted:'#4A7285'
+};
+const CHART_DEFAULTS = {
+  responsive:true, maintainAspectRatio:false,
+  plugins:{ legend:{display:false}, tooltip:{
+    backgroundColor:'#0F1E2E', borderColor:'rgba(0,210,168,.25)', borderWidth:1,
+    titleColor:'#8BB8C8', bodyColor:'#DFF0F5', padding:10,
+    titleFont:{family:'DM Mono',size:10}, bodyFont:{family:'Syne',size:13,weight:'600'},
+  }},
+  scales:{
+    x:{ grid:{color:COLORS.grid}, ticks:{color:COLORS.muted,font:{family:'DM Mono',size:10},maxRotation:0}, border:{color:'transparent'} },
+    y:{ grid:{color:COLORS.grid}, ticks:{color:COLORS.muted,font:{family:'DM Mono',size:10},callback:v=>`${v}°`}, border:{color:'transparent'} }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════════════════════════
+function loadSettings() {
+  try { return JSON.parse(localStorage.getItem('tmsettings') || '{}'); } catch { return {}; }
+}
+function saveSettings(obj) {
+  const prev = loadSettings();
+  localStorage.setItem('tmsettings', JSON.stringify({...prev, ...obj}));
+}
+function cfg(key) { return loadSettings()[key] || ''; }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA FETCH
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadData() {
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DATA = await r.json();
+    if (!Array.isArray(DATA)) DATA = [];
+    setStatus(true, DATA.length > 0 ? 'EN LÍNIA' : 'FITXER BUIT');
+  } catch(e) {
+    DATA = [];
+    setStatus(false, 'SENSE DADES');
+  }
+  document.getElementById('loader').classList.add('hide');
+  renderPage(currentPage);
+}
+
+function setStatus(ok, label) {
+  const dot = document.getElementById('status-dot');
+  dot.className = 'dot' + (ok ? '' : ' err');
+  document.getElementById('status-txt').textContent = label;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════════
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelector(`.nav-tab[data-page="${page}"]`).classList.add('active');
+  currentPage = page;
+  renderPage(page);
+  window.scrollTo(0,0);
+}
+
+function renderPage(page) {
+  const renderers = { home:renderHome, daily:renderDaily, monthly:renderMonthly, log:renderLog, add:renderAdd, config:renderConfig };
+  renderers[page]?.();
+}
+
+function mkChart(id, cfg) {
+  if (charts[id]) { try{charts[id].destroy()}catch{} }
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  charts[id] = new Chart(canvas, cfg);
+  return charts[id];
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════════════════════
+const fmtT  = iso => new Date(iso).toLocaleTimeString('ca-ES',{hour:'2-digit',minute:'2-digit'});
+const fmtD  = iso => new Date(iso).toLocaleDateString('ca-ES',{day:'2-digit',month:'2-digit',year:'2-digit'});
+const fmtDT = iso => new Date(iso).toLocaleString('ca-ES',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+const fmtDateInput = d => d.toISOString().split('T')[0];
+
+function tempColor(t) {
+  if (t < TEMP_XCOLD) return COLORS.blue;
+  if (t < TEMP_COLD)  return '#6BB5FF';
+  if (t > TEMP_XHOT)  return COLORS.red;
+  if (t > TEMP_HOT)   return COLORS.amber;
+  return COLORS.teal;
+}
+
+function tempBadge(t) {
+  if (t <= TEMP_XCOLD)  return '<span class="badge badge-info">FRED EXTREM</span>';
+  if (t < TEMP_COLD)    return '<span class="badge badge-info">FRED</span>';
+  if (t >= TEMP_XHOT)   return '<span class="badge badge-err">CALOR EXTREM</span>';
+  if (t > TEMP_HOT)     return '<span class="badge badge-warn">CALOR</span>';
+  return '<span class="badge badge-ok">NORMAL</span>';
+}
+
+function slotLabel(hour) {
+  if (hour < 8)  return 'Matí';
+  if (hour < 14) return 'Migdia';
+  if (hour < 20) return 'Tarda';
+  return 'Nit';
+}
+
+function dataForDate(dateStr) {
+  return DATA.filter(d => d.timestamp.startsWith(dateStr));
+}
+
+function dataForMonth(year, month) {
+  return DATA.filter(d => {
+    const dt = new Date(d.timestamp);
+    return dt.getFullYear() === year && dt.getMonth() === month;
+  });
+}
+
+function stats(arr) {
+  if (!arr.length) return null;
+  const s = arr.map(d => typeof d === 'number' ? d : d.temperature);
+  const mn = Math.min(...s), mx = Math.max(...s), av = s.reduce((a,b)=>a+b,0)/s.length;
+  return { min:+mn.toFixed(2), max:+mx.toFixed(2), avg:+av.toFixed(2), count:s.length };
+}
+
+function groupByDay(data) {
+  const g = {};
+  data.forEach(d => {
+    const k = d.timestamp.split('T')[0];
+    if (!g[k]) g[k] = [];
+    g[k].push(d.temperature);
+  });
+  return g;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HOME
+// ═══════════════════════════════════════════════════════════════════════════
+function renderHome() {
+  if (!DATA.length) {
+    document.getElementById('h-temp').innerHTML = 'N/A<span class="hero-unit">°C</span>';
+    document.getElementById('h-lasttime').textContent = '—';
+    document.getElementById('h-freshness').textContent = 'sense dades';
+    ['h-min','h-max','h-avg','h-total'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+
+  const last = DATA[DATA.length - 1];
+  const t = last.temperature;
+  const tempEl = document.getElementById('h-temp');
+  tempEl.style.color = tempColor(t);
+  tempEl.innerHTML = `${t.toFixed(2)}<span class="hero-unit">°C</span>`;
+  document.getElementById('h-lasttime').textContent = fmtDT(last.timestamp);
+
+  const minsSince = Math.round((Date.now() - new Date(last.timestamp)) / 60000);
+  const fresh = minsSince < 60 ? `Fa ${minsSince} min` : minsSince < 1440 ? `Fa ${Math.round(minsSince/60)}h` : `Fa ${Math.round(minsSince/1440)} dies`;
+  const freshEl = document.getElementById('h-freshness');
+  freshEl.textContent = fresh;
+  freshEl.style.color = minsSince < 600 ? COLORS.teal : COLORS.amber;
+
+  // Today stats
+  const todayStr = fmtDateInput(new Date());
+  let todayData = dataForDate(todayStr);
+  if (!todayData.length) todayData = DATA.slice(-20); // fallback últimes lectures
+  const st = stats(todayData);
+
+  const minEntry = todayData.find(d => d.temperature === st.min);
+  const maxEntry = todayData.find(d => d.temperature === st.max);
+  document.getElementById('h-min').textContent = st.min + '°C';
+  document.getElementById('h-min-t').textContent = minEntry ? fmtT(minEntry.timestamp) : '—';
+  document.getElementById('h-max').textContent = st.max + '°C';
+  document.getElementById('h-max-t').textContent = maxEntry ? fmtT(maxEntry.timestamp) : '—';
+  document.getElementById('h-avg').textContent = st.avg + '°C';
+  document.getElementById('h-count').textContent = st.count + ' lectures';
+  document.getElementById('h-total').textContent = DATA.length.toLocaleString('ca-ES');
+
+  // Alertes
+  const alertsEl = document.getElementById('h-alerts');
+  const coldAlert = parseFloat(cfg('alertCold'));
+  const hotAlert  = parseFloat(cfg('alertHot'));
+  const alerts = [];
+  if (!isNaN(coldAlert) && t < coldAlert)
+    alerts.push(`<div class="alert alert-info" style="margin:0 0 8px">❄️ Temperatura baixa: <strong>${t}°C</strong> (llindar: ${coldAlert}°C)</div>`);
+  if (!isNaN(hotAlert) && t > hotAlert)
+    alerts.push(`<div class="alert alert-warn" style="margin:0 0 8px">🌡️ Temperatura alta: <strong>${t}°C</strong> (llindar: ${hotAlert}°C)</div>`);
+  alertsEl.innerHTML = alerts.length ? alerts.join('') : '<div class="empty" style="padding:20px 0"><div style="color:var(--tx3);font-size:12px">✓ Cap alerta activa</div></div>';
+
+  // Franges avui
+  const slotsEl = document.getElementById('h-slots');
+  slotsEl.innerHTML = SLOTS.map(s => {
+    const [a,b] = s.range;
+    const slotD = todayData.filter(d => { const h=new Date(d.timestamp).getHours(); return h>=a&&h<b; });
+    const ss = stats(slotD);
+    if (!ss) return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bo)"><span style="font-size:12px;color:var(--tx3)">${s.label} ${s.short}</span><span style="font-size:11px;color:var(--tx3);font-family:var(--fm)">sense dades</span></div>`;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bo)">
+      <span style="font-size:12px">${s.label} <span style="color:var(--tx3);font-size:10px">${s.short}</span></span>
+      <div style="display:flex;gap:10px">
+        <span style="font-size:12px;color:${COLORS.blue};font-family:var(--fm)">${ss.min}°</span>
+        <span style="font-size:12px;color:${COLORS.teal};font-family:var(--fm);font-weight:600">${ss.avg}°</span>
+        <span style="font-size:12px;color:${COLORS.amber};font-family:var(--fm)">${ss.max}°</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Sync status
+  const ghUser = cfg('ghUser'), ghRepo = cfg('ghRepo');
+  document.getElementById('sync-repo-status').textContent = (ghUser && ghRepo) ? `${ghUser}/${ghRepo}` : 'no configurat';
+  document.getElementById('sync-repo-status').style.color = (ghUser && ghRepo) ? COLORS.teal : COLORS.amber;
+  document.getElementById('sync-last').textContent = fmtDT(last.timestamp);
+
+  // 24h chart
+  const hasTodayData = dataForDate(todayStr).length > 0;
+  document.getElementById('h-nodata-today').style.display = hasTodayData ? 'none' : '';
+  const chartData = hasTodayData ? dataForDate(todayStr) : DATA.slice(-48);
+  mkChart('ch-24h', {
+    type:'line',
+    data:{
+      labels: chartData.map(d => fmtT(d.timestamp)),
+      datasets:[{ data: chartData.map(d=>d.temperature), borderColor:COLORS.teal, borderWidth:2,
+        fill:true, backgroundColor:'rgba(0,210,168,.05)', tension:.4, pointRadius:0, pointHoverRadius:5, pointHoverBackgroundColor:COLORS.teal }]
+    },
+    options:{ ...CHART_DEFAULTS, scales:{ ...CHART_DEFAULTS.scales, x:{ ...CHART_DEFAULTS.scales.x, ticks:{ ...CHART_DEFAULTS.scales.x.ticks, maxTicksLimit:10 } } },
+      plugins:{ ...CHART_DEFAULTS.plugins, tooltip:{ ...CHART_DEFAULTS.plugins.tooltip, callbacks:{ label:ctx=>` ${ctx.parsed.y.toFixed(2)} °C` } } } }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DAILY
+// ═══════════════════════════════════════════════════════════════════════════
+function renderDaily() {
+  const dateEl = document.getElementById('daily-date');
+  if (!dateEl.value) dateEl.value = fmtDateInput(new Date());
+  const dateStr = dateEl.value;
+  const dayData = dataForDate(dateStr);
+
+  const noData = document.getElementById('daily-nodata');
+  const content = document.getElementById('daily-content');
+  if (!dayData.length) { noData.style.display=''; content.style.display='none'; return; }
+  noData.style.display='none'; content.style.display='';
+
+  const st = stats(dayData);
+  document.getElementById('daily-stats-row').innerHTML = [
+    ['LECTURES', st.count, '', 'var(--tx2)'],
+    ['MÍNIMA',   st.min+'°C', dayData.find(d=>d.temperature===st.min) ? fmtT(dayData.find(d=>d.temperature===st.min).timestamp):'', COLORS.blue],
+    ['MÀXIMA',   st.max+'°C', dayData.find(d=>d.temperature===st.max) ? fmtT(dayData.find(d=>d.temperature===st.max).timestamp):'', COLORS.amber],
+    ['MITJANA',  st.avg+'°C', 'del dia seleccionat', COLORS.teal],
+  ].map(([l,v,n,c])=>`<div class="stat"><div class="label">${l}</div><div class="stat-val" style="color:${c}">${v}</div><div class="stat-note">${n}</div></div>`).join('');
+
+  // Day chart (hourly)
+  const byHour = Array.from({length:24},(_,h)=>({h, temps:dayData.filter(d=>new Date(d.timestamp).getHours()===h).map(d=>d.temperature)}));
+  const hourLabels = byHour.map(x=>String(x.h).padStart(2,'0')+':00');
+  const hourAvgs   = byHour.map(x=> x.temps.length ? +(x.temps.reduce((a,b)=>a+b,0)/x.temps.length).toFixed(2) : null);
+
+  mkChart('ch-day',{
+    type:'line',
+    data:{ labels:hourLabels, datasets:[{ data:hourAvgs, borderColor:COLORS.teal, borderWidth:2,
+      fill:true, backgroundColor:'rgba(0,210,168,.05)', tension:.4,
+      pointRadius: hourAvgs.map(v=>v!==null?4:0), pointBackgroundColor:COLORS.teal,
+      spanGaps:true }] },
+    options:{...CHART_DEFAULTS, plugins:{...CHART_DEFAULTS.plugins, tooltip:{...CHART_DEFAULTS.plugins.tooltip, callbacks:{label:ctx=>ctx.parsed.y!=null?` ${ctx.parsed.y.toFixed(2)} °C`:' sense dades'}}}}
+  });
+
+  // Histogram
+  const hCounts = byHour.map(x=>x.temps.length);
+  mkChart('ch-hist',{
+    type:'bar',
+    data:{ labels:hourLabels, datasets:[{ data:hCounts, backgroundColor:COLORS.teal+'66', borderColor:COLORS.teal, borderWidth:1, borderRadius:4 }] },
+    options:{...CHART_DEFAULTS,
+      scales:{...CHART_DEFAULTS.scales, y:{...CHART_DEFAULTS.scales.y, ticks:{...CHART_DEFAULTS.scales.y.ticks, callback:v=>v+' lect.'}}},
+      plugins:{...CHART_DEFAULTS.plugins, tooltip:{...CHART_DEFAULTS.plugins.tooltip, callbacks:{label:ctx=>` ${ctx.parsed.y} lectures`}}}}
+  });
+
+  renderSlot(dayData, currentSlot);
+}
+
+function selectSlot(i, el) {
+  currentSlot = i;
+  document.querySelectorAll('#slot-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const dateStr = document.getElementById('daily-date').value;
+  renderSlot(dataForDate(dateStr), i);
+}
+
+function renderSlot(dayData, slotIdx) {
+  const [a,b] = SLOTS[slotIdx].range;
+  const sd = dayData.filter(d=>{ const h=new Date(d.timestamp).getHours(); return h>=a&&h<b; });
+  const ss = sd.length ? stats(sd) : null;
+
+  document.getElementById('slot-mini-stats').innerHTML = [
+    ['MÍNIMA', ss?ss.min+'°C':'—', COLORS.blue],
+    ['MITTJANA', ss?ss.avg+'°C':'—', COLORS.teal],
+    ['MÀXIMA', ss?ss.max+'°C':'—', COLORS.amber],
+  ].map(([l,v,c])=>`<div class="stat" style="text-align:center"><div class="label">${l}</div><div class="stat-val" style="color:${c}">${v}</div></div>`).join('');
+
+  document.getElementById('slot-readings-list').innerHTML = sd.length
+    ? sd.map(d=>`<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid var(--bo)"><span style="color:${tempColor(d.temperature)};font-family:var(--fs);font-weight:600">${d.temperature.toFixed(2)}°C</span><span style="color:var(--tx3);font-family:var(--fm)">${fmtT(d.timestamp)}</span></div>`).join('')
+    : '<div style="color:var(--tx3);font-size:12px;padding:8px 0">Sense dades per aquesta franja</div>';
+
+  if (!sd.length) { mkChart('ch-slot',{type:'line',data:{labels:[],datasets:[{data:[]}]},options:CHART_DEFAULTS}); return; }
+  mkChart('ch-slot',{
+    type:'line',
+    data:{ labels:sd.map(d=>fmtT(d.timestamp)), datasets:[{
+      data:sd.map(d=>d.temperature), borderColor:COLORS.blue, borderWidth:2,
+      fill:true, backgroundColor:'rgba(46,143,255,.06)', tension:.4,
+      pointRadius:3, pointBackgroundColor:COLORS.blue
+    }] },
+    options:{...CHART_DEFAULTS, plugins:{...CHART_DEFAULTS.plugins, tooltip:{...CHART_DEFAULTS.plugins.tooltip, callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(2)} °C`}}}}
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MONTHLY
+// ═══════════════════════════════════════════════════════════════════════════
+function renderMonthly() {
+  const mEl = document.getElementById('monthly-month');
+  if (!mEl.value) { const n=new Date(); mEl.value=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`; }
+  const [yr,mo] = mEl.value.split('-').map(Number);
+  const mData = dataForMonth(yr, mo-1);
+
+  const noData = document.getElementById('monthly-nodata');
+  const content = document.getElementById('monthly-content');
+  if (!mData.length) { noData.style.display=''; content.style.display='none'; return; }
+  noData.style.display='none'; content.style.display='';
+
+  const byDay = groupByDay(mData);
+  const days = Object.keys(byDay).sort();
+  const dailyStats = days.map(k=>{ const a=byDay[k]; return { day:k, min:+Math.min(...a).toFixed(2), max:+Math.max(...a).toFixed(2), avg:+(a.reduce((x,y)=>x+y,0)/a.length).toFixed(2), count:a.length }; });
+  const allTemps = mData.map(d=>d.temperature);
+  const mStats = stats(allTemps);
+
+  const hotDay = dailyStats.reduce((a,b)=>a.avg>b.avg?a:b);
+  const coldDay = dailyStats.reduce((a,b)=>a.avg<b.avg?a:b);
+
+  document.getElementById('monthly-stats-row').innerHTML = [
+    ['DIES AMB DADES', dailyStats.length, `de ${new Date(yr,mo-1+1,0).getDate()} dies del mes`, 'var(--tx2)'],
+    ['TEMPERATURA MITJA', mStats.avg+'°C', 'del mes complet', COLORS.teal],
+    ['DIA MÉS FRED',   coldDay.avg+'°C', coldDay.day, COLORS.blue],
+    ['DIA MÉS CÀLID',  hotDay.avg+'°C',  hotDay.day,  COLORS.amber],
+  ].map(([l,v,n,c])=>`<div class="stat"><div class="label">${l}</div><div class="stat-val" style="color:${c}">${v}</div><div class="stat-note">${n}</div></div>`).join('');
+
+  const periodLabels = { avg:'MITTJANA', min:'MÍNIMA', max:'MÀXIMA' };
+  document.getElementById('monthly-period-label').textContent = periodLabels[currentMonthPeriod];
+
+  const yValues = dailyStats.map(d=>d[currentMonthPeriod]);
+  const barColor = currentMonthPeriod==='min'?COLORS.blue : currentMonthPeriod==='max'?COLORS.amber : COLORS.teal;
+  mkChart('ch-monthly',{
+    type:'bar',
+    data:{ labels:dailyStats.map(d=>{ const p=d.day.split('-'); return p[2]+'/'+p[1]; }),
+      datasets:[{ data:yValues, backgroundColor:barColor+'88', borderColor:barColor, borderWidth:1, borderRadius:5 }] },
+    options:{...CHART_DEFAULTS,
+      scales:{...CHART_DEFAULTS.scales, x:{...CHART_DEFAULTS.scales.x, ticks:{...CHART_DEFAULTS.scales.x.ticks, maxTicksLimit:15}}},
+      plugins:{...CHART_DEFAULTS.plugins, tooltip:{...CHART_DEFAULTS.plugins.tooltip, callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(2)} °C`}}}}
+  });
+
+  // Table
+  document.getElementById('monthly-table').innerHTML = dailyStats.map((d,i)=>{
+    const prev = dailyStats[i-1];
+    const diff = prev ? +(d.avg - prev.avg).toFixed(2) : null;
+    const diffStr = diff===null ? '—' : diff===0 ? '→ 0.00°' : diff>0 ? `<span style="color:${COLORS.amber}">▲ ${diff.toFixed(2)}°</span>` : `<span style="color:${COLORS.blue}">▼ ${Math.abs(diff).toFixed(2)}°</span>`;
+    const [_,m,dy] = d.day.split('-');
+    return `<tr>
+      <td class="td-mono">${dy}/${m}</td>
+      <td class="td-temp" style="color:${COLORS.blue}">${d.min}°C</td>
+      <td class="td-temp" style="color:${COLORS.teal}">${d.avg}°C</td>
+      <td class="td-temp" style="color:${COLORS.amber}">${d.max}°C</td>
+      <td class="td-mono">${d.count}</td>
+      <td>${diffStr}</td>
+    </tr>`;
+  }).join('');
+}
+
+function selMonthPeriod(p, el) {
+  currentMonthPeriod = p;
+  document.querySelectorAll('#monthly-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderMonthly();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LOG
+// ═══════════════════════════════════════════════════════════════════════════
+function renderLog() {
+  const from  = document.getElementById('log-from').value;
+  const to    = document.getElementById('log-to').value;
+  const filt  = document.getElementById('log-filter').value;
+
+  const statuses = { normal:[TEMP_COLD,TEMP_HOT], cold:[TEMP_XCOLD,TEMP_COLD], hot:[TEMP_HOT,TEMP_XHOT], xcold:[-999,TEMP_XCOLD], xhot:[TEMP_XHOT,999] };
+
+  let filtered = [...DATA].reverse();
+  if (from) filtered = filtered.filter(d=>d.timestamp>=from);
+  if (to)   filtered = filtered.filter(d=>d.timestamp<=to+'T23:59:59');
+  if (filt!=='all') {
+    const [lo,hi] = statuses[filt]||[-999,999];
+    filtered = filtered.filter(d=>d.temperature>=lo && d.temperature<hi);
+  }
+
+  const noData = document.getElementById('log-nodata');
+  const tbody = document.getElementById('log-body');
+  const pager = document.getElementById('log-pager');
+  if (!filtered.length) { noData.style.display=''; tbody.innerHTML=''; pager.innerHTML=''; return; }
+  noData.style.display='none';
+
+  // Stats row
+  const allT = filtered.map(d=>d.temperature);
+  const st = stats(allT);
+  const firstDate = filtered[filtered.length-1]?.timestamp;
+  const lastDate  = filtered[0]?.timestamp;
+  document.getElementById('log-stats-row').innerHTML = [
+    ['RESULTATS', filtered.length, filt!=='all'?'amb filtre aplicat':'total al fitxer', 'var(--tx2)'],
+    ['MÍNIMA', st.min+'°C', '', COLORS.blue],
+    ['MITTJANA', st.avg+'°C', '', COLORS.teal],
+    ['MÀXIMA', st.max+'°C', '', COLORS.amber],
+  ].map(([l,v,n,c])=>`<div class="stat"><div class="label">${l}</div><div class="stat-val" style="color:${c}">${v}</div><div class="stat-note">${n}</div></div>`).join('');
+
+  // Pagination
+  const totalPages = Math.ceil(filtered.length / LOG_PER_PAGE);
+  if (logPage >= totalPages) logPage = 0;
+  const paginated = filtered.slice(logPage * LOG_PER_PAGE, (logPage+1) * LOG_PER_PAGE);
+
+  tbody.innerHTML = paginated.map((r, i) => {
+    const globalIdx = DATA.length - DATA.findIndex(d=>d.timestamp===r.timestamp);
+    const prev = filtered[logPage*LOG_PER_PAGE + i + 1];
+    const diff = prev ? +(r.temperature - prev.temperature).toFixed(2) : null;
+    const diffStr = diff===null ? '—' : diff===0 ? '—' : diff>0
+      ? `<span style="color:${COLORS.amber}">▲${diff.toFixed(2)}°</span>`
+      : `<span style="color:${COLORS.blue}">▼${Math.abs(diff).toFixed(2)}°</span>`;
+    const h = new Date(r.timestamp).getHours();
+    return `<tr>
+      <td class="td-mono">${DATA.length - DATA.findIndex(d=>d.timestamp===r.timestamp)}</td>
+      <td class="td-temp" style="color:${tempColor(r.temperature)}">${r.temperature.toFixed(2)} °C</td>
+      <td class="td-mono">${fmtDT(r.timestamp)}</td>
+      <td>${tempBadge(r.temperature)}</td>
+      <td>${diffStr}</td>
+      <td class="td-mono">${slotLabel(h)}</td>
+    </tr>`;
+  }).join('');
+
+  if (totalPages > 1) {
+    pager.innerHTML = `
+      <button class="btn btn-outline btn-sm" onclick="logPage=Math.max(0,logPage-1);renderLog()" ${logPage===0?'disabled':''}>← ANT</button>
+      <span>Pàg ${logPage+1} de ${totalPages}</span>
+      <button class="btn btn-outline btn-sm" onclick="logPage=Math.min(${totalPages-1},logPage+1);renderLog()" ${logPage===totalPages-1?'disabled':''}>SEG →</button>`;
+  } else { pager.innerHTML=''; }
+}
+
+function clearLogFilters() {
+  document.getElementById('log-from').value='';
+  document.getElementById('log-to').value='';
+  document.getElementById('log-filter').value='all';
+  logPage=0;
+  renderLog();
+}
+
+function exportCSV() {
+  if (!DATA.length) return;
+  const rows = [['#','timestamp','temperature','unit','slot']];
+  DATA.forEach((d,i) => {
+    const h = new Date(d.timestamp).getHours();
+    rows.push([i+1, d.timestamp, d.temperature, d.unit||'celsius', slotLabel(h)]);
+  });
+  downloadCSV(rows, 'temperatures_complet.csv');
+}
+
+function exportCSVMonthly() {
+  const mEl = document.getElementById('monthly-month');
+  if (!mEl.value) return;
+  const [yr,mo] = mEl.value.split('-').map(Number);
+  const mData = dataForMonth(yr, mo-1);
+  const byDay = groupByDay(mData);
+  const days = Object.keys(byDay).sort();
+  const rows = [['dia','min','mittjana','max','lectures']];
+  days.forEach(k => {
+    const a = byDay[k];
+    rows.push([k, Math.min(...a).toFixed(2), (a.reduce((x,y)=>x+y,0)/a.length).toFixed(2), Math.max(...a).toFixed(2), a.length]);
+  });
+  downloadCSV(rows, `temperatures_${mEl.value}.csv`);
+}
+
+function downloadCSV(rows, filename) {
+  const csv = rows.map(r=>r.join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ADD READING (GitHub API)
+// ═══════════════════════════════════════════════════════════════════════════
+function renderAdd() {
+  const hasConfig = cfg('ghUser') && cfg('ghRepo') && cfg('ghToken');
+  document.getElementById('add-no-config').style.display = hasConfig ? 'none' : '';
+  document.getElementById('add-form').style.display = hasConfig ? '' : 'none';
+  // Default datetime to now
+  const now = new Date();
+  const local = new Date(now.getTime() - now.getTimezoneOffset()*60000).toISOString().slice(0,16);
+  document.getElementById('add-ts').value = local;
+}
+
+async function addReading() {
+  const tempVal = parseFloat(document.getElementById('add-temp').value);
+  if (isNaN(tempVal) || tempVal < -55 || tempVal > 125) {
+    showResult('add-result', 'error', 'Temperatura no vàlida. Rang: -55°C a +125°C');
+    return;
+  }
+  const tsVal = document.getElementById('add-ts').value;
+  const timestamp = tsVal ? new Date(tsVal).toISOString() : new Date().toISOString();
+  const unit = document.getElementById('add-unit').value;
+
+  const btn = document.getElementById('add-btn');
+  btn.textContent = '↑ DESANT A GITHUB…';
+  btn.disabled = true;
+  document.getElementById('add-result').style.display = 'none';
+
+  const ghUser  = cfg('ghUser');
+  const ghRepo  = cfg('ghRepo');
+  const ghToken = cfg('ghToken');
+  const apiUrl = `https://api.github.com/repos/${ghUser}/${ghRepo}/contents/data/temperatures.json`;
+
+  try {
+    // 1. Obtenir fitxer actual (per saber el SHA)
+    const getRes = await fetch(apiUrl, { headers:{ Authorization:`token ${ghToken}`, Accept:'application/vnd.github.v3+json' } });
+    if (!getRes.ok) throw new Error(`Error llegint el fitxer: HTTP ${getRes.status}`);
+    const fileInfo = await getRes.json();
+    const currentContent = JSON.parse(atob(fileInfo.content.replace(/\n/g,'')));
+    if (!Array.isArray(currentContent)) throw new Error('El fitxer JSON no és un array');
+
+    // 2. Afegir nova lectura
+    const newEntry = { timestamp, temperature:+tempVal.toFixed(2), unit };
+    currentContent.push(newEntry);
+
+    // 3. Pujar fitxer actualitzat
+    const putRes = await fetch(apiUrl, {
+      method:'PUT',
+      headers:{ Authorization:`token ${ghToken}`, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        message: `add reading: ${tempVal.toFixed(2)}°C ${timestamp}`,
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(currentContent, null, 2)))),
+        sha: fileInfo.sha
+      })
+    });
+    if (!putRes.ok) throw new Error(`Error desant el fitxer: HTTP ${putRes.status}`);
+
+    showResult('add-result', 'ok', `✓ Lectura de ${tempVal.toFixed(2)}°C desada correctament a GitHub a les ${fmtT(timestamp)}`);
+    document.getElementById('add-temp').value = '';
+    // Recarregar dades locals
+    await loadData();
+  } catch(e) {
+    showResult('add-result', 'error', `✗ ${e.message}`);
+  }
+
+  btn.textContent = '↑ DESAR A GITHUB';
+  btn.disabled = false;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════════════════════════
+function renderConfig() {
+  const s = loadSettings();
+  document.getElementById('cfg-user').value  = s.ghUser  || '';
+  document.getElementById('cfg-repo').value  = s.ghRepo  || '';
+  document.getElementById('cfg-token').value = s.ghToken || '';
+  document.getElementById('cfg-alert-cold').value = s.alertCold ?? '';
+  document.getElementById('cfg-alert-hot').value  = s.alertHot  ?? '';
+}
+
+function saveCfg() {
+  saveSettings({
+    ghUser:  document.getElementById('cfg-user').value.trim(),
+    ghRepo:  document.getElementById('cfg-repo').value.trim(),
+    ghToken: document.getElementById('cfg-token').value.trim(),
+    alertCold: document.getElementById('cfg-alert-cold').value,
+    alertHot:  document.getElementById('cfg-alert-hot').value,
+  });
+  showResult('cfg-result', 'ok', '✓ Configuració desada correctament');
+}
+
+async function testGH() {
+  const user  = document.getElementById('cfg-user').value.trim();
+  const repo  = document.getElementById('cfg-repo').value.trim();
+  const token = document.getElementById('cfg-token').value.trim();
+  if (!user || !repo || !token) { showResult('cfg-result','error','Omple tots els camps primer'); return; }
+  showResult('cfg-result','info','Provant connexió…');
+  try {
+    const r = await fetch(`https://api.github.com/repos/${user}/${repo}`, { headers:{ Authorization:`token ${token}` } });
+    if (r.ok) showResult('cfg-result','ok',`✓ Connexió correcta al repositori ${user}/${repo}`);
+    else showResult('cfg-result','error',`✗ Error HTTP ${r.status}. Comprova usuari, repositori i token`);
+  } catch(e) { showResult('cfg-result','error','✗ Error de xarxa: ' + e.message); }
+}
+
+function clearLocalData() {
+  if (confirm('Segur que vols esborrar la configuració local (token, alertes)?')) {
+    localStorage.removeItem('tmsettings');
+    renderConfig();
+    showResult('cfg-result', 'ok', 'Dades locals esborrades');
+  }
+}
+
+function showResult(elId, type, msg) {
+  const el = document.getElementById(elId);
+  const typeMap = { ok:'alert-ok', error:'alert-err', warn:'alert-warn', info:'alert-info' };
+  el.className = `alert ${typeMap[type]||'alert-info'}`;
+  el.textContent = msg;
+  el.style.display = '';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════
+loadData();
+setInterval(loadData, 5 * 60 * 1000); // Auto-refresh cada 5 min
+</script>
+</body>
+</html>
