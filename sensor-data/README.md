@@ -270,4 +270,3 @@ sensor-data/
 ---
 
 *Projecte realitzat per **Cludi i Abel** · SMX 2-A · Curs 2025–26*
-

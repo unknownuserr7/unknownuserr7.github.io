@@ -1,0 +1,17 @@
+[
+  {
+    "timestamp": "2025-05-13T08:00:00.000000",
+    "temperature": 20.12,
+    "unit": "celsius"
+  },
+  {
+    "timestamp": "2025-05-13T14:00:00.000000",
+    "temperature": 22.87,
+    "unit": "celsius"
+  },
+  {
+    "timestamp": "2025-05-13T20:00:00.000000",
+    "temperature": 21.44,
+    "unit": "celsius"
+  }
+]
